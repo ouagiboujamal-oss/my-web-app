@@ -3,43 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مسابقة الداعي - النسخة السحابية</title>
+    <title>مسابقة الداعي - النسخة النهائية</title>
     <style>
         :root { --bg: #000; --accent: #f1c40f; --card: #111; }
         body { font-family: sans-serif; background: var(--bg); color: white; margin: 0; overflow: hidden; display: flex; justify-content: center; }
         #app-wrapper { width: 100%; max-width: 400px; height: 100vh; display: flex; flex-direction: column; position: relative; }
         
-        /* شاشة تسجيل الدخول */
         #login-screen { position: absolute; inset: 0; background: var(--bg); z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center; }
         #username-input { padding: 15px; border-radius: 25px; border: 2px solid var(--accent); background: #111; color: #fff; width: 80%; margin-bottom: 10px; text-align: center; font-size: 1.1rem; }
         #msg-error { color: #ff4444; font-size: 0.9rem; margin-bottom: 20px; min-height: 20px; font-weight: bold; }
         
-        /* الكاميرا والتعتيم */
         .cam-section { position: relative; width: 100%; height: 40%; background: #000; }
         video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
         .side-mask { position: absolute; top:0; bottom:0; width: 20%; background: rgba(0,0,0,0.8); z-index: 5; }
         .mask-l { left: 0; } .mask-r { right: 0; }
         
-        .aim-square { 
-            position: absolute; top:50%; left:50%; transform: translate(-50%, -50%); 
-            width: 70px; height: 70px; border: 3px solid var(--accent); border-radius: 15px; z-index: 10; 
-        }
+        .aim-square { position: absolute; top:50%; left:50%; transform: translate(-50%, -50%); width: 70px; height: 70px; border: 3px solid var(--accent); border-radius: 15px; z-index: 10; }
         .progress-container { position: absolute; bottom: -15px; left: 0; width: 100%; height: 8px; background: #222; border-radius: 4px; overflow: hidden; }
         #p-bar { width: 0%; height: 100%; background: #fff; transition: width 0.1s linear; }
 
-        /* منطقة الأسئلة */
         #quiz-section { flex: 1; padding: 20px; background: var(--card); border-top: 1px solid #333; z-index: 20; }
         .stats-row { display: flex; justify-content: space-between; color: var(--accent); font-weight: bold; margin-bottom: 15px; font-size: 0.9rem; }
         #q-text { font-size: 1.2rem; font-weight: bold; margin-bottom: 25px; min-height: 50px; line-height: 1.4; }
         
-        .opt-row { background: #1a1a1a; padding: 14px; border-radius: 12px; margin-bottom: 10px; display: flex; align-items: center; border: 2px solid transparent; transition: 0.2s; }
+        .opt-row { background: #1a1a1a; padding: 14px; border-radius: 12px; margin-bottom: 10px; display: flex; align-items: center; border: 2px solid transparent; }
         .dot { width: 12px; height: 12px; border-radius: 50%; margin-left: 12px; }
         .dot-g { background: #00ff00; } .dot-y { background: #ffff00; } .dot-r { background: #ff0000; }
         .active-opt { border-color: #fff !important; background: #252525 !important; }
         .res-tag { margin-right: auto; font-weight: bold; }
 
         .btn-start { background: var(--accent); color: #000; padding: 15px 45px; border-radius: 30px; border: none; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
-        .btn-start:disabled { background: #555; cursor: not-allowed; }
     </style>
 </head>
 <body>
@@ -48,13 +41,13 @@
     <div id="login-screen">
         <h1 style="color:var(--accent)">مسابقة الداعي</h1>
         <p style="color:#888; margin-bottom: 30px;">تحدي الـ 45 سؤالاً</p>
-        <input type="text" id="username-input" placeholder="اكتب اسمك المميز هنا...">
+        <input type="text" id="username-input" placeholder="أدخل اسمك المميز...">
         <div id="msg-error"></div>
         <button id="main-btn" class="btn-start" onclick="checkNameAndStart()">دخول المسابقة</button>
     </div>
 
     <div class="cam-section">
-        <div id="welcome-user" style="position: absolute; top: 10px; width: 100%; text-align: center; color: var(--accent); z-index: 30; font-weight: bold; font-size: 1.1rem; text-shadow: 2px 2px 4px #000;"></div>
+        <div id="welcome-user" style="position: absolute; top: 10px; width: 100%; text-align: center; color: var(--accent); z-index: 30; font-weight: bold; font-size: 1.1rem; text-shadow: 1px 1px 5px #000;"></div>
         
         <video id="v" autoplay playsinline></video>
         <div class="side-mask mask-l"></div>
@@ -63,7 +56,7 @@
             <div class="progress-container"><div id="p-bar"></div></div>
         </div>
     </div>
-
+    
     <div id="quiz-section">
         <div class="stats-row">
             <span id="stat-q">السؤال: 1 / 45</span>
@@ -84,7 +77,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, addDoc, query, where, getDocs, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// بيانات مشروعك (AldaeiQuiz)
+// بياناتك الخاصة
 const firebaseConfig = {
   apiKey: "AIzaSyBqoREI5Pt_eI9S30ztx9owVgiMhPVZUGI",
   authDomain: "aldaeiquiz.firebaseapp.com",
@@ -98,22 +91,20 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// بنك الأسئلة
+// أسئلة المسابقة
 const bank = [
     {q:"كم عدد أركان الإسلام؟", g:"خمسة", y:"ستة", r:"أربعة", c:"green"},
     {q:"ما هي أطول سورة في القرآن؟", g:"آل عمران", y:"البقرة", r:"النساء", c:"yellow"},
     {q:"من هو النبي الملقب بكليم الله؟", g:"إبراهيم", y:"موسى", r:"عيسى", c:"yellow"},
-    {q:"في أي شهر يصوم المسلمون؟", g:"شوال", y:"رمضان", r:"رجب", c:"yellow"},
     {q:"كم عدد الصلوات المفروضة؟", g:"5 صلوات", y:"3 صلوات", r:"4 صلوات", c:"green"}
 ];
-
 let questions = []; while(questions.length < 45) questions.push(...bank);
 questions = questions.sort(() => Math.random() - 0.5).slice(0, 45);
 
 let cur = 0, score = 0, locked = false, timer = 0, lastCol = null, pName = "";
 const v = document.getElementById('v'), pBar = document.getElementById('p-bar');
 
-// نظام فحص الاسم والبدء
+// وظيفة فحص الاسم في قاعدة البيانات قبل الدخول
 window.checkNameAndStart = async () => {
     const input = document.getElementById('username-input');
     const errorMsg = document.getElementById('msg-error');
@@ -123,23 +114,25 @@ window.checkNameAndStart = async () => {
     if(pName.length < 3) { errorMsg.innerText = "الاسم قصير جداً!"; return; }
 
     btn.disabled = true;
-    btn.innerText = "جاري التحقق من الاسم...";
+    btn.innerText = "جاري التحقق من السحابة...";
 
     try {
+        // فحص هل الاسم موجود في مجموعة leaderboard
         const q = query(collection(db, "leaderboard"), where("name", "==", pName));
-        const querySnapshot = await getDocs(q);
+        const snap = await getDocs(q);
 
-        if (!querySnapshot.empty) {
-            errorMsg.innerText = "⚠️ هذا الاسم مستخدم! اختر اسماً آخر.";
+        if (!snap.empty) {
+            errorMsg.innerText = "⚠️ الاسم محجوز بالفعل لشخص آخر!";
             btn.disabled = false;
             btn.innerText = "دخول المسابقة";
         } else {
+            // الاسم جديد، يتم الترحيب والبدء
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('welcome-user').innerText = `أهلاً بك في المسابقة يا ${pName}`;
             startChallenge();
         }
     } catch (e) {
-        errorMsg.innerText = "تأكد من تفعيل Firestore في وضع Test Mode.";
+        errorMsg.innerText = "خطأ في الاتصال بقاعدة البيانات.";
         btn.disabled = false;
         btn.innerText = "حاول مجدداً";
     }
@@ -167,8 +160,8 @@ function loadQ() {
 
 function loop() {
     if(!locked && v.readyState === v.HAVE_ENOUGH_DATA) {
-        const canvas = document.getElementById('c'), ctx = canvas.getContext('2d');
-        canvas.width = 40; canvas.height = 40;
+        const c = document.getElementById('c'), ctx = c.getContext('2d');
+        c.width = 40; c.height = 40;
         ctx.drawImage(v, v.videoWidth/2-20, v.videoHeight/2-20, 40, 40, 0, 0, 40, 40);
         const col = detect(ctx.getImageData(0,0,40,40).data);
         if(col) {
@@ -210,24 +203,16 @@ async function handle(col) {
 
 async function finish() {
     // حفظ النتيجة في السحابة
-    try {
-        await addDoc(collection(db, "leaderboard"), { name: pName, score: score, date: new Date() });
-    } catch(e) {}
-
+    await addDoc(collection(db, "leaderboard"), { name: pName, score: score, date: new Date() });
+    
+    // جلب قائمة الأبطال
     const q = query(collection(db, "leaderboard"), orderBy("score", "desc"), limit(5));
     const snap = await getDocs(q);
     let board = `<div style="text-align:right; margin:15px 0; background:#222; padding:10px; border-radius:10px;">`;
     snap.forEach(doc => { board += `<div style="padding:5px; border-bottom:1px solid #333;">🏆 ${doc.data().name}: ${doc.data().score}</div>`; });
     board += `</div>`;
 
-    document.getElementById('quiz-section').innerHTML = `
-        <div style="text-align:center">
-            <h2 style="color:var(--accent)">أحسنت يا ${pName}!</h2>
-            <p>نتيجة التحدي: ${score} من 45</p>
-            <h4 style="color:var(--accent)">لوحة المتصدرين</h4>
-            ${board}
-            <button class="btn-start" onclick="location.reload()">جولة جديدة</button>
-        </div>`;
+    document.getElementById('quiz-section').innerHTML = `<div style="text-align:center"><h2 style="color:var(--accent)">انتهى التحدي يا ${pName}</h2><p>نقاطك: ${score}</p>${board}<button class="btn-start" onclick="location.reload()">إعادة</button></div>`;
 }
 </script>
 </body>
