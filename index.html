@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مسابقة الداعي الكبرى</title>
     <style>
+        /* --- التصميم العام (الوضع الليلي) --- */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f9;
+            background-color: #000000; /* خلفية سوداء */
+            color: #ffffff;
             text-align: center;
             margin: 0;
             padding: 0;
@@ -16,121 +18,142 @@
             align-items: center;
             min-height: 100vh;
         }
+
         header {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: white;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
             width: 100%;
             padding: 15px 0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-bottom: 2px solid #444;
+            z-index: 100;
         }
-        h1 { margin: 0; font-size: 1.5rem; }
+        h1 { margin: 0; font-size: 1.4rem; color: #f1c40f; }
         
         #game-container {
-            width: 90%;
+            width: 100%;
             max-width: 600px;
-            margin-top: 20px;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* حاوية الفيديو والكاميرا */
+        /* --- حاوية الكاميرا وتأثير الظلام --- */
         .camera-wrapper {
             position: relative;
             width: 100%;
-            border-radius: 15px;
+            height: 350px; /* ارتفاع ثابت للكاميرا */
             overflow: hidden;
-            border: 5px solid #333;
             background: #000;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-        video {
-            width: 100%;
-            height: auto;
-            transform: scaleX(-1); /* قلب الفيديو كالمرايا */
-            display: block;
         }
         
-        /* مؤشر التحليل في وسط الشاشة */
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1); /* مرآة */
+            opacity: 0.8; /* جعل الفيديو خافتاً قليلاً بشكل عام */
+        }
+
+        /* المربع السحري (التركيز) */
         .scanner-box {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
-            border: 3px dashed rgba(255, 255, 255, 0.7);
-            border-radius: 10px;
+            width: 80px;  /* مربع صغير كما طلبت */
+            height: 80px;
+            border: 2px solid #fff;
+            border-radius: 12px;
             z-index: 10;
-            pointer-events: none;
-        }
-        .scanner-label {
-            position: absolute;
-            top: -30px;
-            width: 100%;
-            text-align: center;
-            color: white;
-            font-weight: bold;
-            text-shadow: 1px 1px 2px black;
+            
+            /* هذا الظل الضخم هو ما يجعل باقي الشاشة مظلماً */
+            box-shadow: 0 0 0 100vh rgba(0, 0, 0, 0.7); 
         }
 
-        /* منطقة السؤال والخيارات */
-        #question-card {
-            background: white;
+        /* نقطة حمراء صغيرة تدل على المركز */
+        .scanner-box::after {
+            content: '+';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255,255,255,0.5);
+            font-size: 20px;
+        }
+
+        /* --- منطقة الأسئلة --- */
+        #question-area {
+            width: 90%;
+            margin-top: -30px; /* لرفع البطاقة قليلاً فوق الكاميرا */
+            z-index: 20;
+            background: #1a1a1a;
+            border-radius: 20px;
             padding: 20px;
-            border-radius: 15px;
-            margin-top: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 1px solid #333;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
         }
+
         .question-text {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: bold;
-            color: #333;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            color: #fff;
         }
+
         .options {
             display: flex;
-            justify-content: space-around;
+            flex-direction: column;
             gap: 10px;
-            flex-wrap: wrap;
         }
-        .option {
-            flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            color: white;
-            font-weight: bold;
-            font-size: 0.9rem;
-            min-width: 80px;
-        }
-        .opt-green { background-color: #28a745; }
-        .opt-yellow { background-color: #ffc107; color: #000; }
-        .opt-red { background-color: #dc3545; }
 
-        /* شريط الحالة والنتيجة */
-        #status-bar {
-            margin-top: 15px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            height: 30px;
+        .option {
+            background: #333;
+            padding: 15px;
+            border-radius: 10px;
+            position: relative;
+            transition: all 0.3s;
+            border-right: 5px solid transparent;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        #score-board {
-            margin-top: 10px;
-            font-size: 1rem;
-            color: #555;
+
+        /* ألوان حدود الخيارات */
+        .opt-green { border-right-color: #2ecc71; }
+        .opt-yellow { border-right-color: #f1c40f; }
+        .opt-red { border-right-color: #e74c3c; }
+
+        /* تأثير عند اختيار إجابة */
+        .option.selected {
+            background: #444;
+            transform: scale(1.02);
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
+        }
+
+        /* رسالة النتيجة داخل الزر */
+        .result-badge {
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: none; /* مخفي افتراضياً */
         }
 
         /* زر البدء */
+        #start-screen {
+            margin-top: 50px;
+            padding: 20px;
+        }
         #start-btn {
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            background: #2a5298;
-            color: white;
+            background: #f1c40f;
+            color: #000;
             border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
             border-radius: 50px;
             cursor: pointer;
-            margin-top: 20%;
+            font-weight: bold;
+            margin-top: 20px;
         }
-        
-        /* canvas مخفي للمعالجة */
+
         canvas { display: none; }
     </style>
 </head>
@@ -141,100 +164,101 @@
     </header>
 
     <div id="start-screen">
-        <p style="padding: 20px;">
-            أجب عن الأسئلة برفع بطاقات ملونة أمام الكاميرا!<br>
-            🟩 الأخضر = الخيار الأول<br>
-            🟨 الأصفر = الخيار الثاني<br>
-            🟥 الأحمر = الخيار الثالث
-        </p>
-        <button id="start-btn" onclick="startCamera()">ابدأ المسابقة</button>
+        <p>وجّه اللون داخل المربع الصغير للإجابة.</p>
+        <button id="start-btn" onclick="startCamera()">ابدأ التحدي</button>
     </div>
 
     <div id="game-container" style="display: none;">
         <div class="camera-wrapper">
             <video id="video" autoplay playsinline></video>
-            <div class="scanner-box">
-                <div class="scanner-label">ضع اللون هنا</div>
-            </div>
+            <div class="scanner-box"></div>
         </div>
-        
-        <div id="status-bar">جاري البحث عن لون...</div>
 
-        <div id="question-card">
-            <div class="question-text" id="q-text">السؤال يظهر هنا...</div>
+        <div id="question-area">
+            <div class="question-text" id="q-text">جاري التحميل...</div>
+            
             <div class="options">
-                <div class="option opt-green" id="opt-1">إجابة 1</div>
-                <div class="option opt-yellow" id="opt-2">إجابة 2</div>
-                <div class="option opt-red" id="opt-3">إجابة 3</div>
-            </div>
-        </div>
+                <div class="option opt-green" id="card-green">
+                    <span id="text-green">خيار 1</span>
+                    <span class="result-badge" id="res-green"></span>
+                </div>
 
-        <div id="score-board">النتيجة: <span id="score">0</span> / <span id="total">0</span></div>
+                <div class="option opt-yellow" id="card-yellow">
+                    <span id="text-yellow">خيار 2</span>
+                    <span class="result-badge" id="res-yellow"></span>
+                </div>
+
+                <div class="option opt-red" id="card-red">
+                    <span id="text-red">خيار 3</span>
+                    <span class="result-badge" id="res-red"></span>
+                </div>
+            </div>
+            
+            <p style="font-size: 0.8rem; color: #777; margin-top: 15px;">
+                النتيجة: <span id="score">0</span>
+            </p>
+        </div>
     </div>
 
     <canvas id="canvas"></canvas>
 
     <script>
-        // --- بنك الأسئلة (يمكنك إضافة حتى 45 سؤال هنا) ---
+        // --- بنك الأسئلة ---
         const questions = [
-            { q: "كم عدد أركان الإسلام؟", a: "5 أركان (أخضر)", b: "6 أركان (أصفر)", c: "3 أركان (أحمر)", correct: "green" },
-            { q: "من هو أول الخلفاء الراشدين؟", a: "عمر بن الخطاب", b: "أبو بكر الصديق", c: "عثمان بن عفان", correct: "yellow" },
-            { q: "ما هي السورة التي تعدل ثلث القرآن؟", a: "الفلق", b: "الناس", c: "الإخلاص", correct: "red" },
-            { q: "في أي عام كانت الهجرة النبوية؟", a: "622 ميلادي", b: "610 ميلادي", c: "632 ميلادي", correct: "green" },
-            { q: "ما هي الصلاة التي ليس فيها ركوع ولا سجود؟", a: "صلاة العيد", b: "صلاة الجنازة", c: "صلاة الضحى", correct: "yellow" }
-            // ... يمكنك نسخ السطر ولصقه وتغيير البيانات لإضافة الـ 40 سؤالاً الباقية ...
+            { q: "ما هي السورة التي لا تبدأ بالبسملة؟", green: "يونس", yellow: "التوبة", red: "النمل", correct: "yellow" },
+            { q: "كم سنة استمرت دعوة النبي سراً؟", green: "3 سنوات", yellow: "5 سنوات", red: "10 سنوات", correct: "green" },
+            { q: "من هو سيف الله المسلول؟", green: "علي بن أبي طالب", yellow: "حمزة بن عبدالمطلب", red: "خالد بن الوليد", correct: "red" },
+            { q: "ما هي أقصر سورة في القرآن؟", green: "الكوثر", yellow: "العصر", red: "النصر", correct: "green" },
+            { q: "في أي غزوة استشهد عم النبي حمزة؟", green: "بدر", yellow: "الخندق", red: "أحد", correct: "red" }
         ];
 
-        let currentQuestionIndex = 0;
+        let currentQIndex = 0;
         let score = 0;
-        let isProcessing = false;
+        let isScanning = false;
         let holdTimer = 0;
-        let lastColor = null;
+        let lastDetected = null;
 
         const video = document.getElementById('video');
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
-        const statusEl = document.getElementById('status-bar');
 
-        // تشغيل الكاميرا
         async function startCamera() {
             document.getElementById('start-screen').style.display = 'none';
-            document.getElementById('game-container').style.display = 'block';
+            document.getElementById('game-container').style.display = 'flex';
 
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ 
-                    video: { facingMode: "environment" } // استخدام الكاميرا الخلفية إن وجدت، أو الأمامية
+                    video: { facingMode: "environment" } 
                 });
                 video.srcObject = stream;
                 loadQuestion();
-                requestAnimationFrame(processFrame);
+                requestAnimationFrame(scanColors);
             } catch (err) {
-                alert("يرجى السماح بالوصول للكاميرا للعب!");
+                alert("يجب السماح للكاميرا للعمل");
             }
         }
 
         function loadQuestion() {
-            if (currentQuestionIndex >= questions.length) {
-                endGame();
+            if (currentQIndex >= questions.length) {
+                document.getElementById('question-area').innerHTML = `<h2>انتهت المسابقة!<br>نتيجتك: ${score}</h2>`;
                 return;
             }
-            const q = questions[currentQuestionIndex];
-            document.getElementById('q-text').innerText = q.q;
-            document.getElementById('opt-1').innerText = q.a;
-            document.getElementById('opt-2').innerText = q.b;
-            document.getElementById('opt-3').innerText = q.c;
-            document.getElementById('total').innerText = questions.length;
-            document.getElementById('score').innerText = score;
+
+            // إعادة تعيين الألوان والواجهة
+            resetCards();
             
-            statusEl.innerText = "ارفع اللون للإجابة...";
-            statusEl.style.color = "#333";
-            isProcessing = true;
+            const q = questions[currentQIndex];
+            document.getElementById('q-text').innerText = q.q;
+            document.getElementById('text-green').innerText = q.green;
+            document.getElementById('text-yellow').innerText = q.yellow;
+            document.getElementById('text-red').innerText = q.red;
+            
+            isScanning = true;
         }
 
-        // معالجة الفيديو وتحليل الألوان
-        function processFrame() {
-            if (!isProcessing) {
-                requestAnimationFrame(processFrame);
+        function scanColors() {
+            if (!isScanning) {
+                requestAnimationFrame(scanColors);
                 return;
             }
 
@@ -243,123 +267,106 @@
                 canvas.height = video.videoHeight;
                 ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-                // أخذ عينة من وسط الشاشة (المربع الوهمي)
-                const frameData = ctx.getImageData(canvas.width/2 - 50, canvas.height/2 - 50, 100, 100);
-                const detectedColor = detectDominantColor(frameData.data);
+                // فحص منطقة الوسط (المربع الصغير)
+                const frameData = ctx.getImageData(canvas.width/2 - 20, canvas.height/2 - 20, 40, 40);
+                const color = detectColor(frameData.data);
 
-                if (detectedColor) {
-                    handleColorDetection(detectedColor);
+                if (color) {
+                    processSelection(color);
                 } else {
                     holdTimer = 0;
-                    statusEl.innerText = "لا يوجد لون واضح...";
-                    statusEl.style.color = "#555";
+                    lastDetected = null;
+                    clearHighlights();
                 }
             }
-            requestAnimationFrame(processFrame);
+            requestAnimationFrame(scanColors);
         }
 
-        // خوارزمية تحديد اللون
-        function detectDominantColor(data) {
-            let rTotal = 0, gTotal = 0, bTotal = 0;
-            let count = 0;
-
-            for (let i = 0; i < data.length; i += 4) {
-                rTotal += data[i];
-                gTotal += data[i + 1];
-                bTotal += data[i + 2];
-                count++;
+        function detectColor(data) {
+            let r=0, g=0, b=0, count=0;
+            for(let i=0; i<data.length; i+=4) {
+                r+=data[i]; g+=data[i+1]; b+=data[i+2]; count++;
             }
+            r/=count; g/=count; b/=count;
 
-            const r = rTotal / count;
-            const g = gTotal / count;
-            const b = bTotal / count;
-
-            // تحويل RGB إلى HSL لتسهيل التعرف على الألوان
-            // Hue values: Red ~0/360, Green ~120, Yellow ~60
-            const hsl = rgbToHsl(r, g, b);
-            const h = hsl[0] * 360;
-            const s = hsl[1];
-            const l = hsl[2];
-
-            // شروط الألوان (يمكن تعديلها حسب الإضاءة)
-            if (s > 0.3 && l > 0.2 && l < 0.85) { // التأكد من وجود تشبع وإضاءة مناسبة
-                if (h >= 340 || h <= 20) return "red";    // أحمر
-                if (h >= 70 && h <= 160) return "green";  // أخضر
-                if (h >= 35 && h <= 65) return "yellow";  // أصفر
-            }
+            // تحويل بسيط للتعرف على الألوان
+            // الأحمر: R عالي، G و B منخفض
+            // الأخضر: G عالي
+            // الأصفر: R و G عاليان
+            
+            if (r > 130 && g < 100 && b < 100) return "red";
+            if (g > 110 && r < 100 && b < 100) return "green";
+            if (r > 130 && g > 130 && b < 100) return "yellow";
+            
             return null;
         }
 
-        function handleColorDetection(color) {
-            let colorNameAr = color === "green" ? "أخضر" : (color === "yellow" ? "أصفر" : "أحمر");
-            
-            if (color === lastColor) {
+        function processSelection(color) {
+            if (color === lastDetected) {
                 holdTimer++;
-                statusEl.innerText = `تم رصد ${colorNameAr}.. ثبّت يدك (${Math.ceil((60 - holdTimer)/30)})`;
-                statusEl.style.color = color;
-                
-                // إذا تم التثبيت لمدة كافية (حوالي 1.5 ثانية)
-                if (holdTimer > 40) {
-                    checkAnswer(color);
-                    holdTimer = 0;
-                    lastColor = null;
+                // تأثير بصري: إضاءة الكارد المحدد
+                highlightCard(color);
+
+                // إذا ثبت اللون لمدة ثانية تقريباً (30 إطار)
+                if (holdTimer > 30) {
+                    submitAnswer(color);
                 }
             } else {
                 holdTimer = 0;
-                lastColor = color;
+                lastDetected = color;
+                clearHighlights();
             }
         }
 
-        function checkAnswer(userColor) {
-            isProcessing = false;
-            const currentQ = questions[currentQuestionIndex];
+        function highlightCard(color) {
+            clearHighlights();
+            const card = document.getElementById(`card-${color}`);
+            if(card) {
+                card.classList.add('selected');
+                card.style.borderColor = "#fff"; // تلميح للمستخدم
+            }
+        }
+
+        function clearHighlights() {
+            document.querySelectorAll('.option').forEach(el => {
+                el.classList.remove('selected');
+                el.style.borderColor = "transparent"; // إعادة الحدود شفافة
+            });
+        }
+
+        function submitAnswer(userColor) {
+            isScanning = false;
+            const correctColor = questions[currentQIndex].correct;
+            const resBadge = document.getElementById(`res-${userColor}`);
             
-            if (userColor === currentQ.correct) {
-                statusEl.innerText = "✅ إجابة صحيحة!";
+            // إظهار النتيجة في مكان الإجابة
+            resBadge.style.display = "inline-block";
+            
+            if (userColor === correctColor) {
+                resBadge.innerText = "✅ صحيح!";
+                resBadge.style.color = "#2ecc71";
                 score++;
-                playSound('correct');
+                document.getElementById('score').innerText = score;
             } else {
-                statusEl.innerText = "❌ إجابة خاطئة!";
-                playSound('wrong');
+                resBadge.innerText = "❌ خطأ!";
+                resBadge.style.color = "#e74c3c";
+                
+                // إظهار الإجابة الصحيحة أيضاً للمساعدة
+                const correctBadge = document.getElementById(`res-${correctColor}`);
+                correctBadge.innerText = "👈 الحل";
+                correctBadge.style.display = "inline-block";
             }
 
+            // الانتقال للسؤال التالي بعد ثانيتين
             setTimeout(() => {
-                currentQuestionIndex++;
+                currentQIndex++;
                 loadQuestion();
             }, 2000);
         }
 
-        function endGame() {
-            document.getElementById('game-container').innerHTML = `
-                <div style="padding:40px;">
-                    <h2>انتهت المسابقة!</h2>
-                    <p>نتيجتك النهائية: ${score} من ${questions.length}</p>
-                    <button id="start-btn" onclick="location.reload()">إعادة المحاولة</button>
-                </div>
-            `;
-            // هنا يمكنك إرسال النتيجة إلى البوت عبر API إذا أردت لاحقاً
-        }
-
-        // دالة مساعدة لتحويل الألوان
-        function rgbToHsl(r, g, b) {
-            r /= 255, g /= 255, b /= 255;
-            var max = Math.max(r, g, b), min = Math.min(r, g, b);
-            var h, s, l = (max + min) / 2;
-            if (max == min) { h = s = 0; } else {
-                var d = max - min;
-                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-                switch (max) {
-                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-                    case g: h = (b - r) / d + 2; break;
-                    case b: h = (r - g) / d + 4; break;
-                }
-                h /= 6;
-            }
-            return [h, s, l];
-        }
-
-        function playSound(type) {
-            // يمكن إضافة أصوات هنا لاحقاً
+        function resetCards() {
+            document.querySelectorAll('.result-badge').forEach(el => el.style.display = 'none');
+            clearHighlights();
         }
     </script>
 </body>
