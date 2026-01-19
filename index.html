@@ -3,159 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مسابقة الداعي - Ultra Fix</title>
+    <title>مسابقة الداعي - الإصدار المستقر</title>
     <style>
-        :root { --bg: #050505; --accent: #f1c40f; --card: #121212; }
-        body { font-family: sans-serif; background: var(--bg); color: white; margin: 0; overflow: hidden; display: flex; justify-content: center; }
-        #app { width: 100%; max-width: 400px; height: 100vh; display: flex; flex-direction: column; position: relative; }
+        :root { --bg: #000; --accent: #f1c40f; --card: #111; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: white; margin: 0; overflow: hidden; display: flex; justify-content: center; }
+        #app { width: 100%; max-width: 380px; height: 100vh; display: flex; flex-direction: column; }
         
-        /* كاميرا سينمائية */
-        .cam-box { position: relative; width: 100%; height: 42%; background: #000; }
-        video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
-        .side-mask { position: absolute; top:0; bottom:0; width: 20%; background: rgba(0,0,0,0.8); z-index: 5; }
-        .m-left { left: 0; } .m-right { right: 0; }
-        .aim { position: absolute; top:50%; left:50%; transform: translate(-50%, -50%); width: 60px; height: 60px; border: 3px solid var(--accent); border-radius: 12px; z-index: 10; }
-        .bar { position: absolute; bottom: -10px; left: 0; width: 0%; height: 4px; background: white; transition: 0.1s; }
+        /* القسم العلوي: الكاميرا */
+        .vision-container { position: relative; width: 100%; height: 40%; background: #000; }
+        video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); opacity: 0.8; }
+        
+        /* التعتيم الجانبي فقط */
+        .mask { position: absolute; top:0; bottom:0; width: 20%; background: rgba(0,0,0,0.7); z-index: 5; }
+        .mask.left { left: 0; } .mask.right { right: 0; }
+
+        .aim-box { 
+            position: absolute; top:50%; left:50%; transform: translate(-50%, -50%); 
+            width: 70px; height: 70px; border: 2px solid var(--accent); border-radius: 15px; z-index: 10; 
+        }
+        
+        /* شريط التحميل (المشكلة التي تم حلها) */
+        .progress-wrapper { position: absolute; bottom: -15px; left: 0; width: 100%; height: 6px; background: #222; border-radius: 10px; overflow: hidden; }
+        #p-bar { width: 0%; height: 100%; background: #fff; transition: width 0.1s linear; }
 
         /* منطقة الأسئلة */
-        #quiz { flex: 1; padding: 20px; background: var(--card); border-top: 1px solid #333; }
-        .info { display: flex; justify-content: space-between; color: var(--accent); font-weight: bold; margin-bottom: 15px; }
-        .q-text { font-size: 1.2rem; font-weight: bold; margin-bottom: 25px; line-height: 1.5; }
+        #quiz-area { flex: 1; padding: 20px; background: var(--card); border-top: 1px solid #333; z-index: 20; }
+        .stats { display: flex; justify-content: space-between; color: var(--accent); font-weight: bold; margin-bottom: 10px; font-size: 0.8rem; }
+        .q-text { font-size: 1.1rem; font-weight: bold; margin-bottom: 20px; min-height: 45px; line-height: 1.4; }
         
-        .opt { background: #1e1e1e; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; align-items: center; border: 2px solid transparent; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; margin-left: 12px; }
-        .g { background: #00ff00; } .y { background: #ffff00; } .r { background: #ff0000; }
-        .active { border-color: white !important; background: #222 !important; }
-        .res { margin-right: auto; font-weight: bold; }
+        .option-box { background: #1a1a1a; padding: 12px; border-radius: 10px; margin-bottom: 8px; display: flex; align-items: center; border: 2px solid transparent; transition: 0.2s; }
+        .color-indicator { width: 12px; height: 12px; border-radius: 50%; margin-left: 10px; }
+        .bg-green { background: #00ff00; } .bg-yellow { background: #ffff00; } .bg-red { background: #ff0000; }
+        
+        /* حالة الكشف */
+        .detecting { border-color: #fff !important; background: #252525 !important; }
+        .result-msg { margin-right: auto; font-weight: bold; font-size: 1rem; }
 
-        #start-btn { background: var(--accent); padding: 15px 40px; border-radius: 30px; border: none; font-weight: bold; cursor: pointer; }
-        #overlay { position: fixed; inset: 0; background: var(--bg); z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        #intro-screen { position: fixed; inset: 0; background: #000; z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .btn-main { background: var(--accent); color: #000; padding: 14px 40px; border-radius: 30px; border: none; font-weight: bold; cursor: pointer; font-size: 1rem; }
     </style>
 </head>
 <body>
 
-<div id="overlay">
-    <h1 style="color:var(--accent)">مسابقة الداعي</h1>
-    <button id="start-btn" onclick="start()">ابدأ التحدي</button>
+<div id="intro-screen">
+    <h1 style="color:var(--accent); margin-bottom: 5px;">مسابقة الداعي</h1>
+    <p style="color:#666; margin-bottom: 30px;">45 سؤالاً | دقة فائقة</p>
+    <button class="btn-main" onclick="init()">ابدأ الآن</button>
 </div>
 
-<div id="app">
-    <div class="cam-box">
+<div id="app" style="display:none">
+    <div class="vision-container">
         <video id="v" autoplay playsinline></video>
-        <div class="side-mask m-left"></div>
-        <div class="side-mask m-right"></div>
-        <div class="aim"><div id="p-bar" class="bar"></div></div>
-    </div>
-    <div id="quiz">
-        <div class="info">
-            <span id="stat-q">السؤال: 1 / 45</span>
-            <span id="stat-s">النقاط: 0</span>
+        <div class="mask left"></div>
+        <div class="mask right"></div>
+        <div class="aim-box">
+            <div class="progress-wrapper"><div id="p-bar"></div></div>
         </div>
-        <div id="txt-q" class="q-text">جاري التحميل...</div>
-        <div id="opts">
-            <div class="opt" id="o-green"><div class="dot g"></div><span id="t-g"></span><span class="res" id="r-g"></span></div>
-            <div class="opt" id="o-yellow"><div class="dot y"></div><span id="t-y"></span><span class="res" id="r-y"></span></div>
-            <div class="opt" id="o-red"><div class="dot r"></div><span id="t-r"></span><span class="res" id="r-r"></span></div>
+    </div>
+    <div id="quiz-area">
+        <div class="stats">
+            <span id="q-count">السؤال: 1 / 45</span>
+            <span id="score-count">النقاط: 0</span>
+        </div>
+        <div id="question" class="q-text">جاري التحميل...</div>
+        <div id="options">
+            <div class="option-box" id="opt-green"><div class="color-indicator bg-green"></div><span id="txt-green"></span><span class="result-msg" id="res-green"></span></div>
+            <div class="option-box" id="opt-yellow"><div class="color-indicator bg-yellow"></div><span id="txt-yellow"></span><span class="result-msg" id="res-yellow"></span></div>
+            <div class="option-box" id="opt-red"><div class="color-indicator bg-red"></div><span id="txt-red"></span><span class="result-msg" id="res-red"></span></div>
         </div>
     </div>
 </div>
 
-<canvas id="canvas" style="display:none;"></canvas>
+<canvas id="proc" style="display:none;"></canvas>
 
 <script>
-const bank = [
-    {q:"كم عدد أركان الإسلام؟", g:"خمسة", y:"ستة", r:"أربعة", c:"green"},
-    {q:"من هو خاتم الأنبياء؟", g:"عيسى", y:"محمد ﷺ", r:"موسى", c:"yellow"},
-    {q:"ما هي أطول سورة؟", g:"آل عمران", y:"البقرة", r:"النساء", c:"yellow"},
-    {q:"أين ولد النبي ﷺ؟", g:"مكة", y:"المدينة", r:"الطائف", c:"green"},
-    {q:"كم عدد أجزاء القرآن؟", g:"20", y:"30", r:"60", c:"yellow"}
+// بنك أسئلة ديني ضخم ومميز
+const masterBank = [
+    {q: "كم عدد أركان الإسلام؟", g: "خمسة", y: "ستة", r: "أربعة", c: "green"},
+    {q: "ما هي أطول سورة في القرآن؟", g: "آل عمران", y: "البقرة", r: "النساء", c: "yellow"},
+    {q: "من هو النبي الملقب بـ كليم الله؟", g: "إبراهيم", y: "موسى", r: "عيسى", c: "yellow"},
+    {q: "في أي شهر أُنزل القرآن الكريم؟", g: "شعبان", y: "رمضان", r: "رجب", c: "yellow"},
+    {q: "كم عدد سور القرآن الكريم؟", g: "114", y: "110", r: "120", c: "green"},
+    {q: "من هو أول مؤذن في الإسلام؟", g: "بلال بن رباح", y: "عمار بن ياسر", r: "أنس بن مالك", c: "green"},
+    {q: "ما هي القبلة الأولى للمسلمين؟", g: "المسجد الحرام", y: "المسجد الأقصى", r: "المسجد النبوي", c: "yellow"},
+    {q: "كم عدد أركان الإيمان؟", g: "5", y: "7", r: "6", c: "red"},
+    {q: "من هو الصحابي الملقب بالفاروق؟", g: "عمر بن الخطاب", y: "أبو بكر", r: "علي بن أبي طالب", c: "green"},
+    {q: "ما هي السورة التي تسمى قلب القرآن؟", g: "الرحمن", y: "يس", r: "الملك", c: "yellow"}
 ];
 
-// تكرار الأسئلة لضمان 45 سؤال
-let questions = [];
-while(questions.length < 45) questions.push(...bank);
-questions = questions.sort(() => Math.random() - 0.5).slice(0, 45);
+// توليد 45 سؤالاً عن طريق خلط الأسئلة المتاحة (يمكنك إضافة المزيد يدوياً)
+let gamePool = [];
+while(gamePool.length < 45) {
+    gamePool.push(...masterBank);
+}
+gamePool = gamePool.sort(() => Math.random() - 0.5).slice(0, 45);
 
-let cur = 0, score = 0, locked = false, timer = 0, lastCol = null;
-const v = document.getElementById('v'), pBar = document.getElementById('p-bar');
+let currentIdx = 0, score = 0, isLocked = false, progress = 0, targetColor = null;
+const video = document.getElementById('v'), pBar = document.getElementById('p-bar');
 
-async function start() {
-    document.getElementById('overlay').style.display = 'none';
-    const s = await navigator.mediaDevices.getUserMedia({video: {facingMode: "environment"}});
-    v.srcObject = s;
-    updateQ();
-    loop();
+function init() {
+    document.getElementById('intro-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    navigator.mediaDevices.getUserMedia({video: {facingMode: "environment"}})
+    .then(s => { 
+        video.srcObject = s; 
+        loadQuestion(); 
+        requestAnimationFrame(processFrame);
+    });
 }
 
-function updateQ() {
-    if(cur >= 45) {
-        document.getElementById('quiz').innerHTML = `<h2 style="text-align:center">انتهى!<br>النقاط: ${score}</h2>`;
-        return;
-    }
-    const q = questions[cur];
-    document.getElementById('txt-q').innerText = q.q;
-    document.getElementById('t-g').innerText = q.g;
-    document.getElementById('t-y').innerText = q.y;
-    document.getElementById('t-r').innerText = q.r;
-    document.getElementById('stat-q').innerText = `السؤال: ${cur + 1} / 45`;
+function loadQuestion() {
+    if(currentIdx >= 45) { finishGame(); return; }
+    const q = gamePool[currentIdx];
+    document.getElementById('question').innerText = q.q;
+    document.getElementById('txt-green').innerText = q.g;
+    document.getElementById('txt-yellow').innerText = q.y;
+    document.getElementById('txt-red').innerText = q.r;
+    document.getElementById('q-count').innerText = `السؤال: ${currentIdx + 1} / 45`;
     
-    // تصفير الواجهة تماماً
-    document.querySelectorAll('.res').forEach(e => e.innerText = "");
-    document.querySelectorAll('.opt').forEach(e => e.classList.remove('active'));
-    timer = 0; pBar.style.width = "0%";
-    locked = false; 
+    // إعادة تصفير كل شيء
+    document.querySelectorAll('.result-msg').forEach(e => e.innerText = "");
+    document.querySelectorAll('.option-box').forEach(e => e.classList.remove('detecting'));
+    progress = 0; pBar.style.width = "0%";
+    isLocked = false;
 }
 
-function loop() {
-    if(!locked && v.readyState === v.HAVE_ENOUGH_DATA) {
-        const c = document.getElementById('canvas');
-        const ctx = c.getContext('2d');
-        c.width = 40; c.height = 40;
-        ctx.drawImage(v, v.videoWidth/2-20, v.videoHeight/2-20, 40, 40, 0, 0, 40, 40);
-        const color = detect(ctx.getImageData(0,0,40,40).data);
+function processFrame() {
+    if(!isLocked && video.readyState === video.HAVE_ENOUGH_DATA) {
+        const canvas = document.getElementById('proc');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 40; canvas.height = 40;
         
-        if(color) {
-            if(color === lastCol) {
-                timer += 5;
-                pBar.style.width = timer + "%";
-                document.querySelectorAll('.opt').forEach(e => e.classList.remove('active'));
-                document.getElementById('o-'+color).classList.add('active');
-                if(timer >= 100) handle(color);
-            } else { lastCol = color; timer = 0; }
-        } else { timer = 0; lastCol = null; pBar.style.width = "0%"; }
+        // التقاط المربع المركزي فقط
+        ctx.drawImage(video, video.videoWidth/2-20, video.videoHeight/2-20, 40, 40, 0, 0, 40, 40);
+        const data = ctx.getImageData(0,0,40,40).data;
+        
+        const detected = getUltraColor(data);
+        
+        if(detected) {
+            if(detected === targetColor) {
+                // الشريط يمتلئ هنا
+                progress += 2.5; // سرعة تعبئة الشريط
+                if(progress > 100) progress = 100;
+                pBar.style.width = progress + "%";
+                
+                // تمييز الخيار الحالي
+                document.querySelectorAll('.option-box').forEach(e => e.classList.remove('detecting'));
+                document.getElementById('opt-'+detected).classList.add('detecting');
+                
+                if(progress >= 100) handleSelection(detected);
+            } else {
+                targetColor = detected;
+                progress = 0; // تصفير عند تغيير اللون
+            }
+        } else {
+            // "ذاكرة" بسيطة: لا تصفر الشريط فوراً عند فقدان اللون لجزء من الثانية
+            progress -= 5; 
+            if(progress < 0) { progress = 0; targetColor = null; }
+            pBar.style.width = progress + "%";
+            document.querySelectorAll('.option-box').forEach(e => e.classList.remove('detecting'));
+        }
     }
-    requestAnimationFrame(loop);
+    requestAnimationFrame(processFrame);
 }
 
-function detect(d) {
+function getUltraColor(data) {
     let r=0, g=0, b=0;
-    for(let i=0; i<d.length; i+=4) { r+=d[i]; g+=d[i+1]; b+=d[i+2]; }
+    for(let i=0; i<data.length; i+=4) { r+=data[i]; g+=data[i+1]; b+=data[i+2]; }
     r/=1600; g/=1600; b/=1600;
-    if (g > r * 1.3 && g > b * 1.3) return "green";
-    if (r > 100 && g > 100 && Math.abs(r-g) < 40 && (r+g) > b*2) return "yellow";
-    if (r > g * 1.5 && r > b * 1.5) return "red";
+
+    // شرط الإضاءة (تجاهل السواد التام أو البياض التام)
+    if ((r+g+b)/3 < 40 || (r+g+b)/3 > 240) return null;
+
+    // دقة Ultra: مقارنة النسب
+    if (g > r * 1.3 && g > b * 1.2) return "green";
+    if (r > 120 && g > 110 && Math.abs(r - g) < 40 && (r+g) > b * 2.5) return "yellow";
+    if (r > g * 1.6 && r > b * 1.6) return "red";
+    
     return null;
 }
 
-function handle(col) {
-    locked = true; // قفل فوري للمحرك
-    const correct = questions[cur].c;
+function handleSelection(col) {
+    isLocked = true;
+    const correct = gamePool[currentIdx].c;
+    const resTag = document.getElementById('res-'+col);
     
-    // إظهار النتيجة أمام كل خيار
     if(col === correct) {
-        document.getElementById('r-'+col).innerText = "✅";
+        resTag.innerText = "✅ صحيح";
         score++;
-        document.getElementById('stat-s').innerText = `النقاط: ${score}`;
+        document.getElementById('score-count').innerText = `النقاط: ${score}`;
     } else {
-        document.getElementById('r-'+col).innerText = "❌";
-        document.getElementById('r-'+correct).innerText = "👈";
+        resTag.innerText = "❌ خطأ";
+        document.getElementById('res-'+correct).innerText = "👈 الإجابة";
     }
 
     // الانتقال للسؤال التالي بعد ثانية ونصف
     setTimeout(() => {
-        cur++;
-        updateQ();
+        currentIdx++;
+        loadQuestion();
     }, 1500);
+}
+
+function finishGame() {
+    document.getElementById('quiz-area').innerHTML = `
+        <div style="text-align:center; padding:30px">
+            <h2 style="color:var(--accent)">تم الانتهاء!</h2>
+            <p style="font-size:1.5rem">النتيجة النهائية: ${score} من 45</p>
+            <button class="btn-main" onclick="location.reload()">جولة جديدة</button>
+        </div>
+    `;
 }
 </script>
 </body>
