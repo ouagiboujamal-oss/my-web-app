@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق الكاميرا الذكي</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1c1c1c;
+            color: white;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #video {
+            width: 90%;
+            max-width: 400px;
+            border-radius: 15px;
+            border: 2px solid #0088cc;
+            background-color: #000;
+        }
+        .controls {
+            margin-top: 20px;
+            width: 90%;
+            text-align: center;
+        }
+        button {
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        #status {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #aaa;
+        }
+        canvas {
+            display: none; /* مخفي، يستخدم فقط للالتقاط */
+        }
+    </style>
+</head>
+<body>
+
+    <h2>بث الكاميرا المباشر</h2>
+    
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas"></canvas>
+
+    <div class="controls">
+        <button id="captureBtn">التقاط وإرسال</button>
+        <p id="status">جاري تشغيل الكاميرا...</p>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const captureBtn = document.getElementById('captureBtn');
+        const statusText = document.getElementById('status');
+
+        tg.expand(); // توسيع نافذة البوت
+
+        // 1. طلب الوصول للكاميرا
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: "user" }, // "user" للكاميرا الأمامية، "environment" للخلفية
+                    audio: false 
+                });
+                video.srcObject = stream;
+                statusText.innerText = "الكاميرا تعمل الآن";
+            } catch (err) {
+                statusText.innerText = "خطأ: تأكد من إعطاء إذن الكاميرا";
+                console.error(err);
+            }
+        }
+
+        // 2. عند الضغط على الزر
+        captureBtn.addEventListener('click', () => {
+            // رسم الصورة الحالية من الفيديو على الـ Canvas
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // تحويل الصورة لنص بسيط (إشعار)
+            // ملاحظة: لإرسال الصورة الفعلية تحتاج لخادم، هنا سنخبر البوت بالنجاح
+            const data = {
+                action: "capture_success",
+                message: "تم التقاط الصورة بنجاح من كاميرا المستخدم!"
+            };
+
+            tg.sendData(JSON.stringify(data)); // إرسال الإشارة للبوت
+            tg.close(); // إغلاق الصفحة
+        });
+
+        // تشغيل الكاميرا فور فتح الصفحة
+        startCamera();
+    </script>
+</body>
+</html>
