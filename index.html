@@ -3,247 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مسابقة الداعي - نسخة الستارة الجانبية</title>
+    <title>متجر الألعاب الإسلامية - jeux islamic</title>
+    
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
-        :root { --bg: #000; --accent: #f1c40f; --card: #111; }
-        body { font-family: sans-serif; background: var(--bg); color: white; margin: 0; overflow: hidden; display: flex; justify-content: center; }
-        #app-wrapper { width: 100%; max-width: 400px; height: 100vh; display: flex; flex-direction: column; position: relative; }
-        
-        /* شاشة الدخول */
-        #login-screen { position: absolute; inset: 0; background: #000; z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center; }
-        #username-input { padding: 15px; border-radius: 25px; border: 2px solid var(--accent); background: #111; color: #fff; width: 80%; margin-bottom: 10px; text-align: center; font-size: 1.1rem; }
-        #msg-error { color: #ff4444; font-size: 0.9rem; margin-bottom: 20px; font-weight: bold; min-height: 20px; }
-        
-        /* الكاميرا والواجهة */
-        .cam-section { position: relative; width: 100%; height: 40%; background: #000; }
-        video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
-        .side-mask { position: absolute; top:0; bottom:0; width: 20%; background: rgba(0,0,0,0.8); z-index: 5; }
-        .mask-l { left: 0; } .mask-r { right: 0; }
-        .aim-square { position: absolute; top:50%; left:50%; transform: translate(-50%, -50%); width: 70px; height: 70px; border: 3px solid var(--accent); border-radius: 15px; z-index: 10; }
-        
-        .progress-container { position: absolute; bottom: -15px; left: 0; width: 100%; height: 8px; background: #222; border-radius: 4px; overflow: hidden; }
-        #p-bar { width: 0%; height: 100%; background: #fff; transition: width 0.1s linear; }
+        :root {
+            --primary: #6366f1;
+            --bg: #f8fafc;
+            --text: #1e293b;
+        }
 
-        #quiz-section { flex: 1; padding: 20px; background: var(--card); border-top: 1px solid #333; z-index: 20; }
-        .stats-row { display: flex; justify-content: space-between; color: var(--accent); font-weight: bold; margin-bottom: 15px; }
-        #q-text { font-size: 1.2rem; font-weight: bold; margin-bottom: 25px; min-height: 50px; line-height: 1.4; }
-        
-        .opt-row { background: #1a1a1a; padding: 14px; border-radius: 12px; margin-bottom: 10px; display: flex; align-items: center; border: 2px solid transparent; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; margin-left: 12px; }
-        .dot-g { background: #00ff00; } .dot-y { background: #ffff00; } .dot-r { background: #ff0000; }
-        .active-opt { border-color: #fff !important; background: #252525 !important; }
-        .res-tag { margin-right: auto; font-weight: bold; }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 10px;
+            color: var(--text);
+        }
 
-        .btn-main { background: var(--accent); color: #000; padding: 15px 45px; border-radius: 30px; border: none; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
-
-        /* --- تصميم الستارة الجانبية (Sidebar) --- */
-        #players-sidebar {
-            position: absolute;
-            top: 0;
-            left: -100%; /* مخفية في البداية جهة اليسار */
-            width: 85%;
-            height: 100%;
-            background: #1a1a1a;
-            z-index: 2000;
-            transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1); /* حركة انزلاق ناعمة */
-            box-shadow: 5px 0 20px rgba(0,0,0,0.8);
+        /* شريط علوي احترافي */
+        nav {
             display: flex;
-            flex-direction: column;
-            padding: 20px;
-            box-sizing: border-box;
-            border-right: 2px solid var(--accent);
-        }
-        #players-sidebar.active {
-            left: 0; /* تظهر عند إضافة الكلاس */
-        }
-        .sidebar-title { color: var(--accent); border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 15px; text-align: center; }
-        #players-list { flex: 1; overflow-y: auto; text-align: right; }
-        .player-item { 
-            background: #222; 
-            padding: 10px; 
-            margin-bottom: 8px; 
-            border-radius: 8px; 
-            display: flex; 
             justify-content: space-between;
-            border-left: 3px solid var(--accent);
+            align-items: center;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .logo { font-weight: 700; font-size: 1.4rem; color: var(--primary); }
+
+        /* منطقة تسجيل الدخول */
+        #user-profile { display: none; align-items: center; gap: 10px; }
+        #user-profile img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary); }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        /* شبكة المنتجات - 4 في الصف الواحد */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            transition: 0.3s;
+        }
+
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+
+        .card img { width: 100%; height: 180px; object-fit: cover; }
+
+        .card-content { padding: 15px; }
+        .price { color: #16a34a; font-weight: 700; font-size: 1.1rem; margin-bottom: 5px; display: block; }
+        .title { font-size: 1rem; margin: 5px 0; font-weight: 700; }
+        .desc { font-size: 0.85rem; color: #64748b; line-height: 1.5; }
+
+        @media (max-width: 600px) {
+            .product-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
 
-<div id="app-wrapper">
-    <div id="players-sidebar">
-        <h2 class="sidebar-title">قائمة اللاعبين</h2>
-        <div id="players-list">
-            <p style="text-align:center; color:#666;">جاري تحميل القائمة...</p>
-        </div>
-        <button class="btn-main" style="padding:10px; margin-top:10px;" onclick="location.reload()">إغلاق والبدء من جديد</button>
-    </div>
-
-    <div id="login-screen">
-        <h1 style="color:var(--accent)">مسابقة الداعي</h1>
-        <p style="color:#888; margin-bottom: 30px;">نظام حجز الأسماء مفعل</p>
-        <input type="text" id="username-input" placeholder="اكتب اسمك المميز...">
-        <div id="msg-error"></div>
-        <button id="entry-btn" class="btn-main" onclick="checkNameAndStart()">دخول المسابقة</button>
-    </div>
-
-    <div class="cam-section">
-        <div id="welcome-header" style="position: absolute; top: 10px; width: 100%; text-align: center; color: var(--accent); z-index: 30; font-weight: bold;"></div>
-        <video id="v" autoplay playsinline></video>
-        <div class="side-mask mask-l"></div>
-        <div class="side-mask mask-r"></div>
-        <div class="aim-square">
-            <div class="progress-container"><div id="p-bar"></div></div>
-        </div>
-    </div>
-
-    <div id="quiz-section">
-        <div class="stats-row">
-            <span id="stat-q">السؤال: 1 / 45</span>
-            <span id="stat-s">النقاط: 0</span>
-        </div>
-        <div id="q-text">جاري التحميل...</div>
-        <div id="options-box">
-            <div class="opt-row" id="o-green"><div class="dot dot-g"></div><span id="t-g"></span><span class="res-tag" id="r-g"></span></div>
-            <div class="opt-row" id="o-yellow"><div class="dot dot-y"></div><span id="t-y"></span><span class="res-tag" id="r-y"></span></div>
-            <div class="opt-row" id="o-red"><div class="dot dot-r"></div><span id="t-r"></span><span class="res-tag" id="r-r"></span></div>
-        </div>
-    </div>
-</div>
-
-<canvas id="c" style="display:none;"></canvas>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, query, where, getDocs, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBqoREI5Pt_eI9S30ztx9owVgiMhPVZUGI",
-  authDomain: "aldaeiquiz.firebaseapp.com",
-  projectId: "aldaeiquiz",
-  storageBucket: "aldaeiquiz.firebasestorage.app",
-  messagingSenderId: "805518525739",
-  appId: "1:805518525739:web:e622069abaaad4e624b16e",
-  measurementId: "G-2YSHV3Q5LP"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-const baseBank = [
-    {q:"كم عدد أركان الإسلام؟", g:"4", y:"5", r:"6", c:"yellow"},
-    {q:"ما هي أطول سورة؟", g:"البقرة", y:"آل عمران", r:"النساء", c:"green"},
-    {q:"من هو النبي الملقب بكليم الله؟", g:"إبراهيم", y:"عيسى", r:"موسى", c:"red"}
-];
-let questions = []; while(questions.length < 45) questions.push(...baseBank);
-questions = questions.sort(() => Math.random() - 0.5).slice(0, 45);
-
-let cur = 0, score = 0, locked = false, timer = 0, lastCol = null, pName = "";
-const v = document.getElementById('v'), pBar = document.getElementById('p-bar');
-
-window.checkNameAndStart = async () => {
-    const input = document.getElementById('username-input');
-    const error = document.getElementById('msg-error');
-    pName = input.value.trim();
-    if(pName.length < 2) { error.innerText = "الاسم قصير!"; return; }
-
-    try {
-        const q = query(collection(db, "users"), where("name", "==", pName));
-        const snap = await getDocs(q);
-        if (!snap.empty) {
-            error.innerText = "❌ الاسم مستخدم مسبقاً!";
-        } else {
-            await addDoc(collection(db, "users"), { name: pName, date: new Date() });
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('welcome-header').innerText = `يا ${pName}، بالتوفيق!`;
-            initGame();
-        }
-    } catch (e) { error.innerText = "خطأ في القاعدة"; }
-};
-
-async function initGame() {
-    const stream = await navigator.mediaDevices.getUserMedia({video: {facingMode: "environment"}});
-    v.srcObject = stream;
-    loadQuestion();
-    requestAnimationFrame(gameLoop);
-}
-
-function loadQuestion() {
-    if(cur >= 45) { endGame(); return; }
-    const q = questions[cur];
-    document.getElementById('q-text').innerText = q.q;
-    document.getElementById('t-g').innerText = q.g;
-    document.getElementById('t-y').innerText = q.y;
-    document.getElementById('t-r').innerText = q.r;
-    document.getElementById('stat-q').innerText = `السؤال: ${cur+1} / 45`;
-    document.querySelectorAll('.res-tag').forEach(e => e.innerText = "");
-    document.querySelectorAll('.opt-row').forEach(e => e.classList.remove('active-opt'));
-    timer = 0; lastCol = null; pBar.style.width = "0%"; locked = false;
-}
-
-function gameLoop() {
-    if(!locked && v.readyState === v.HAVE_ENOUGH_DATA) {
-        const canvas = document.getElementById('c'), ctx = canvas.getContext('2d');
-        canvas.width = 40; canvas.height = 40;
-        ctx.drawImage(v, v.videoWidth/2-20, v.videoHeight/2-20, 40, 40, 0, 0, 40, 40);
-        const col = detectColor(ctx.getImageData(0,0,40,40).data);
-        if(col) {
-            if(col === lastCol) {
-                timer += 2.5; 
-                pBar.style.width = timer + "%";
-                document.querySelectorAll('.opt-row').forEach(e => e.classList.remove('active-opt'));
-                document.getElementById('o-'+col).classList.add('active-opt');
-                if(timer >= 100) processAnswer(col);
-            } else { lastCol = col; timer = 0; }
-        } else { timer = 0; lastCol = null; pBar.style.width = "0%"; }
-    }
-    requestAnimationFrame(gameLoop);
-}
-
-function detectColor(d) {
-    let r=0, g=0, b=0;
-    for(let i=0; i<d.length; i+=4) { r+=d[i]; g+=d[i+1]; b+=d[i+2]; }
-    r/=1600; g/=1600; b/=1600;
-    if (g > r * 1.3) return "green";
-    if (r > 100 && g > 100 && (r+g) > b*2) return "yellow";
-    if (r > g * 1.4) return "red";
-    return null;
-}
-
-function processAnswer(col) {
-    locked = true;
-    const correct = questions[cur].c;
-    document.getElementById('r-'+col).innerText = (col === correct) ? "✅" : "❌";
-    if(col === correct) { score++; document.getElementById('stat-s').innerText = `النقاط: ${score}`; }
-    setTimeout(() => { cur++; loadQuestion(); }, 1200);
-}
-
-async function endGame() {
-    locked = true;
-    // 1. حفظ النتيجة
-    await addDoc(collection(db, "leaderboard"), { name: pName, score: score, date: new Date() });
-
-    // 2. تفعيل الستارة الجانبية (انزلاق من اليسار)
-    document.getElementById('players-sidebar').classList.add('active');
-
-    // 3. جلب كل اللاعبين المسجلين وترتيبهم حسب الأعلى نقاطاً
-    const qPlayers = query(collection(db, "leaderboard"), orderBy("score", "desc"), limit(100));
-    const snap = await getDocs(qPlayers);
-    
-    let html = "";
-    snap.forEach(doc => {
-        const data = doc.data();
-        html += `
-            <div class="player-item">
-                <span>${data.name}</span>
-                <span style="color:var(--accent)">${data.score} نقطة</span>
+    <nav>
+        <div class="logo">jeux islamic</div>
+        
+        <div id="g_auth">
+            <div id="g_id_onload"
+                 data-client_id="295699802302-t4l7rov5vo93g20fuphhbh4sj21dbgu1.apps.googleusercontent.com"
+                 data-callback="handleCredentialResponse">
             </div>
-        `;
-    });
-    
-    document.getElementById('players-list').innerHTML = html;
-}
-</script>
+            <div class="g_id_signin" data-type="standard"></div>
+        </div>
+
+        <div id="user-profile">
+            <span id="user-name"></span>
+            <img id="user-pic" src="" alt="">
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="product-grid" id="grid"></div>
+    </div>
+
+    <script>
+        // وظيفة تسجيل الدخول
+        function handleCredentialResponse(response) {
+            const data = JSON.parse(atob(response.credential.split('.')[1]));
+            document.getElementById('g_auth').style.display = 'none';
+            document.getElementById('user-profile').style.display = 'flex';
+            document.getElementById('user-name').innerText = data.name;
+            document.getElementById('user-pic').src = data.picture;
+            alert("مرحباً بك يا " + data.name);
+        }
+
+        // بيانات الـ 10 منتجات
+        const products = [
+            { t: "سجادة صلاة تعليمية", p: "250 درهم", d: "تساعد الأطفال على تعلم حركات الصلاة بالصوت.", i: "https://images.unsplash.com/photo-1584622781564-1d9876a13d00?w=400" },
+            { t: "مصحف ناطق", p: "400 درهم", d: "قلم قارئ يساعد في حفظ وتجويد القرآن الكريم.", i: "https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=400" },
+            { t: "لعبة بازل الحروف", p: "120 درهم", d: "لعبة خشبية لتعليم الحروف العربية للأطفال.", i: "https://images.unsplash.com/photo-1587654062353-ef4023dd97ad?w=400" },
+            { t: "ساعة أذان مكتبية", p: "180 درهم", d: "منبه ذكي لجميع أوقات الصلاة مع درجة الحرارة.", i: "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?w=400" },
+            { t: "قصص الأنبياء مصورة", p: "150 درهم", d: "مجموعة قصصية مشوقة للأطفال بجودة عالية.", i: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400" },
+            { t: "لعبة أسئلة إسلامية", p: "90 درهم", d: "بطاقات تعليمية لزيادة المعلومات الدينية.", i: "https://images.unsplash.com/photo-1611996575749-79a3a250f948?w=400" },
+            { t: "مبخرة إلكترونية", p: "220 درهم", d: "مبخرة محمولة آمنة وسهلة الاستخدام للشحن.", i: "https://images.unsplash.com/photo-1595943923360-19818824147c?w=400" },
+            { t: "لوحة الأذكار", p: "80 درهم", d: "لوحة جدارية تفاعلية بلمسة فنية إسلامية.", i: "https://images.unsplash.com/photo-1512446816042-444d641267d4?w=400" },
+            { t: "حصالة الأهداف", p: "60 درهم", d: "تشجع الأطفال على الادخار للصدقة وفعل الخير.", i: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=400" },
+            { t: "مجموعة الخط العربي", p: "130 درهم", d: "أدوات متكاملة لتعلم فن الخط العربي الجميل.", i: "https://images.unsplash.com/photo-1503694978374-8a2fa686963a?w=400" }
+        ];
+
+        // عرض المنتجات في الصفحة
+        const grid = document.getElementById('grid');
+        products.forEach(item => {
+            grid.innerHTML += `
+                <div class="card">
+                    <img src="${item.i}" alt="${item.t}">
+                    <div class="card-content">
+                        <span class="price">${item.p}</span>
+                        <h3 class="title">${item.t}</h3>
+                        <p class="desc">${item.d}</p>
+                    </div>
+                </div>`;
+        });
+    </script>
 </body>
 </html>
