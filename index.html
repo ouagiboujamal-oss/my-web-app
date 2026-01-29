@@ -3,136 +3,373 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر الألعاب الإسلامية - jeux islamic</title>
-    
+    <title>منصة الألعاب والقصص الإسلامية</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --bg: #f8fafc;
-            --text: #1e293b;
+            --primary: #059669; /* أخضر زمردي */
+            --secondary: #d97706; /* ذهبي */
+            --bg: #f3f4f6;
+            --white: #ffffff;
         }
 
         body {
             font-family: 'Cairo', sans-serif;
             background-color: var(--bg);
             margin: 0;
-            padding: 10px;
-            color: var(--text);
+            padding-top: 80px;
+            color: #1f2937;
+            user-select: none; /* لمنع تحديد النصوص أثناء اللعب */
         }
 
-        /* شريط علوي احترافي */
-        nav {
+        /* --- الهيدر --- */
+        header {
+            background: var(--white);
+            height: 70px;
+            width: 100%;
+            position: fixed;
+            top: 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: white;
-            padding: 15px 25px;
-            border-radius: 15px;
-            margin-bottom: 25px;
+            padding: 0 5%;
+            box-sizing: border-box;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            z-index: 1000;
         }
 
-        .logo { font-weight: 700; font-size: 1.4rem; color: var(--primary); }
-
-        /* منطقة تسجيل الدخول */
-        #user-profile { display: none; align-items: center; gap: 10px; }
-        #user-profile img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary); }
-
-        .container { max-width: 1200px; margin: 0 auto; }
-
-        /* شبكة المنتجات - 4 في الصف الواحد */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 20px;
+        .logo { font-weight: 800; font-size: 1.5rem; color: var(--primary); }
+        .points-badge { 
+            background: var(--secondary); 
+            color: white; 
+            padding: 5px 15px; 
+            border-radius: 20px; 
+            font-weight: bold; 
+            display: flex; 
+            align-items: center; 
+            gap: 5px;
         }
 
+        /* --- التنقل --- */
+        .tabs { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
+        .tab-btn {
+            background: #e5e7eb;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 10px;
+            font-family: 'Cairo';
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .tab-btn.active { background: var(--primary); color: white; transform: scale(1.05); }
+
+        /* --- الشبكة --- */
+        .section { display: none; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .section.active { display: block; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; padding-bottom: 50px; }
+        
         .card {
             background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             transition: 0.3s;
+            border: 2px solid transparent;
+            cursor: pointer;
         }
+        .card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .card h3 { margin: 10px 0; font-size: 1.1rem; }
+        .icon { font-size: 2.5rem; display: block; margin-bottom: 10px; }
+        .reward-tag { background: #d1fae5; color: #065f46; padding: 2px 10px; border-radius: 10px; font-size: 0.8rem; font-weight: bold; }
+        .price-tag { color: var(--secondary); font-weight: 800; font-size: 1.1rem; }
 
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-
-        .card img { width: 100%; height: 180px; object-fit: cover; }
-
-        .card-content { padding: 15px; }
-        .price { color: #16a34a; font-weight: 700; font-size: 1.1rem; margin-bottom: 5px; display: block; }
-        .title { font-size: 1rem; margin: 5px 0; font-weight: 700; }
-        .desc { font-size: 0.85rem; color: #64748b; line-height: 1.5; }
-
-        @media (max-width: 600px) {
-            .product-grid { grid-template-columns: 1fr 1fr; }
+        /* --- نافذة الألعاب (Game Canvas) --- */
+        #game-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center; align-items: center;
+            z-index: 2000;
         }
+        .game-container {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+        }
+        canvas { background: #f0fdf4; border: 2px solid #333; margin: 10px auto; display: block; max-width: 100%; border-radius: 10px; }
+        .close-btn { position: absolute; top: 10px; left: 15px; font-size: 1.5rem; cursor: pointer; color: #ef4444; }
+
+        /* ستايل لعبة الذاكرة */
+        .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
+        .mem-card { height: 70px; background: var(--primary); border-radius: 8px; cursor: pointer; color: transparent; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        .mem-card.flipped { background: white; border: 2px solid var(--primary); color: #333; }
+
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">jeux islamic</div>
-        
-        <div id="g_auth">
-            <div id="g_id_onload"
-                 data-client_id="295699802302-t4l7rov5vo93g20fuphhbh4sj21dbgu1.apps.googleusercontent.com"
-                 data-callback="handleCredentialResponse">
-            </div>
-            <div class="g_id_signin" data-type="standard"></div>
-        </div>
-
-        <div id="user-profile">
-            <span id="user-name"></span>
-            <img id="user-pic" src="" alt="">
-        </div>
-    </nav>
-
-    <div class="container">
-        <div class="product-grid" id="grid"></div>
+<header>
+    <div class="logo">مكتبة الألعاب الإسلامية</div>
+    <div style="display:flex; align-items:center; gap:15px">
+        <div class="points-badge">💎 <span id="points">0</span></div>
+        <div id="g_id_onload" data-client_id="295699802302-t4l7rov5vo93g20fuphhbh4sj21dbgu1.apps.googleusercontent.com" data-callback="handleSignIn"></div>
+        <div class="g_id_signin" data-type="icon" data-shape="circle"></div>
+        <img id="user-img" src="" style="width:40px; border-radius:50%; display:none; border:2px solid var(--primary)">
     </div>
+</header>
 
-    <script>
-        // وظيفة تسجيل الدخول
-        function handleCredentialResponse(response) {
-            const data = JSON.parse(atob(response.credential.split('.')[1]));
-            document.getElementById('g_auth').style.display = 'none';
-            document.getElementById('user-profile').style.display = 'flex';
-            document.getElementById('user-name').innerText = data.name;
-            document.getElementById('user-pic').src = data.picture;
-            alert("مرحباً بك يا " + data.name);
+<div class="tabs">
+    <button class="tab-btn active" onclick="showTab('games', this)">🎮 صالة الألعاب</button>
+    <button class="tab-btn" onclick="showTab('stories', this)">📚 مكتبة القصص الكبيرة</button>
+</div>
+
+<div id="games" class="section active">
+    <div class="grid">
+        <div class="card" onclick="startGame('catcher')">
+            <span class="icon">🧺</span>
+            <h3>جامع الحسنات</h3>
+            <p style="font-size:0.9rem; color:#666">حرك السلة واجمع القلوب</p>
+            <span class="reward-tag">اربح 3 نقاط</span>
+        </div>
+        <div class="card" onclick="startGame('memory')">
+            <span class="icon">🧠</span>
+            <h3>تحدي الذاكرة</h3>
+            <p style="font-size:0.9rem; color:#666">طابق الصور المتشابهة</p>
+            <span class="reward-tag">اربح 3 نقاط</span>
+        </div>
+        <div class="card" onclick="startGame('reflex')">
+            <span class="icon">⚡</span>
+            <h3>رد الفعل السريع</h3>
+            <p style="font-size:0.9rem; color:#666">اضغط فور تغير اللون</p>
+            <span class="reward-tag">اربح 2 نقاط</span>
+        </div>
+        <div class="card" onclick="startGame('math')">
+            <span class="icon">🔢</span>
+            <h3>الحساب الذهني</h3>
+            <p style="font-size:0.9rem; color:#666">حل المسائل بسرعة</p>
+            <span class="reward-tag">اربح 2 نقاط</span>
+        </div>
+        <div class="card" onclick="startGame('typing')">
+            <span class="icon">⌨️</span>
+            <h3>سباق الكتابة</h3>
+            <p style="font-size:0.9rem; color:#666">اكتب الكلمة قبل اختفائها</p>
+            <span class="reward-tag">اربح 3 نقاط</span>
+        </div>
+    </div>
+</div>
+
+<div id="stories" class="section">
+    <div class="grid" id="story-grid">
+        </div>
+</div>
+
+<div id="game-modal">
+    <div class="game-container">
+        <span class="close-btn" onclick="closeGame()">✖ خروج</span>
+        <div id="game-content"></div>
+    </div>
+</div>
+
+<script>
+    // 1. البيانات والإعدادات
+    let points = parseInt(localStorage.getItem('pts')) || 0;
+    document.getElementById('points').innerText = points;
+
+    // قائمة قصص كبيرة كما طلبت (15 قصة)
+    const storyList = [
+        {t: "قصة أصحاب الفيل", p: 15, i: "🐘"},
+        {t: "قصة سفينة نوح", p: 20, i: "🚢"},
+        {t: "قصة يوسف والصبر", p: 30, i: "👑"},
+        {t: "هجرة الرسول ﷺ", p: 25, i: "🐪"},
+        {t: "قصة سليمان والنملة", p: 15, i: "🐜"},
+        {t: "قصة موسى والعصا", p: 20, i: "🐍"},
+        {t: "قصة أصحاب الكهف", p: 25, i: "bg"},
+        {t: "قصة يونس والحوت", p: 15, i: "🐋"},
+        {t: "قصة إبراهيم والنار", p: 20, i: "🔥"},
+        {t: "قصة بناء الكعبة", p: 30, i: "🕋"},
+        {t: "قصة قارون والكنز", p: 20, i: "💰"},
+        {t: "غزوة بدر الكبرى", p: 25, i: "⚔️"},
+        {t: "قصة الإسراء والمعراج", p: 35, i: "🌌"},
+        {t: "قصة قابيل وهابيل", p: 15, i: "🌍"},
+        {t: "قصة مريم العذراء", p: 20, i: "🌴"}
+    ];
+
+    // عرض القصص
+    const sGrid = document.getElementById('story-grid');
+    storyList.forEach(s => {
+        sGrid.innerHTML += `
+        <div class="card" onclick="buyStory('${s.t}', ${s.p})">
+            <span class="icon">${s.i}</span>
+            <h3>${s.t}</h3>
+            <p class="price-tag">${s.p} نقطة</p>
+            <button style="background:var(--primary); color:white; border:none; padding:5px 15px; border-radius:5px; cursor:pointer">شراء</button>
+        </div>`;
+    });
+
+    // 2. وظائف النظام
+    function showTab(id, btn) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    function addPoints(amt) {
+        points += amt;
+        document.getElementById('points').innerText = points;
+        localStorage.setItem('pts', points);
+        alert(`🎉 أحسنت! ربحت ${amt} نقاط.`);
+        closeGame();
+    }
+
+    function buyStory(title, price) {
+        if(points >= price) {
+            if(confirm(`هل تريد شراء "${title}" مقابل ${price} نقطة؟`)) {
+                points -= price;
+                document.getElementById('points').innerText = points;
+                localStorage.setItem('pts', points);
+                alert("✅ تم الشراء بنجاح! جاري فتح القصة...");
+                // هنا رابط ملف PDF
+                window.open('https://example.com/story.pdf'); 
+            }
+        } else {
+            alert("❌ نقاطك لا تكفي! العب المزيد من الألعاب.");
+        }
+    }
+
+    // 3. محركات الألعاب (Game Engines)
+    let gameInterval;
+    const modal = document.getElementById('game-modal');
+    const content = document.getElementById('game-content');
+
+    function closeGame() {
+        modal.style.display = 'none';
+        clearInterval(gameInterval);
+    }
+
+    function startGame(type) {
+        modal.style.display = 'flex';
+        content.innerHTML = "";
+
+        // --- لعبة جامع الحسنات (Canvas) ---
+        if(type === 'catcher') {
+            content.innerHTML = `<h3>اجمع القلوب (💚) وتجنب القنابل (💣)</h3><canvas id="cCanvas" width="300" height="400"></canvas><div style="margin-top:10px"><button onmousedown="moveL()" onmouseup="stopM()" class="tab-btn">⬅️</button> <button onmousedown="moveR()" onmouseup="stopM()" class="tab-btn">➡️</button></div>`;
+            const ctx = document.getElementById('cCanvas').getContext('2d');
+            let pX = 125, items = [], score = 0, speed = 0;
+            
+            window.moveL = () => speed = -5;
+            window.moveR = () => speed = 5;
+            window.stopM = () => speed = 0;
+
+            gameInterval = setInterval(() => {
+                ctx.clearRect(0,0,300,400);
+                // اللاعب
+                ctx.fillStyle = "#059669";
+                pX += speed;
+                if(pX<0) pX=0; if(pX>250) pX=250;
+                ctx.fillRect(pX, 360, 50, 30); // السلة
+
+                // العناصر الساقطة
+                if(Math.random() < 0.05) items.push({x: Math.random()*280, y:0, t: Math.random()>0.3 ? 'good' : 'bad'});
+                
+                items.forEach((it, i) => {
+                    it.y += 3;
+                    ctx.font = "20px Arial";
+                    ctx.fillText(it.t=='good'?'💚':'💣', it.x, it.y);
+                    
+                    // التصادم
+                    if(it.y > 350 && it.y < 390 && it.x > pX && it.x < pX+50) {
+                        if(it.t === 'good') score++;
+                        else { clearInterval(gameInterval); alert("انفجرت! خسرت."); closeGame(); return; }
+                        items.splice(i, 1);
+                    }
+                });
+
+                ctx.fillStyle = "black";
+                ctx.fillText("النتيجة: " + score, 10, 30);
+                if(score >= 10) { clearInterval(gameInterval); addPoints(3); } // الفوز عند 10 قلوب
+            }, 20);
         }
 
-        // بيانات الـ 10 منتجات
-        const products = [
-            { t: "سجادة صلاة تعليمية", p: "250 درهم", d: "تساعد الأطفال على تعلم حركات الصلاة بالصوت.", i: "https://images.unsplash.com/photo-1584622781564-1d9876a13d00?w=400" },
-            { t: "مصحف ناطق", p: "400 درهم", d: "قلم قارئ يساعد في حفظ وتجويد القرآن الكريم.", i: "https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=400" },
-            { t: "لعبة بازل الحروف", p: "120 درهم", d: "لعبة خشبية لتعليم الحروف العربية للأطفال.", i: "https://images.unsplash.com/photo-1587654062353-ef4023dd97ad?w=400" },
-            { t: "ساعة أذان مكتبية", p: "180 درهم", d: "منبه ذكي لجميع أوقات الصلاة مع درجة الحرارة.", i: "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?w=400" },
-            { t: "قصص الأنبياء مصورة", p: "150 درهم", d: "مجموعة قصصية مشوقة للأطفال بجودة عالية.", i: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400" },
-            { t: "لعبة أسئلة إسلامية", p: "90 درهم", d: "بطاقات تعليمية لزيادة المعلومات الدينية.", i: "https://images.unsplash.com/photo-1611996575749-79a3a250f948?w=400" },
-            { t: "مبخرة إلكترونية", p: "220 درهم", d: "مبخرة محمولة آمنة وسهلة الاستخدام للشحن.", i: "https://images.unsplash.com/photo-1595943923360-19818824147c?w=400" },
-            { t: "لوحة الأذكار", p: "80 درهم", d: "لوحة جدارية تفاعلية بلمسة فنية إسلامية.", i: "https://images.unsplash.com/photo-1512446816042-444d641267d4?w=400" },
-            { t: "حصالة الأهداف", p: "60 درهم", d: "تشجع الأطفال على الادخار للصدقة وفعل الخير.", i: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=400" },
-            { t: "مجموعة الخط العربي", p: "130 درهم", d: "أدوات متكاملة لتعلم فن الخط العربي الجميل.", i: "https://images.unsplash.com/photo-1503694978374-8a2fa686963a?w=400" }
-        ];
+        // --- لعبة الذاكرة ---
+        else if(type === 'memory') {
+            content.innerHTML = `<h3>طابق الأزواج</h3><div class="memory-grid" id="mgrid"></div>`;
+            const grid = document.getElementById('mgrid');
+            let cards = [1,1,2,2,3,3,4,4,5,5,6,6];
+            cards.sort(() => 0.5 - Math.random());
+            let selected = [], matched = 0;
+            
+            cards.forEach((val, idx) => {
+                let div = document.createElement('div');
+                div.className = 'mem-card';
+                div.onclick = () => {
+                    if(div.classList.contains('flipped') || selected.length >= 2) return;
+                    div.classList.add('flipped');
+                    div.innerText = val;
+                    selected.push(div);
+                    if(selected.length === 2) {
+                        setTimeout(() => {
+                            if(selected[0].innerText === selected[1].innerText) {
+                                matched++;
+                                if(matched === 6) addPoints(3);
+                            } else {
+                                selected[0].classList.remove('flipped'); selected[0].innerText = "";
+                                selected[1].classList.remove('flipped'); selected[1].innerText = "";
+                            }
+                            selected = [];
+                        }, 800);
+                    }
+                };
+                grid.appendChild(div);
+            });
+        }
 
-        // عرض المنتجات في الصفحة
-        const grid = document.getElementById('grid');
-        products.forEach(item => {
-            grid.innerHTML += `
-                <div class="card">
-                    <img src="${item.i}" alt="${item.t}">
-                    <div class="card-content">
-                        <span class="price">${item.p}</span>
-                        <h3 class="title">${item.t}</h3>
-                        <p class="desc">${item.d}</p>
-                    </div>
-                </div>`;
-        });
-    </script>
+        // --- لعبة رد الفعل ---
+        else if(type === 'reflex') {
+            content.innerHTML = `<h3>اضغط عندما يصبح المربع أخضر!</h3><div id="r-box" style="width:100%; height:200px; background:#ef4444; margin:20px 0; border-radius:10px; cursor:pointer"></div>`;
+            let box = document.getElementById('r-box');
+            let startTime = 0;
+            let timeout = setTimeout(() => {
+                box.style.background = "#22c55e"; // أخضر
+                box.innerText = "اضغط الآن!";
+                startTime = Date.now();
+                box.onclick = () => {
+                    let diff = Date.now() - startTime;
+                    if(diff < 500) addPoints(2); // يجب أن تكون أسرع من نصف ثانية
+                    else { alert("بطيء جداً! (" + diff + "ms)"); closeGame(); }
+                };
+            }, 2000 + Math.random() * 3000);
+            
+            box.onclick = () => { if(!startTime) { clearTimeout(timeout); alert("ضغطت مبكراً جداً!"); closeGame(); } };
+        }
+
+        // --- لعبة الحساب ---
+        else if(type === 'math') {
+            let n1 = Math.floor(Math.random()*20), n2 = Math.floor(Math.random()*10);
+            content.innerHTML = `<h3>${n1} + ${n2} = ؟</h3><input type="number" id="m-ans" style="font-size:1.5rem; width:100px; margin:20px"><br><button class="tab-btn" onclick="checkM(${n1+n2})">تحقق</button>`;
+            window.checkM = (res) => {
+                if(document.getElementById('m-ans').value == res) addPoints(2);
+                else { alert("إجابة خاطئة"); closeGame(); }
+            }
+        }
+    }
+
+    // جوجل
+    function handleSignIn(r) {
+        const d = JSON.parse(atob(r.credential.split('.')[1]));
+        document.querySelector('.g_id_signin').style.display = 'none';
+        document.getElementById('user-img').src = d.picture;
+        document.getElementById('user-img').style.display = 'block';
+    }
+</script>
+
 </body>
 </html>
