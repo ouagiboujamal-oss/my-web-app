@@ -14,27 +14,18 @@
         body { font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0; padding: 0; color: #1e293b; }
         
         #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        
         header { background: white; padding: 15px 5%; display: none; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
-        
         .welcome-msg { font-weight: 700; color: var(--primary); margin-left: 15px; font-size: 1.1rem; }
-
         .container { max-width: 1200px; margin: 30px auto; padding: 20px; display: none; }
-        
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
         .card { background: white; border-radius: 20px; padding: 25px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; transition: 0.3s; }
         .card:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
-        
         .btn { width: 100%; padding: 14px; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; margin-top: 15px; font-family: 'Cairo'; font-size: 1rem; transition: 0.2s; }
         .btn-buy { background: var(--accent); color: white; }
         .btn-read { background: var(--primary); color: white; }
-        .btn:active { transform: scale(0.95); }
-        
         #quiz-section { background: white; padding: 30px; border-radius: 25px; margin-bottom: 40px; text-align: center; border: 2px solid #e2e8f0; }
         .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
         .option-btn { padding: 15px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 15px; cursor: pointer; font-family: 'Cairo'; font-size: 1.1rem; }
-        .option-btn:hover { border-color: var(--primary); background: #f0fdf4; }
-
         .viewer { display: none; background: white; padding: 50px; border-radius: 30px; line-height: 2.4; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1); }
         .viewer h1 { font-size: 2.2rem; color: var(--primary); margin-bottom: 30px; border-bottom: 3px solid #f1f5f9; padding-bottom: 15px; }
         .viewer p { font-size: 1.4rem; color: #334155; text-align: justify; white-space: pre-wrap; }
@@ -81,18 +72,15 @@
     <div id="story-viewer" class="viewer">
         <button onclick="closeStory()" class="btn" style="width:130px; background:#f1f5f9; color:#475569; margin-bottom:20px;">⬅ العودة للمكتبة</button>
         <h1 id="v-title"></h1>
-        <div id="v-text-container">
-            <p id="v-text"></p>
-        </div>
+        <p id="v-text"></p>
     </div>
 </div>
 
 <script>
     const storiesData = [
-        // تم رفع الأسعار هنا لتصبح غالية (بين 150 و 500)
-        { id: 1, title: "صبر أيوب عليه السلام", price: 150, text: "تبدأ قصة نبي الله أيوب عليه السلام بأروع أمثلة الصبر التي عرفتها البشرية... (نص طويل جداً)" },
-        { id: 2, title: "أصحاب الكهف والثبات", price: 200, text: "في زمن غابت فيه شمس التوحيد وانتشر الظلم... (نص طويل جداً)" },
-        { id: 3, title: "يوسف عليه السلام.. من البئر إلى العرش", price: 350, text: "قصة يوسف هي أحسن القصص، تبدأ برؤيا وتنهي بتحقيقها... (نص طويل جداً)" }
+        { id: 1, title: "صبر أيوب عليه السلام", price: 150, text: "تبدأ قصة نبي الله أيوب عليه السلام بأروع أمثلة الصبر التي عرفتها البشرية..." },
+        { id: 2, title: "أصحاب الكهف والثبات", price: 200, text: "في زمن غابت فيه شمس التوحيد وانتشر الظلم..." },
+        { id: 3, title: "يوسف عليه السلام.. من البئر إلى العرش", price: 350, text: "قصة يوسف هي أحسن القصص، تبدأ برؤيا وتنهي بتحقيقها..." }
     ];
 
     const extraTitles = [
@@ -108,26 +96,21 @@
         storiesData.push({
             id: index + 4,
             title: title,
-            price: 180 + (index * 12), // أسعار متزايدة تصل لأكثر من 500
-            text: `تعتبر قصة ${title} من أعظم الدروس التي حفظها لنا التاريخ الإسلامي والإنساني... (هنا النص الطويل لضمان وقت القراءة)`
+            price: 180 + (index * 12),
+            text: `هذا مجلد كامل ومفصل حول قصة ${title}، يحتوي على أحداث تاريخية عميقة وعبر ودروس مستفادة...`
         });
     });
 
     let points = localStorage.getItem('user_pts') === null ? 5 : parseInt(localStorage.getItem('user_pts'));
     let ownedStories = JSON.parse(localStorage.getItem('owned_list')) || [];
 
-    // دالة تسجيل الدخول والانتقال الفوري
     function handleSignIn(response) {
         const data = JSON.parse(atob(response.credential.split('.')[1]));
-        
-        // الانتقال الفوري للصفحة الرئيسية
         document.getElementById('login-overlay').style.display = 'none';
         document.getElementById('main-header').style.display = 'flex';
         document.getElementById('main-content').style.display = 'block';
-        
         document.getElementById('user-img').src = data.picture;
         document.getElementById('user-welcome').innerText = `مرحباً، ${data.name}`;
-        
         updateUI();
     }
 
@@ -135,17 +118,13 @@
         document.getElementById('pts').innerText = points;
         const grid = document.getElementById('stories-grid');
         grid.innerHTML = '';
-        
         storiesData.forEach(s => {
             const isOwned = ownedStories.includes(s.id);
             grid.innerHTML += `
                 <div class="card">
                     <h3 style="color:var(--primary); margin-bottom:10px;">${s.title}</h3>
                     <p style="font-size:0.9rem; color:#64748b;">مجلد تاريخي مفصل</p>
-                    ${isOwned ? 
-                        `<button class="btn btn-read" onclick="readStory(${s.id})">📖 قراءة المجلد</button>` : 
-                        `<button class="btn btn-buy" onclick="buyStory(${s.id}, ${s.price})">🔓 شراء بـ ${s.price} جوهرة</button>`
-                    }
+                    ${isOwned ? `<button class="btn btn-read" onclick="readStory(${s.id})">📖 قراءة المجلد</button>` : `<button class="btn btn-buy" onclick="buyStory(${s.id}, ${s.price})">🔓 شراء بـ ${s.price} جوهرة</button>`}
                 </div>`;
         });
         localStorage.setItem('user_pts', points);
@@ -159,7 +138,7 @@
             updateUI();
             alert("✅ تم شراء القصة بنجاح!");
         } else {
-            alert("❌ جواهرك غير كافية. العب الاختبارات لجمع النقاط!");
+            alert("❌ جواهرك غير كافية!");
         }
     }
 
@@ -167,29 +146,43 @@
         const s = storiesData.find(x => x.id === id);
         document.getElementById('quiz-section').style.display = 'none';
         document.getElementById('stories-grid').style.display = 'none';
-        document.getElementById('main-content').querySelector('h2').style.display = 'none';
-        
-        const viewer = document.getElementById('story-viewer');
-        viewer.style.display = 'block';
+        document.getElementById('story-viewer').style.display = 'block';
         document.getElementById('v-title').innerText = s.title;
-        document.getElementById('v-text').innerText = s.text + "\n\n" + s.text + "\n\n" + s.text;
+        document.getElementById('v-text').innerText = s.text + "\n\n" + s.text;
         window.scrollTo(0,0);
     }
 
     function closeStory() {
         document.getElementById('quiz-section').style.display = 'block';
         document.getElementById('stories-grid').style.display = 'grid';
-        document.getElementById('main-content').querySelector('h2').style.display = 'block';
         document.getElementById('story-viewer').style.display = 'none';
     }
 
+    // --- قسم الأسئلة المحدث بكثرة ونظام النقاط الجديد ---
     function showQuiz() {
         const qBox = document.getElementById('quiz-box');
         qBox.style.display = 'block';
         const questions = [
             { q: "من هو النبي الذي لقب بـ ذو النون؟", a: ["يونس", "إبراهيم", "عيسى"], c: 0 },
             { q: "كم عدد سجدات التلاوة في القرآن؟", a: ["10", "15", "12"], c: 1 },
-            { q: "ما هو أول مسجد بني في الإسلام؟", a: ["قُباء", "الحرام", "النبوي"], c: 0 }
+            { q: "ما هي السورة التي تسمى عروس القرآن؟", a: ["يس", "الرحمن", "الملك"], c: 1 },
+            { q: "من هو الصحابي الذي لقب بـ أمين هذه الأمة؟", a: ["أبو عبيدة عامر بن الجراح", "عمر بن الخطاب", "خالد بن الوليد"], c: 0 },
+            { q: "من هو النبي الذي أُرسل إلى قوم عاد؟", a: ["هود", "صالح", "شعيب"], c: 0 },
+            { q: "ما هو أطول يوم في حياة النبي صلى الله عليه وسلم؟", a: ["يوم الطائف", "يوم أحد", "يوم الأحزاب"], c: 0 },
+            { q: "من هو الصحابي الذي اهتز لموته عرش الرحمن؟", a: ["سعد بن معاذ", "جعفر الطيار", "زيد بن حارثة"], c: 0 },
+            { q: "كم كان عمر النبي صلى الله عليه وسلم عندما بعث؟", a: ["35 سنة", "40 سنة", "45 سنة"], c: 1 },
+            { q: "من هي المرأة التي أوحى الله إليها؟", a: ["أم موسى", "خديجة بنت خويلد", "مريم ابنة عمران"], c: 0 },
+            { q: "ما هو الجبل الذي استقرت عليه سفينة نوح؟", a: ["جبل الطور", "جبل الجودي", "جبل عرفات"], c: 1 },
+            { q: "من هو الملك الموكل بالوحي؟", a: ["ميكائيل", "جبريل", "إسرافيل"], c: 1 },
+            { q: "كم عدد أبواب الجنة؟", a: ["7 أبواب", "8 أبواب", "10 أبواب"], c: 1 },
+            { q: "ما هي أعظم آية في القرآن الكريم؟", a: ["آية الكرسي", "آية الدين", "خواتيم سورة البقرة"], c: 0 },
+            { q: "من هو بكر المهاجرين؟", a: ["أبو بكر الصديق", "عثمان بن عفان", "عمر بن الخطاب"], c: 0 },
+            { q: "في أي مدينة توفي النبي صلى الله عليه وسلم؟", a: ["مكة المكرمة", "المدينة المنورة", "بيت المقدس"], c: 1 },
+            { q: "كم عدد السور المكية في القرآن؟", a: ["86 سورة", "28 سورة", "114 سورة"], c: 0 },
+            { q: "من هو النبي الذي صام عن الكلام؟", a: ["زكريا عليه السلام", "يحيى عليه السلام", "موسى عليه السلام"], c: 0 },
+            { q: "من هو النبي الذي تمنى الموت؟", a: ["يوسف عليه السلام", "أيوب عليه السلام", "يونس عليه السلام"], c: 0 },
+            { q: "ما هو الاسم الحقيقي لأبي بكر الصديق؟", a: ["عبد الله بن أبي قحافة", "عبد الرحمن بن عوف", "عثمان بن عفان"], c: 0 },
+            { q: "من هو الصحابي الذي لقب بـ سيف الله المسلول؟", a: ["علي بن أبي طالب", "خالد بن الوليد", "الزبير بن العوام"], c: 1 }
         ];
         const q = questions[Math.floor(Math.random() * questions.length)];
         document.getElementById('q-text').innerText = q.q;
@@ -202,12 +195,12 @@
 
     function checkAnswer(chosen, correct) {
         if (chosen === correct) {
-            // مكافأة عشوائية (متوسطة أو قليلة) كما طلبت: ما بين 3 إلى 8 جواهر
-            const reward = Math.floor(Math.random() * 6) + 3; 
+            // نظام المكافأة الجديد: عشوائي بين 5 و 10 نقاط كما طلبت
+            const reward = Math.floor(Math.random() * 6) + 5; 
             points += reward;
-            alert(`🎉 إجابة صحيحة! ربحت ${reward} جواهر.`);
+            alert(`🎉 إجابة رائعة وصحيحة! ربحت ${reward} جواهر.`);
         } else {
-            alert("😕 إجابة خاطئة.");
+            alert("😕 للأسف الإجابة خاطئة، حاول مرة أخرى.");
         }
         document.getElementById('quiz-box').style.display = 'none';
         updateUI();
