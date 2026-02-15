@@ -3,236 +3,693 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المكتبة الإسلامية الشاملة</title>
-    
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6847506129570052" crossorigin="anonymous"></script>
+    <title>قصص الرعب المرعبة</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #047857; --accent: #b45309; --bg: #f8fafc; }
-        body { font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0; padding: 0; color: #1e293b; }
-        #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        header { background: white; padding: 15px 5%; display: none; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
-        .user-profile { position: relative; cursor: pointer; display: flex; align-items: center; gap: 10px; }
-        #user-img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--primary); }
-        .logout-menu { display: none; position: absolute; top: 55px; left: 0; background: white; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 120px; z-index: 1000; }
-        .logout-menu button { width: 100%; padding: 10px; border: none; background: none; font-family: 'Cairo'; cursor: pointer; color: #e11d48; font-weight: bold; border-radius: 10px; }
-        .container { max-width: 1200px; margin: 30px auto; padding: 20px; display: none; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
-        .card { background: white; border-radius: 20px; padding: 25px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; transition: 0.3s; }
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; margin-top: 15px; font-family: 'Cairo'; }
-        .btn-buy { background: var(--accent); color: white; }
-        .btn-read { background: var(--primary); color: white; }
-        #quiz-section { background: white; padding: 30px; border-radius: 25px; margin-bottom: 40px; text-align: center; border: 2px solid #e2e8f0; }
-        .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .option-btn { padding: 15px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 15px; cursor: pointer; font-family: 'Cairo'; }
-        .viewer { display: none; background: white; padding: 50px; border-radius: 30px; line-height: 2.4; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1); }
-        .viewer h1 { color: var(--primary); font-size: 2.2rem; margin-bottom: 20px; }
-        .viewer p { font-size: 1.4rem; text-align: justify; white-space: pre-wrap; color: #334155; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* شاشة تسجيل الدخول */
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .login-screen.hidden {
+            display: none;
+        }
+
+        .login-container {
+            background: linear-gradient(135deg, #1a0000, #330000);
+            padding: 60px 40px;
+            border-radius: 20px;
+            border: 3px solid #8b0000;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(139, 0, 0, 0.7);
+            max-width: 450px;
+            width: 90%;
+        }
+
+        .login-container h1 {
+            font-size: 48px;
+            color: #ff4444;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #8b0000;
+        }
+
+        .login-container p {
+            color: #cccccc;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        #g_id_onload {
+            margin: 30px 0;
+        }
+
+        .login-divider {
+            margin: 30px 0;
+            color: #888;
+        }
+
+        .login-info {
+            background: rgba(139, 0, 0, 0.2);
+            padding: 15px;
+            border-left: 3px solid #ff4444;
+            margin-top: 20px;
+            text-align: right;
+            font-size: 14px;
+            color: #e0e0e0;
+        }
+
+        /* الشريط العلوي مع بيانات المستخدم */
+        header {
+            background: linear-gradient(135deg, #1a0000, #330000);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #8b0000;
+            box-shadow: 0 0 20px rgba(139, 0, 0, 0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 48px;
+            color: #ff4444;
+            text-shadow: 0 0 10px #8b0000;
+            flex: 1;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(139, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 1px solid #ff4444;
+        }
+
+        .user-profile img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #ff4444;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-info .name {
+            color: #ff4444;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .user-info .email {
+            color: #cccccc;
+            font-size: 12px;
+        }
+
+        .logout-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #ff6666;
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+        }
+
+        /* القائمة الجانبية */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 80px;
+            width: 250px;
+            height: calc(100vh - 80px);
+            background: linear-gradient(180deg, #1a1a1a, #2d2d2d);
+            padding: 20px;
+            border-right: 2px solid #8b0000;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar h2 {
+            color: #ff4444;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #8b0000;
+            padding-bottom: 10px;
+        }
+
+        .story-list {
+            list-style: none;
+        }
+
+        .story-list li {
+            padding: 12px;
+            margin: 10px 0;
+            background: rgba(139, 0, 0, 0.2);
+            border-left: 3px solid #ff4444;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .story-list li:hover {
+            background: rgba(139, 0, 0, 0.5);
+            transform: translateX(-5px);
+        }
+
+        .story-list li.active {
+            background: rgba(255, 68, 68, 0.3);
+            border-left: 5px solid #ff4444;
+        }
+
+        /* المحتوى الرئيسي */
+        .container {
+            margin-left: 250px;
+            margin-top: 80px;
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        .story {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .story.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .story-image {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            border: 2px solid #8b0000;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(139, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+        }
+
+        .story-image.img1 {
+            background: linear-gradient(135deg, #4a0000, #1a0000);
+        }
+
+        .story-image.img2 {
+            background: linear-gradient(135deg, #001a4a, #000a1a);
+        }
+
+        .story-image.img3 {
+            background: linear-gradient(135deg, #1a0a00, #4a2a00);
+        }
+
+        .story-image.img4 {
+            background: linear-gradient(135deg, #2d0a2d, #1a0000);
+        }
+
+        .story-image.img5 {
+            background: linear-gradient(135deg, #000a1a, #0a1a2d);
+        }
+
+        .story-title {
+            font-size: 36px;
+            color: #ff4444;
+            text-shadow: 0 0 10px #8b0000;
+            margin: 30px 0 20px 0;
+            border-bottom: 2px solid #8b0000;
+            padding-bottom: 15px;
+        }
+
+        .story-text {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #e0e0e0;
+            margin: 20px 0;
+            background: rgba(26, 26, 26, 0.8);
+            padding: 25px;
+            border-left: 4px solid #ff4444;
+            border-radius: 5px;
+        }
+
+        .story-text p {
+            margin: 15px 0;
+        }
+
+        .story-text em {
+            color: #ff4444;
+            font-style: italic;
+        }
+
+        /* الإعدادات */
+        .settings {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+        }
+
+        .settings-btn {
+            width: 60px;
+            height: 60px;
+            background: #ff4444;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
+            transition: all 0.3s;
+        }
+
+        .settings-btn:hover {
+            background: #ff6666;
+            box-shadow: 0 0 25px rgba(255, 68, 68, 0.8);
+        }
+
+        .settings-panel {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            border: 2px solid #ff4444;
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            display: none;
+            box-shadow: 0 0 30px rgba(139, 0, 0, 0.5);
+        }
+
+        .settings-panel.active {
+            display: block;
+        }
+
+        .settings-panel h3 {
+            color: #ff4444;
+            margin-bottom: 15px;
+        }
+
+        .setting-item {
+            margin: 15px 0;
+        }
+
+        .setting-item label {
+            display: block;
+            color: #e0e0e0;
+            margin-bottom: 8px;
+        }
+
+        .setting-item input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .setting-item select {
+            width: 100%;
+            padding: 8px;
+            background: #333;
+            color: #fff;
+            border: 1px solid #ff4444;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff4444, #8b0000);
+            width: 0%;
+            z-index: 1001;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .container {
+                margin-left: 200px;
+                padding: 20px;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            header h1 {
+                font-size: 32px;
+            }
+
+            .user-profile {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- شاشة تسجيل الدخول -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-container">
+            <h1>👻 قصص الرعب 👻</h1>
+            <p>سجل الدخول للاستمتاع بقصص الرعب</p>
+            
+            <div id="g_id_onload"
+                data-client_id="295699802302-t4l7rov5vo93g20fuphhbh4sj21dbgu1.apps.googleusercontent.com"
+                data-callback="handleCredentialResponse">
+            </div>
+            <div class="g_id_signin" data-type="standard"></div>
 
-<div id="login-overlay">
-    <div style="background:white; padding:40px; border-radius:30px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);">
-        <h1 style="color:var(--primary); font-size:2.5rem;">📖 مكتبة النخبة</h1>
-        <p style="margin-bottom:30px;">سجل دخولك الآن واستلم 5 جواهر مجانية</p>
-        <div id="g_id_onload" 
-             data-client_id="295699802302-t4l7rov5vo93g20fuphhbh4sj21dbgu1.apps.googleusercontent.com" 
-             data-callback="handleSignIn"
-             data-auto_select="true">
-        </div>
-        <div class="g_id_signin" data-type="standard" data-shape="pill" data-size="large"></div>
-    </div>
-</div>
-
-<header id="main-header">
-    <div style="display:flex; align-items:center;">
-        <span id="user-welcome" style="font-weight:bold; color:var(--primary);"></span>
-    </div>
-    <div style="display:flex; align-items:center; gap:15px;">
-        <div style="background:var(--accent); color:white; padding:8px 20px; border-radius:50px; font-weight:900;">💎 <span id="pts">0</span></div>
-        <div class="user-profile" onclick="toggleLogoutMenu()">
-            <img id="user-img" src="">
-            <div id="logout-menu" class="logout-menu">
-                <button onclick="logout()">تسجيل الخروج</button>
+            <div class="login-info">
+                <p>🔐 بيانات حسابك آمنة تماماً</p>
+                <p>سنستخدم بيانات حسابك فقط لحفظ تقدمك</p>
             </div>
         </div>
     </div>
-</header>
 
-<div class="container" id="main-content">
-    <div id="quiz-section">
-        <h2>🧩 تحدي المعلومات الإسلامية</h2>
-        <p>أجب واربح جواهر لفتح المجلدات التاريخية</p>
-        <button class="btn btn-read" style="width:180px;" onclick="showQuiz()">ابدأ الاختبار</button>
-        <div id="quiz-box" style="display:none; margin-top:20px;">
-            <h3 id="q-text"></h3>
-            <div class="quiz-options" id="options"></div>
+    <!-- شريط التقدم -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- الرأس (مخفي حتى تسجيل الدخول) -->
+    <header id="header" style="display: none;">
+        <h1>👻 قصص الرعب المرعبة 👻</h1>
+        <div class="user-profile" id="userProfile">
+            <img id="userImage" src="" alt="صورة المستخدم">
+            <div class="user-info">
+                <div class="name" id="userName">المستخدم</div>
+                <div class="email" id="userEmail">البريد الإلكتروني</div>
+            </div>
+            <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
+        </div>
+    </header>
+
+    <!-- القائمة الجانبية -->
+    <div class="sidebar" id="sidebar" style="display: none;">
+        <h2>📖 القصص</h2>
+        <ul class="story-list">
+            <li class="active" data-story="0">1️⃣ الساعة الملعونة</li>
+            <li data-story="1">2️⃣ الفندق الخالي</li>
+            <li data-story="2">3️⃣ الغابة المظلمة</li>
+            <li data-story="3">4️⃣ الدمية القديمة</li>
+            <li data-story="4">5️⃣ الشبح في المرآة</li>
+        </ul>
+    </div>
+
+    <!-- المحتوى الرئيسي -->
+    <div class="container" id="container" style="display: none;">
+        <!-- القصة الأولى -->
+        <div class="story active" id="story-0">
+            <h2 class="story-title">⏰ الساعة الملعونة</h2>
+            <div class="story-image img1">⏰</div>
+            <div class="story-text">
+                <p>في إحدى الليالي الباردة، اشترى محمد ساعة حائطية قديمة من متجر العتيقات. كانت الساعة جميلة بتصميمها العتيق، لكنها غريبة بطريقة ما.</p>
+                <p>في الليلة الأولى، لاحظ محمد شيئاً غريباً - الساعة تتحرك بسرعة أسرع من المعتاد. عندما نظر إلى الساعة الساعة 3:33 صباحاً، سمع صوت خطوات غريبة في الممر.</p>
+                <p><em>"من هناك؟" صرخ محمد، لكن لا أحد رد عليه.</em></p>
+                <p>في كل ليلة، عندما تصل الساعة إلى 3:33، يسمع محمد نفس الأصوات المرعبة. وفي كل مرة، يشعر بوجود شيء بارد يقترب منه في الظلام.</p>
+                <p>بعد أسبوع، اكتشف محمد الحقيقة المرعبة - السعر الذي دفعه للساعة كان نفس سعر حياة سابقة. والآن، الساعة تأخذ حياته، ثانية واحدة في كل مرة تدق فيها جرسها.</p>
+            </div>
+        </div>
+
+        <!-- القصة الثانية -->
+        <div class="story" id="story-1">
+            <h2 class="story-title">🏨 الفندق الخالي</h2>
+            <div class="story-image img2">🏨</div>
+            <div class="story-text">
+                <p>حجزت سارة غرفة في فندق قديم بعيد عن المدينة. عندما وصلت، وجدت الفندق خالياً تماماً - لا موظفين، لا نزلاء آخرين.</p>
+                <p>صعدت إلى غرفتها في الطابق الخامس. الممر كان طويلاً وهادئاً بشكل غريب. الأضواء كانت تومض بشكل متقطع.</p>
+                <p><em>في منتصف الليل، سمعت سارة أصوات خطوات في الممر. ثم جرس باب غرفتها.</em></p>
+                <p>فتحت الباب ببطء، لكن لم يكن هناك أحد. فقط مرآة قديمة معلقة على الجدار. وعندما نظرت في المرآة، رأت شخصاً خلفها - لكن الغرفة كانت خالية!</p>
+                <p>في الصباح، اكتشفت سارة أن الفندق مغلق منذ 30 سنة بعد حادثة غريبة حيث اختفى جميع الضيوف في ليلة واحدة. والآن، هي جزء من تلك الليلة الملعونة.</p>
+            </div>
+        </div>
+
+        <!-- القصة الثالثة -->
+        <div class="story" id="story-2">
+            <h2 class="story-title">🌲 الغابة المظلمة</h2>
+            <div class="story-image img3">🌲</div>
+            <div class="story-text">
+                <p>ذهب أحمد ورفاقه في رحلة تخييم إلى غابة بعيدة. كانت الغابة جميلة، لكن هناك شيء ما يشعر به غريب.</p>
+                <p>في الليل، بينما كانوا حول النار، شعروا بأن شيئاً ما يراقبهم من الظلام. كانت هناك أصوات غريبة تقترب والتقترب.</p>
+                <p><em>"هل سمعتم ذلك؟" همس أحمد لصديقه. "نعم، وهو يقترب منا."</em></p>
+                <p>فجأة، ظهرت ظلال غريبة حول النار. ظلال بأشكال إنسانية، لكنها تتحرك بطريقة غير طبيعية.</p>
+                <p>حاول الجميع الهروب، لكن الغابة التفت عليهم. في كل مرة يحاولون الخروج، يجدون أنفسهم يعودون إلى نقطة البداية. والظلال تقترب أكثر فأكثر.</p>
+                <p>لم ينجُ أحمد ورفاقه من الغابة. وإلى اليوم، الناس يسمعون أصوات تنادي من داخل الغابة - أصوات أولئك الذين ضاعوا هناك.</p>
+            </div>
+        </div>
+
+        <!-- القصة الرابعة -->
+        <div class="story" id="story-3">
+            <h2 class="story-title">🎎 الدمية القديمة</h2>
+            <div class="story-image img4">🎎</div>
+            <div class="story-text">
+                <p>ورثت فاطمة دمية قديمة من جدتها. كانت الدمية بشعة المظهر، برؤية عميقة وابتسامة غريبة.</p>
+                <p>في الليلة الأولى، استيقظت فاطمة بسبب صوت - صوت الدمية تسقط من الرف. لكن الدمية كانت على بعد متر من مكانها!</p>
+                <p><em>في كل ليلة، تتحرك الدمية أقرب وأقرب إلى سرير فاطمة.</em></p>
+                <p>بدأت فاطمة ترى في الدمية صورة شخص حقيقي - امرأة عجوز بعيون حزينة. الدمية تحاول أن تخبرها شيئاً ما.</p>
+                <p>اكتشفت فاطمة أن الدمية تحتوي على رسالة خطيرة مكتوبة بخط يدها جدتها: "لا تثقي بأحد. هي ليست من تبدو عليه."</p>
+                <p>الآن، فاطمة تفهم - الدمية كانت تحذرها. والشخص الذي تعتقد أنه جدتها ليس جدتها على الإطلاق.</p>
+            </div>
+        </div>
+
+        <!-- القصة الخامسة -->
+        <div class="story" id="story-4">
+            <h2 class="story-title">🪞 الشبح في المرآة</h2>
+            <div class="story-image img5">🪞</div>
+            <div class="story-text">
+                <p>اشترت نور مرآة قديمة من سوق العتيقات. كانت المرآة جميلة، برسومات معقدة على إطارها الخشبي.</p>
+                <p>في الليل الأول، لاحظت نور شيئاً غريباً - في المرآة، ترى نفسها بشكل مختلف قليلاً. ابتسامتها تبدو أوسع، وعينيها تبدو أكثر قتامة.</p>
+                <p><em>"هذا مجرد انعكاس"، قالت نور لنفسها، لكنها لم تكن متأكدة.</em></p>
+                <p>كل ليلة، تصبح النسخة في المرآة أكثر اختلافاً. تقترب من الزجاج. تضع يدها على الجانب الداخلي من المرآة.</p>
+                <p>ذات ليلة، اكتشفت نور أن يدها الحقيقية باردة جداً. ثم أدركت - هي من في المرآة الآن، والنسخة الأخرى تعيش حياتها في العالم الحقيقي.</p>
+                <p>الآن، نور محبوسة في المرآة، تراقب نسختها الأخرى تسرق حياتها. وكل يوم، تقترب أكثر من الزجاج، محاولة الهروب.</p>
+            </div>
         </div>
     </div>
 
-    <div class="grid" id="stories-grid"></div>
+    <!-- الإعدادات -->
+    <div class="settings" id="settings" style="display: none;">
+        <div class="settings-panel" id="settingsPanel">
+            <h3>⚙️ الإعدادات</h3>
+            
+            <div class="setting-item">
+                <label for="fontSize">حجم الخط:</label>
+                <input type="range" id="fontSize" min="14" max="24" value="18">
+            </div>
 
-    <div id="story-viewer" class="viewer">
-        <button onclick="closeStory()" class="btn" style="width:130px; background:#eee;">⬅ عودة للمكتبة</button>
-        <h1 id="v-title"></h1>
-        <p id="v-text"></p>
+            <div class="setting-item">
+                <label for="brightness">السطوع:</label>
+                <input type="range" id="brightness" min="30" max="100" value="100">
+            </div>
+
+            <div class="setting-item">
+                <label for="theme">المظهر:</label>
+                <select id="theme">
+                    <option value="dark">مظهر داكن</option>
+                    <option value="night">وضع الليل</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="settings-btn" id="settingsToggle">⚙️</button>
     </div>
-</div>
 
-<script>
-    // نظام المجلدات بنصوص طويلة جداً
-    const storiesData = [
-        { 
-            id: 1, 
-            title: "صبر أيوب عليه السلام", 
-            price: 150, 
-            text: "يُعد نبي الله أيوب عليه السلام الرمز الخالد للصبر في التاريخ البشري. كان أيوب عليه السلام رجلاً أنعم الله عليه بكل أصناف النعيم؛ فقد كان يمتلك الأراضي الواسعة في بلاد الشام، وكان له من الأنعام والماشية والعبيد ما لا يُحصى، بالإضافة إلى عشرة من الأبناء البارين الذين كانوا يملأون حياته بهجة وسروراً.\n\nبدأ الابتلاء العظيم بفقدان ماله كله في كوارث متلاحقة، ثم هدم البيت على أبنائه فماتوا جميعاً في لحظة واحدة. لم يتوقف الابتلاء عند هذا الحد، بل أصيب أيوب بمرض جلدي شديد أكل لحمه وأقعده عن الحركة، حتى جفاه القريب والبعيد، ولم يبقَ معه إلا زوجته الوفية الصابرة التي باعت ضفائر شعرها لتطعمه.\n\nاستمر هذا الحال ثمانية عشر عاماً، وكان أيوب في كل يوم يزداد حمداً وشكراً لله، ولم يقل إلا: 'اللهم أنت أخذت وأنت أعطيت'. وعندما نادى ربه بقلب خاشع: 'أني مسني الضر وأنت أرحم الراحمين'، جاءه الفرج الإلهي العظيم. أمره الله أن يضرب الأرض بقدمه، فنبع له ماء بارد، فاغتسل منه فشفي ظاهره، وشرب منه فشفي باطنه، وعاد أجمل مما كان، ورد الله له ماله وأهله ومثلهم معهم رحمة منه وعبرة لكل صابر." 
-        },
-        { 
-            id: 2, 
-            title: "أصحاب الكهف والثبات", 
-            price: 200, 
-            text: "في زمان ساد فيه الكفر والظلم، وتجبر ملك يدعى دقيانوس في ملاحقة الموحدين، ظهرت ثلة من الفتية من أبناء أشراف المدينة. آمن هؤلاء الفتية بربهم سراً، لكن أمرهم انكشف للملك الذي هدد بصلبهم وحرقهم إن لم يعودوا لعبادة الأوثان.\n\nقرر الفتية الفرار بدينهم، حاملين معهم إيمانهم فقط، ولجأوا إلى كهف في جبل بعيد. وهناك، في عتمة الكهف، سألوا الله الرحمة: 'ربنا آتنا من لدنك رحمة وهيئ لنا من أمرنا رشداً'. فضرب الله على آذانهم وناموا نومة معجزة.\n\nاستمر نومهم ثلاثمائة وتسع سنوات، كان الله خلالها يقلبهم ذات اليمين وذات الشمال لئلا تأكل الأرض جلودهم، وكانت الشمس تميل عن كهفهم لئلا تحرقهم أشعتها. وعندما استيقظوا، وجدوا عالماً مختلفاً تماماً؛ حيث انتهى الظلم وأصبح التوحيد هو السائد. كانت قصتهم دليلاً حياً وملموساً على أن الله قادر على إحياء الموتى، وأن الحق لا يضيع أبداً مهما طال الزمن." 
-        },
-        { 
-            id: 3, 
-            title: "يوسف عليه السلام.. من البئر إلى العرش", 
-            price: 350, 
-            text: "بدأت قصة يوسف عليه السلام برؤيا عظيمة رآها في منامه، سجد فيها أحد عشر كوكباً والشمس والقمر له. قص الرؤيا على أبيه يعقوب الذي حذره من إخبار إخوته خوفاً من كيدهم. لكن الغيرة تملكت قلوبهم، فألقوه في بئر عميق في الصحراء وتركوه وحيداً.\n\nأنقذته سيارة من التجار وباعوه في مصر بثمن بخس، ليدخل قصر العزيز كخادم. وهناك بدأت محنة الفتنة مع امرأة العزيز، لكن يوسف استعصم بالله وقال: 'معاذ الله'. سجن يوسف ظلماً لسنوات طويلة، لكن السجن كان مدرسة له، حيث فسر رؤى السجناء واشتهر بحكمته.\n\nعندما عجز حكماء مصر عن تفسير رؤيا الملك (السنابل والبقرات)، استدعي يوسف ليقدم حلاً اقتصادياً أنقذ مصر من سبع سنوات مجاعة. وبسبب أمانته وعلمه، أصبح 'عزيز مصر'. وفي النهاية، جاء إخوته إليه طلباً للطعام، فعرفهم وسامحهم في مشهد إنساني مهيب، ليعلن أن الصبر والتقوى هما مفتاح كل فرج، وتحققت رؤياه القديمة في قمة العز والتمكين." 
+    <script>
+        // متغيرات المستخدم
+        let currentUser = null;
+        let currentStory = 0;
+
+        // معالج استجابة Google
+        function handleCredentialResponse(response) {
+            // فك تشفير JWT من Google
+            const responsePayload = decodeJwtResponse(response.credential);
+            
+            // حفظ بيانات المستخدم
+            currentUser = {
+                id: responsePayload.sub,
+                name: responsePayload.name,
+                email: responsePayload.email,
+                picture: responsePayload.picture
+            };
+
+            // حفظ البيانات محلياً
+            localStorage.setItem('user', JSON.stringify(currentUser));
+
+            // عرض بيانات المستخدم
+            displayUser(currentUser);
+
+            // إظهار المحتوى الرئيسي
+            showMainContent();
         }
-    ];
 
-    // إضافة نصوص طويلة لبقية القصص الـ 30
-    const extraTitles = [
-        "سليمان ومنطق الطير", "توبة قاتل المائة", "الأعمى والأبرص", "موسى والعبد الصالح", "بطولات اليرموك", 
-        "عدل الفاروق عمر", "سيدة مكة هاجر", "أخدود المؤمنين", "يونس وظلمات البحر", "النجاشي العادل",
-        "ابنة بائع اللبن", "بلال مؤذن الرسول", "فدائي الغار علي", "نهاية قارون", "فيضان العرم",
-        "وصايا الحكيم لقمان", "فتح بيت المقدس", "خالد سيف الله", "شجاعة أم عمارة", "وفاء العربي السموأل",
-        "خبيب بن عدي والصلب", "زهد عمر بن عبدالعزيز", "معجزة الماء النبوي", "داود وجالوت", "صبر ذات النطاقين",
-        "إبراهيم ونار النمرود", "إسلام أسد الله حمزة"
-    ];
+        // فك تشفير JWT
+        function decodeJwtResponse(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        }
 
-    extraTitles.forEach((title, index) => {
-        storiesData.push({
-            id: index + 4,
-            title: title,
-            price: 180 + (index * 12),
-            text: `تعتبر قصة ${title} واحدة من أهم المجلدات في تاريخنا، حيث تحمل في طياتها تفاصيل لا يعرفها الكثيرون. تبدأ هذه الواقعة في زمنٍ كان فيه الناس بأشد الحاجة إلى هدى ويقين.\n\nلقد سطر أبطال هذه القصة أروع الأمثلة في التضحية والفداء، حيث واجهوا صعوبات جسيمة وتحديات كادت أن تودي بحياتهم، إلا أن الإيمان الراسخ في قلوبهم جعلهم يتجاوزون كل المحن. إننا في هذا المجلد المفصل، نأخذكم في رحلة عبر الزمن لنستكشف البيئة التي نشأت فيها هذه الأحداث، والشخصيات التي أثرت في مجراها.\n\nستجد هنا فقرات تتحدث عن الحكمة المستخلصة من هذه التجربة، وكيف يمكننا تطبيق دروسها في حياتنا المعاصرة. إن قصة ${title} ليست مجرد حكاية تروى، بل هي منهج حياة يعلمنا أن الحق دائماً ما ينتصر في النهاية، وأن العمل الخالص لله هو الذي يبقى أثره مخلداً في صفحات التاريخ. نرجو أن تستمتعوا بقراءة هذا المجلد العميق الذي أعددناه لكم بعناية فائقة ليكون مرجعاً مفيداً وممتعاً.`
+        // عرض بيانات المستخدم
+        function displayUser(user) {
+            document.getElementById('userImage').src = user.picture;
+            document.getElementById('userName').textContent = user.name;
+            document.getElementById('userEmail').textContent = user.email;
+        }
+
+        // إظهار المحتوى الرئيسي
+        function showMainContent() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('header').style.display = 'flex';
+            document.getElementById('sidebar').style.display = 'block';
+            document.getElementById('container').style.display = 'block';
+            document.getElementById('settings').style.display = 'block';
+
+            // استعادة التفضيلات
+            restoreSettings();
+        }
+
+        // تسجيل الخروج
+        function logout() {
+            // محو بيانات المستخدم
+            localStorage.removeItem('user');
+            localStorage.removeItem('lastStory');
+            currentUser = null;
+
+            // إعادة تحميل الصفحة
+            location.reload();
+        }
+
+        // تغيير القصة
+        document.querySelectorAll('.story-list li').forEach((li, index) => {
+            li.addEventListener('click', () => {
+                document.querySelectorAll('.story').forEach(s => s.classList.remove('active'));
+                document.querySelectorAll('.story-list li').forEach(l => l.classList.remove('active'));
+
+                document.getElementById(`story-${index}`).classList.add('active');
+                li.classList.add('active');
+                currentStory = index;
+
+                updateProgressBar();
+                saveProgress();
+            });
         });
-    });
 
-    let points = parseInt(localStorage.getItem('user_pts')) || 5;
-    let ownedStories = JSON.parse(localStorage.getItem('owned_list')) || [];
-
-    window.onload = function() {
-        if (localStorage.getItem('isLoggedIn') === 'true') {
-            const userData = JSON.parse(localStorage.getItem('userData'));
-            showMainPage(userData);
-        }
-    };
-
-    function handleSignIn(response) {
-        const data = JSON.parse(atob(response.credential.split('.')[1]));
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('userData', JSON.stringify(data));
-        showMainPage(data);
-    }
-
-    function showMainPage(data) {
-        document.getElementById('login-overlay').style.display = 'none';
-        document.getElementById('main-header').style.display = 'flex';
-        document.getElementById('main-content').style.display = 'block';
-        document.getElementById('user-img').src = data.picture;
-        document.getElementById('user-welcome').innerText = `مرحباً بك، ${data.name}`;
-        updateUI();
-    }
-
-    function toggleLogoutMenu() {
-        const menu = document.getElementById('logout-menu');
-        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function logout() {
-        localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('userData');
-        location.reload();
-    }
-
-    function updateUI() {
-        document.getElementById('pts').innerText = points;
-        const grid = document.getElementById('stories-grid');
-        grid.innerHTML = '';
-        storiesData.forEach(s => {
-            const isOwned = ownedStories.includes(s.id);
-            grid.innerHTML += `
-                <div class="card">
-                    <h3>${s.title}</h3>
-                    <p style="color:#64748b; font-size:0.85rem; margin-bottom:10px;">مجلد تاريخي طويل</p>
-                    ${isOwned ? `<button class="btn btn-read" onclick="readStory(${s.id})">📖 قراءة المجلد</button>` : `<button class="btn btn-buy" onclick="buyStory(${s.id}, ${s.price})">🔓 شراء بـ ${s.price} جوهرة</button>`}
-                </div>`;
+        // تبديل الإعدادات
+        document.getElementById('settingsToggle').addEventListener('click', () => {
+            document.getElementById('settingsPanel').classList.toggle('active');
         });
-        localStorage.setItem('user_pts', points);
-        localStorage.setItem('owned_list', JSON.stringify(ownedStories));
-    }
 
-    function buyStory(id, price) {
-        if (points >= price) {
-            points -= price;
-            ownedStories.push(id);
-            updateUI();
-            alert("✅ تم شراء المجلد! يمكنك الآن قراءة القصة كاملة.");
-        } else {
-            alert("❌ جواهرك غير كافية! اجمع المزيد من خلال الاختبارات.");
-        }
-    }
-
-    function readStory(id) {
-        const s = storiesData.find(x => x.id === id);
-        document.getElementById('main-content').querySelector('#quiz-section').style.display = 'none';
-        document.getElementById('stories-grid').style.display = 'none';
-        document.getElementById('story-viewer').style.display = 'block';
-        document.getElementById('v-title').innerText = s.title;
-        document.getElementById('v-text').innerText = s.text;
-        window.scrollTo(0,0);
-    }
-
-    function closeStory() {
-        document.getElementById('main-content').querySelector('#quiz-section').style.display = 'block';
-        document.getElementById('stories-grid').style.display = 'grid';
-        document.getElementById('story-viewer').style.display = 'none';
-    }
-
-    function showQuiz() {
-        const qBox = document.getElementById('quiz-box');
-        qBox.style.display = 'block';
-        const questions = [
-            { q: "من هو النبي الذي لقب بـ ذو النون؟", a: ["يونس", "إبراهيم", "عيسى"], c: 0 },
-            { q: "كم عدد سجدات التلاوة في القرآن؟", a: ["10", "15", "12"], c: 1 },
-            { q: "من هو الصحابي الذي اهتز لموته عرش الرحمن؟", a: ["سعد بن معاذ", "خالد بن الوليد", "علي بن أبي طالب"], c: 0 }
-        ];
-        const q = questions[Math.floor(Math.random() * questions.length)];
-        document.getElementById('q-text').innerText = q.q;
-        const optDiv = document.getElementById('options');
-        optDiv.innerHTML = '';
-        q.a.forEach((ans, idx) => {
-            optDiv.innerHTML += `<button class="option-btn" onclick="checkAnswer(${idx}, ${q.c})">${ans}</button>`;
+        // حجم الخط
+        document.getElementById('fontSize').addEventListener('input', (e) => {
+            document.querySelectorAll('.story-text').forEach(text => {
+                text.style.fontSize = e.target.value + 'px';
+            });
+            localStorage.setItem('fontSize', e.target.value);
         });
-    }
 
-    function checkAnswer(chosen, correct) {
-        if (chosen === correct) {
-            const reward = Math.floor(Math.random() * 6) + 5; 
-            points += reward;
-            alert(`🎉 إجابة صحيحة! ربحت ${reward} جواهر.`);
-        } else {
-            alert("😕 إجابة خاطئة.");
+        // السطوع
+        document.getElementById('brightness').addEventListener('input', (e) => {
+            document.body.style.filter = `brightness(${e.target.value}%)`;
+            localStorage.setItem('brightness', e.target.value);
+        });
+
+        // المظهر
+        document.getElementById('theme').addEventListener('change', (e) => {
+            localStorage.setItem('theme', e.target.value);
+        });
+
+        // تحديث شريط التقدم
+        function updateProgressBar() {
+            const progress = ((currentStory + 1) / 5) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
         }
-        document.getElementById('quiz-box').style.display = 'none';
-        updateUI();
-    }
-</script>
+
+        // حفظ التقدم
+        function saveProgress() {
+            if (currentUser) {
+                localStorage.setItem('lastStory', currentStory);
+            }
+        }
+
+        // استعادة الإعدادات
+        function restoreSettings() {
+            const fontSize = localStorage.getItem('fontSize');
+            const brightness = localStorage.getItem('brightness');
+            const theme = localStorage.getItem('theme');
+            const lastStory = localStorage.getItem('lastStory');
+
+            if (fontSize) {
+                document.getElementById('fontSize').value = fontSize;
+                document.getElementById('fontSize').dispatchEvent(new Event('input'));
+            }
+            if (brightness) {
+                document.getElementById('brightness').value = brightness;
+                document.getElementById('brightness').dispatchEvent(new Event('input'));
+            }
+            if (theme) {
+                document.getElementById('theme').value = theme;
+            }
+            if (lastStory) {
+                document.querySelectorAll('.story-list li')[lastStory].click();
+            }
+        }
+
+        // فحص تسجيل الدخول عند التحميل
+        window.addEventListener('load', () => {
+            const savedUser = localStorage.getItem('user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                displayUser(currentUser);
+                showMainContent();
+            }
+        });
+
+        // تعديل onload callback
+        window.handleCredentialResponse = handleCredentialResponse;
+    </script>
 </body>
 </html>
