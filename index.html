@@ -924,16 +924,10 @@
                     <h2 class="story-title">${story.title}</h2>
                     <div class="story-controls">
                         <button class="story-btn" onclick="speakStory(${index})">
-                            🔊 اقرأ بصوت
+                            🔊 قراءة القصة
                         </button>
                         <button class="story-btn" onclick="stopSpeaking()">
-                            ⏹️ إيقاف
-                        </button>
-                        <button class="story-btn" onclick="pauseSpeaking()">
-                            ⏸️ إيقاف مؤقت
-                        </button>
-                        <button class="story-btn" onclick="resumeSpeaking()">
-                            ▶️ استئناف
+                            ⏹️ توقف
                         </button>
                     </div>
                     <div class="voice-status inactive" id="status-${index}">🔴 لم يتم التشغيل</div>
@@ -980,24 +974,14 @@
             utterance.onstart = () => {
                 isSpeaking = true;
                 isPaused = false;
-                statusEl.textContent = '🟢 جاري التشغيل... اضغط استئناف للمتابعة بعد الإيقاف المؤقت';
+                statusEl.textContent = '🟢 جاري القراءة...';
                 statusEl.classList.remove('inactive');
             };
 
             utterance.onend = () => {
                 isSpeaking = false;
-                statusEl.textContent = '✅ انتهى التشغيل';
+                statusEl.textContent = '✅ انتهت القراءة';
                 statusEl.classList.add('inactive');
-            };
-
-            utterance.onpause = () => {
-                isPaused = true;
-                statusEl.textContent = '⏸️ مؤقف مؤقتاً';
-            };
-
-            utterance.onresume = () => {
-                isPaused = false;
-                statusEl.textContent = '🟢 جاري التشغيل...';
             };
 
             utterance.onerror = (event) => {
@@ -1017,22 +1001,6 @@
                 s.textContent = '🔴 متوقفة';
                 s.classList.add('inactive');
             });
-        }
-
-        // إيقاف مؤقت
-        function pauseSpeaking() {
-            if (isSpeaking && !isPaused) {
-                speechSynthesis.pause();
-                isPaused = true;
-            }
-        }
-
-        // استئناف
-        function resumeSpeaking() {
-            if (isPaused) {
-                speechSynthesis.resume();
-                isPaused = false;
-            }
         }
 
         // تحديث شريط التقدم
