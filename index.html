@@ -103,7 +103,10 @@
             justify-content: space-between;
             align-items: center;
             backdrop-filter: blur(10px);
-            position: relative;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
             z-index: 100;
         }
 
@@ -164,13 +167,29 @@
             box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
         }
 
+        /* زر القائمة للموبايل */
+        .menu-toggle {
+            display: none;
+            background: #ff4444;
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+        }
+
         /* القائمة الجانبية */
         .sidebar {
             position: fixed;
             left: 0;
-            top: 80px;
+            top: 100px;
             width: 280px;
-            height: calc(100vh - 80px);
+            height: calc(100vh - 100px);
             background: linear-gradient(180deg, rgba(26, 26, 26, 0.95), rgba(45, 45, 45, 0.95));
             padding: 20px;
             border-right: 2px solid #8b0000;
@@ -178,6 +197,7 @@
             z-index: 1000;
             backdrop-filter: blur(10px);
             box-shadow: inset -20px 0 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
         }
 
         .sidebar::-webkit-scrollbar {
@@ -231,7 +251,7 @@
         /* المحتوى الرئيسي */
         .container {
             margin-left: 280px;
-            margin-top: 80px;
+            margin-top: 100px;
             padding: 40px;
             min-height: 100vh;
             position: relative;
@@ -287,10 +307,6 @@
             box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
         }
 
-        .story-btn.favorite {
-            background: linear-gradient(135deg, #ffaa00, #ff8800);
-        }
-
         .story-title {
             font-size: 36px;
             color: #ff4444;
@@ -321,160 +337,6 @@
             color: #ff4444;
             font-style: italic;
             text-shadow: 0 0 5px rgba(255, 68, 68, 0.5);
-        }
-
-        /* نظام التقييم */
-        .rating-section {
-            background: rgba(139, 0, 0, 0.2);
-            padding: 15px;
-            border-radius: 5px;
-            margin: 20px 0;
-            border-left: 4px solid #ffaa00;
-        }
-
-        .rating-label {
-            color: #ffaa00;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .star-rating {
-            display: flex;
-            gap: 10px;
-            margin: 10px 0;
-        }
-
-        .star {
-            font-size: 28px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .star:hover, .star.active {
-            color: #ffaa00;
-            transform: scale(1.2);
-        }
-
-        /* نظام التعليقات */
-        .comments-section {
-            background: rgba(139, 0, 0, 0.2);
-            padding: 20px;
-            border-radius: 5px;
-            margin: 20px 0;
-            border-left: 4px solid #00ff00;
-        }
-
-        .comments-title {
-            color: #00ff00;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .comment-input {
-            width: 100%;
-            padding: 12px;
-            background: rgba(51, 51, 51, 0.8);
-            border: 1px solid #00ff00;
-            border-radius: 5px;
-            color: white;
-            resize: vertical;
-            min-height: 80px;
-            margin-bottom: 10px;
-        }
-
-        .comment-btn {
-            background: linear-gradient(135deg, #00ff00, #00dd00);
-            color: black;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-
-        .comment-btn:hover {
-            background: linear-gradient(135deg, #00dd00, #00bb00);
-            transform: translateY(-2px);
-        }
-
-        .comments-list {
-            margin-top: 15px;
-        }
-
-        .comment {
-            background: rgba(0, 255, 0, 0.1);
-            padding: 12px;
-            margin: 10px 0;
-            border-left: 3px solid #00ff00;
-            border-radius: 5px;
-        }
-
-        .comment-author {
-            color: #00ff00;
-            font-weight: bold;
-            font-size: 12px;
-        }
-
-        .comment-text {
-            color: #e0e0e0;
-            margin-top: 5px;
-        }
-
-        /* نظام الإعدادات المتقدم */
-        .preferences-section {
-            background: rgba(139, 0, 0, 0.2);
-            padding: 15px;
-            border-radius: 5px;
-            margin: 20px 0;
-            border-left: 4px solid #00ccff;
-        }
-
-        .preference-label {
-            color: #00ccff;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .checkbox-group label {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            color: #e0e0e0;
-            font-size: 14px;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            margin-right: 10px;
-            cursor: pointer;
-        }
-
-        /* الإحصائيات */
-        .statistics-section {
-            background: rgba(139, 0, 0, 0.2);
-            padding: 20px;
-            border-radius: 5px;
-            margin: 20px 0;
-            border-left: 4px solid #ff00ff;
-        }
-
-        .stat-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 68, 68, 0.2);
-            color: #e0e0e0;
-        }
-
-        .stat-value {
-            color: #ff00ff;
-            font-weight: bold;
         }
 
         /* الإعدادات */
@@ -586,41 +448,223 @@
             color: #ff4444;
         }
 
+        .device-info {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 10px;
+            color: #00ff00;
+            z-index: 999;
+        }
+
+        /* ==================== تصميم الموبايل ==================== */
         @media (max-width: 768px) {
+            body.mobile-device {
+                font-size: 14px;
+            }
+
+            /* إخفاء القائمة الجانبية بشكل افتراضي */
             .sidebar {
-                width: 200px;
+                transform: translateX(-100%);
+                width: 85%;
+                max-width: 300px;
+                top: 80px;
+                height: calc(100vh - 80px);
             }
 
+            .sidebar.active {
+                transform: translateX(0);
+                box-shadow: 5px 0 20px rgba(0, 0, 0, 0.8);
+            }
+
+            /* إظهار زر القائمة */
+            .menu-toggle {
+                display: block;
+            }
+
+            /* تعديل المحتوى الرئيسي */
             .container {
-                margin-left: 200px;
-                padding: 20px;
+                margin-left: 0;
+                margin-top: 80px;
+                padding: 15px;
             }
 
+            /* تعديل الهيدر */
             header {
                 flex-direction: column;
-                gap: 15px;
+                gap: 10px;
+                padding: 15px;
             }
 
             header h1 {
-                font-size: 32px;
+                font-size: 24px;
             }
 
             .user-profile {
                 width: 100%;
+                justify-content: space-between;
+                padding: 10px;
             }
 
+            .user-profile img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .user-info .name {
+                font-size: 12px;
+            }
+
+            .user-info .email {
+                font-size: 10px;
+            }
+
+            .logout-btn {
+                padding: 6px 15px;
+                font-size: 12px;
+            }
+
+            /* تعديل عنوان القصة */
+            .story-title {
+                font-size: 24px;
+                margin: 15px 0;
+            }
+
+            /* تعديل نص القصة */
+            .story-text {
+                font-size: 16px;
+                padding: 15px;
+                line-height: 1.6;
+            }
+
+            /* تعديل الأزرار */
             .story-controls {
                 flex-direction: column;
+                gap: 8px;
             }
 
             .story-btn {
                 width: 100%;
                 justify-content: center;
+                padding: 15px;
+                font-size: 16px;
             }
+
+            /* تعديل الإعدادات */
+            .settings {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .settings-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+
+            .settings-panel {
+                width: calc(100vw - 40px);
+                right: 20px;
+                left: 20px;
+                bottom: 80px;
+                max-height: 60vh;
+            }
+
+            /* تعديل شاشة تسجيل الدخول */
+            .login-container {
+                padding: 40px 20px;
+                width: 95%;
+            }
+
+            .login-container h1 {
+                font-size: 32px;
+            }
+
+            .login-container p {
+                font-size: 14px;
+            }
+
+            /* تحسين قائمة القصص */
+            .story-list li {
+                font-size: 15px;
+                padding: 15px;
+            }
+        }
+
+        /* ==================== تصميم التابلت ==================== */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            body.tablet-device .sidebar {
+                width: 220px;
+            }
+
+            body.tablet-device .container {
+                margin-left: 220px;
+                padding: 30px;
+            }
+
+            body.tablet-device header h1 {
+                font-size: 36px;
+            }
+
+            body.tablet-device .story-title {
+                font-size: 28px;
+            }
+
+            body.tablet-device .story-text {
+                font-size: 17px;
+            }
+        }
+
+        /* تحسينات إضافية للموبايل */
+        @media (max-width: 480px) {
+            .story-text {
+                font-size: 15px;
+                padding: 12px;
+            }
+
+            .story-title {
+                font-size: 20px;
+            }
+
+            header h1 {
+                font-size: 20px;
+            }
+
+            .settings-panel {
+                max-height: 50vh;
+            }
+        }
+
+        /* Overlay للقائمة الجانبية */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
         }
     </style>
 </head>
 <body>
+    <!-- معلومات الجهاز -->
+    <div class="device-info" id="deviceInfo">جاري الكشف...</div>
+
+    <!-- Overlay للقائمة -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- زر القائمة للموبايل -->
+    <button class="menu-toggle" id="menuToggle">☰</button>
+
     <!-- شاشة تسجيل الدخول -->
     <div class="login-screen" id="loginScreen">
         <div class="login-container">
@@ -647,7 +691,7 @@
                 <div class="name" id="userName">المستخدم</div>
                 <div class="email" id="userEmail">البريد الإلكتروني</div>
             </div>
-            <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
+            <button class="logout-btn" onclick="logout()">خروج</button>
         </div>
     </header>
 
@@ -682,7 +726,7 @@
             </div>
 
             <div class="setting-item">
-                <label for="voiceSpeed">سرعة الكشافة:</label>
+                <label for="voiceSpeed">سرعة القراءة:</label>
                 <input type="range" id="voiceSpeed" min="0.5" max="2" step="0.1" value="1">
                 <span id="speedValue">1x</span>
             </div>
@@ -702,26 +746,63 @@
     </div>
 
     <script>
+        // ==================== اكتشاف نوع الجهاز ====================
+        function detectDevice() {
+            const ua = navigator.userAgent;
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            
+            let deviceType = 'desktop';
+            let deviceDetails = '';
+
+            // اكتشاف نوع الجهاز بناءً على User Agent والشاشة
+            if (/android/i.test(ua)) {
+                deviceType = 'mobile';
+                deviceDetails = 'Android';
+            } else if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
+                if (width > 768) {
+                    deviceType = 'tablet';
+                    deviceDetails = 'iPad';
+                } else {
+                    deviceType = 'mobile';
+                    deviceDetails = 'iPhone';
+                }
+            } else if (/Mobile|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(ua)) {
+                deviceType = 'mobile';
+                deviceDetails = 'Mobile Browser';
+            } else if (width <= 768) {
+                deviceType = 'mobile';
+                deviceDetails = 'Small Screen';
+            } else if (width > 768 && width <= 1024) {
+                deviceType = 'tablet';
+                deviceDetails = 'Tablet';
+            }
+
+            // إضافة كلاس للbody
+            document.body.classList.add(`${deviceType}-device`);
+
+            // عرض معلومات الجهاز
+            const deviceInfo = document.getElementById('deviceInfo');
+            deviceInfo.textContent = `📱 ${deviceDetails} | ${width}x${height}px | ${deviceType}`;
+
+            console.log('🔍 Device Detection:', {
+                type: deviceType,
+                details: deviceDetails,
+                width: width,
+                height: height,
+                userAgent: ua
+            });
+
+            return deviceType;
+        }
+
         // متغيرات المستخدم
         let currentUser = null;
         let currentStory = 0;
         let isSpeaking = false;
         let utterance = null;
         let isPaused = false;
-
-        // قاعدة بيانات المستخدمين
-        let userData = {
-            favorites: [],
-            ratings: {},
-            comments: {},
-            readStories: [],
-            readingTime: {},
-            preferences: {
-                notifications: true,
-                darkMode: true,
-                notificationEmail: true
-            }
-        };
+        let deviceType = 'desktop';
 
         // بيانات القصص (20 قصة)
         const stories = [
@@ -813,7 +894,7 @@
             {
                 id: 17,
                 title: 'المرآة الثانية',
-                text: 'اشترت سارة مرآة ثانية لتضعها في منزلها. الآن عندها مرآتان. في البداية، لم تلاحظ أي شيء غريب. لكن بعد بضعة أيام، اكتشفت شيئاً: كل مرآة تعرض نسخة مختلفة منها. في مرآة، هي تبدو شاحبة. في الأخرى، هي تبدو شريرة. المرآتان تريانها بطرق مختلفة. والآن، سارة لا تعرف أي نسخة هي النسخة الحقيقية. والمرآتان تحاولان إقناعها بأنها نسخة مزيفة.'
+                text: 'اشترى سارة مرآة ثانية لتضعها في منزلها. الآن عندها مرآتان. في البداية، لم تلاحظ أي شيء غريب. لكن بعد بضعة أيام، اكتشفت شيئاً: كل مرآة تعرض نسخة مختلفة منها. في مرآة، هي تبدو شاحبة. في الأخرى، هي تبدو شريرة. المرآتان تريانها بطرق مختلفة. والآن، سارة لا تعرف أي نسخة هي النسخة الحقيقية. والمرآتان تحاولان إقناعها بأنها نسخة مزيفة.'
             },
             {
                 id: 18,
@@ -839,7 +920,6 @@
             };
 
             localStorage.setItem('user', JSON.stringify(currentUser));
-            loadUserData();
             displayUser(currentUser);
             showMainContent();
         }
@@ -854,101 +934,11 @@
             return JSON.parse(jsonPayload);
         }
 
-        // تحميل بيانات المستخدم
-        function loadUserData() {
-            const saved = localStorage.getItem(`userData_${currentUser.id}`);
-            if (saved) {
-                userData = JSON.parse(saved);
-            }
-        }
-
-        // حفظ بيانات المستخدم
-        function saveUserData() {
-            localStorage.setItem(`userData_${currentUser.id}`, JSON.stringify(userData));
-        }
-
         // عرض بيانات المستخدم
         function displayUser(user) {
             document.getElementById('userImage').src = user.picture;
             document.getElementById('userName').textContent = user.name;
             document.getElementById('userEmail').textContent = user.email;
-        }
-
-        // إضافة/إزالة من المفضلة
-        function toggleFavorite(index) {
-            const btn = document.querySelector(`[data-story="${index}"] .favorite-btn`);
-            if (userData.favorites.includes(index)) {
-                userData.favorites = userData.favorites.filter(id => id !== index);
-                btn.classList.remove('favorite');
-                btn.textContent = '❤️ أضف للمفضلة';
-            } else {
-                userData.favorites.push(index);
-                btn.classList.add('favorite');
-                btn.textContent = '❌ إزالة من المفضلة';
-            }
-            saveUserData();
-        }
-
-        // تقييم القصة
-        function rateStory(index, rating) {
-            userData.ratings[index] = rating;
-            saveUserData();
-            updateStarRating(index, rating);
-            alert(`تم تقييم القصة بـ ${rating} نجوم`);
-        }
-
-        // تحديث نجوم التقييم
-        function updateStarRating(index, rating) {
-            document.querySelectorAll(`#story-${index} .star`).forEach((star, i) => {
-                if (i < rating) {
-                    star.classList.add('active');
-                } else {
-                    star.classList.remove('active');
-                }
-            });
-        }
-
-        // إضافة تعليق
-        function addComment(index) {
-            const commentInput = document.getElementById(`comment-input-${index}`);
-            const commentText = commentInput.value.trim();
-            
-            if (!commentText) {
-                alert('يرجى كتابة تعليق');
-                return;
-            }
-
-            if (!userData.comments[index]) {
-                userData.comments[index] = [];
-            }
-
-            userData.comments[index].push({
-                author: currentUser.name,
-                text: commentText,
-                date: new Date().toLocaleDateString('ar-SA')
-            });
-
-            saveUserData();
-            commentInput.value = '';
-            displayComments(index);
-        }
-
-        // عرض التعليقات
-        function displayComments(index) {
-            const commentsList = document.getElementById(`comments-list-${index}`);
-            commentsList.innerHTML = '';
-
-            if (userData.comments[index]) {
-                userData.comments[index].forEach(comment => {
-                    const commentDiv = document.createElement('div');
-                    commentDiv.className = 'comment';
-                    commentDiv.innerHTML = `
-                        <div class="comment-author">${comment.author} - ${comment.date}</div>
-                        <div class="comment-text">${comment.text}</div>
-                    `;
-                    commentsList.appendChild(commentDiv);
-                });
-            }
         }
 
         // بناء القصص ديناميكياً
@@ -960,21 +950,21 @@
                 // إضافة في القائمة الجانبية
                 const li = document.createElement('li');
                 li.dataset.story = index;
-                const favIcon = userData.favorites.includes(index) ? '❤️' : '🤍';
-                li.textContent = `${favIcon} ${story.title}`;
+                li.textContent = `${index + 1}. ${story.title}`;
                 if (index === 0) li.classList.add('active');
-                li.addEventListener('click', () => selectStory(index));
+                li.addEventListener('click', () => {
+                    selectStory(index);
+                    // إغلاق القائمة على الموبايل
+                    if (deviceType === 'mobile') {
+                        closeSidebar();
+                    }
+                });
                 storyList.appendChild(li);
 
                 // إضافة القصة
                 const storyDiv = document.createElement('div');
                 storyDiv.className = 'story' + (index === 0 ? ' active' : '');
                 storyDiv.id = `story-${index}`;
-                
-                const isFavorite = userData.favorites.includes(index);
-                const favoriteText = isFavorite ? '❌ إزالة من المفضلة' : '❤️ أضف للمفضلة';
-                const rating = userData.ratings[index] || 0;
-
                 storyDiv.innerHTML = `
                     <h2 class="story-title">${story.title}</h2>
                     <div class="story-controls">
@@ -990,79 +980,14 @@
                         <button class="story-btn" onclick="resumeSpeaking()">
                             ▶️ استئناف
                         </button>
-                        <button class="story-btn favorite-btn ${isFavorite ? 'favorite' : ''}" onclick="toggleFavorite(${index})">
-                            ${favoriteText}
-                        </button>
                     </div>
                     <div class="voice-status inactive" id="status-${index}">🔴 لم يتم التشغيل</div>
-
-                    <!-- نظام التقييم -->
-                    <div class="rating-section">
-                        <div class="rating-label">قيّم هذه القصة ⭐</div>
-                        <div class="star-rating">
-                            ${[1,2,3,4,5].map(i => `<span class="star ${i <= rating ? 'active' : ''}" onclick="rateStory(${index}, ${i})">⭐</span>`).join('')}
-                        </div>
-                    </div>
-
-                    <!-- نظام التعليقات -->
-                    <div class="comments-section">
-                        <div class="comments-title">💬 التعليقات</div>
-                        <textarea class="comment-input" id="comment-input-${index}" placeholder="أضف تعليقك..."></textarea>
-                        <button class="comment-btn" onclick="addComment(${index})">إضافة تعليق</button>
-                        <div class="comments-list" id="comments-list-${index}"></div>
-                    </div>
-
-                    <!-- نظام الإعدادات الشخصية -->
-                    <div class="preferences-section">
-                        <div class="preference-label">📋 تفضيلاتك</div>
-                        <div class="checkbox-group">
-                            <label>
-                                <input type="checkbox" id="notif-${index}" ${userData.preferences.notifications ? 'checked' : ''} onchange="updatePreference('notifications', ${index})">
-                                إرسال إشعار عند قصص جديدة مشابهة
-                            </label>
-                            <label>
-                                <input type="checkbox" id="email-${index}" ${userData.preferences.notificationEmail ? 'checked' : ''} onchange="updatePreference('notificationEmail', ${index})">
-                                إرسال بريد إلكتروني للتحديثات
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- الإحصائيات -->
-                    <div class="statistics-section">
-                        <div class="stat-item">
-                            <span>عدد القصص المقروءة:</span>
-                            <span class="stat-value">${userData.readStories.length}</span>
-                        </div>
-                        <div class="stat-item">
-                            <span>عدد المفضلة:</span>
-                            <span class="stat-value">${userData.favorites.length}</span>
-                        </div>
-                        <div class="stat-item">
-                            <span>عدد التقييمات:</span>
-                            <span class="stat-value">${Object.keys(userData.ratings).length}</span>
-                        </div>
-                        <div class="stat-item">
-                            <span>عدد التعليقات:</span>
-                            <span class="stat-value">${userData.comments[index] ? userData.comments[index].length : 0}</span>
-                        </div>
-                    </div>
-
                     <div class="story-text">
                         ${story.text.split('. ').map(p => p.trim() ? `<p>${p}.</p>` : '').join('')}
                     </div>
                 `;
                 storiesContainer.appendChild(storyDiv);
-
-                // عرض التعليقات الموجودة
-                displayComments(index);
             });
-        }
-
-        // تحديث التفضيلات
-        function updatePreference(key, index) {
-            const checkbox = document.getElementById(`${key === 'notifications' ? 'notif' : 'email'}-${index}`);
-            userData.preferences[key] = checkbox.checked;
-            saveUserData();
         }
 
         // تحديد قصة
@@ -1074,14 +999,11 @@
             document.querySelector(`[data-story="${index}"]`).classList.add('active');
             currentStory = index;
 
-            if (!userData.readStories.includes(index)) {
-                userData.readStories.push(index);
-            }
-
             updateProgressBar();
             saveProgress();
             stopSpeaking();
 
+            // Scroll إلى أعلى
             document.querySelector('.container').scrollTop = 0;
         }
 
@@ -1115,7 +1037,7 @@
 
             utterance.onpause = () => {
                 isPaused = true;
-                statusEl.textContent = '⏸️ مؤقف مؤقتاً';
+                statusEl.textContent = '⏸️ متوقف مؤقتاً';
             };
 
             utterance.onresume = () => {
@@ -1137,7 +1059,7 @@
             isSpeaking = false;
             isPaused = false;
             document.querySelectorAll('.voice-status').forEach(s => {
-                s.textContent = '🔴 متوقفة';
+                s.textContent = '🔴 متوقف';
                 s.classList.add('inactive');
             });
         }
@@ -1224,8 +1146,41 @@
             }
         }
 
+        // فتح/إغلاق القائمة الجانبية (للموبايل)
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+
         // تبديل الإعدادات
         document.addEventListener('DOMContentLoaded', () => {
+            // اكتشاف نوع الجهاز
+            deviceType = detectDevice();
+
+            // زر القائمة للموبايل
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            
+            if (menuToggle) {
+                menuToggle.addEventListener('click', toggleSidebar);
+            }
+
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', closeSidebar);
+            }
+
+            // الإعدادات
             const settingsToggle = document.getElementById('settingsToggle');
             if (settingsToggle) {
                 settingsToggle.addEventListener('click', () => {
@@ -1286,6 +1241,28 @@
                     localStorage.setItem('voicePitch', e.target.value);
                 });
             }
+
+            // إعادة اكتشاف الجهاز عند تغيير حجم الشاشة
+            window.addEventListener('resize', () => {
+                const newDeviceType = detectDevice();
+                if (newDeviceType !== deviceType) {
+                    document.body.classList.remove(`${deviceType}-device`);
+                    deviceType = newDeviceType;
+                    document.body.classList.add(`${deviceType}-device`);
+                }
+            });
+
+            // إغلاق لوحة الإعدادات عند النقر خارجها
+            document.addEventListener('click', (e) => {
+                const settingsPanel = document.getElementById('settingsPanel');
+                const settingsBtn = document.getElementById('settingsToggle');
+                
+                if (settingsPanel && settingsBtn) {
+                    if (!settingsPanel.contains(e.target) && !settingsBtn.contains(e.target)) {
+                        settingsPanel.classList.remove('active');
+                    }
+                }
+            });
         });
 
         // فحص تسجيل الدخول عند التحميل
@@ -1294,7 +1271,6 @@
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
                 displayUser(currentUser);
-                loadUserData();
                 showMainContent();
             }
         });
