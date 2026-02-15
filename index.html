@@ -724,6 +724,24 @@
         let utterance = null;
         let isPaused = false;
 
+        // تهيئة خاصة للهواتف المحمولة
+        let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        // التأكد من دعم القراءة الصوتية
+        if (!window.speechSynthesis) {
+            console.error('المتصفح لا يدعم القراءة الصوتية');
+        }
+        
+        // للهواتف: تهيئة الصوت عند أول تفاعل
+        if (isMobile) {
+            document.addEventListener('touchstart', function initAudio() {
+                const utterance = new SpeechSynthesisUtterance('');
+                speechSynthesis.speak(utterance);
+                speechSynthesis.cancel();
+                document.removeEventListener('touchstart', initAudio);
+            }, { once: true });
+        }
+
         // دالة تنظيف النص من الرموز قبل القراءة
         function cleanTextForSpeech(text) {
             return text
@@ -963,6 +981,7 @@
             const story = stories[index];
             const text = cleanTextForSpeech(story.text); // تنظيف النص من الرموز
             
+            // للهواتف: يجب إنشاء utterance جديد مباشرة عند النقر
             utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'ar-SA';
             utterance.rate = parseFloat(document.getElementById('voiceSpeed').value);
@@ -985,22 +1004,50 @@
             };
 
             utterance.onerror = (event) => {
-                statusEl.textContent = '❌ خطأ في التشغيل: ' + event.error;
+                console.error('خطأ في القراءة:', event);
+                statusEl.textContent = '❌ خطأ في التشغيل - حاول مرة أخرى';
                 statusEl.classList.add('inactive');
+                isSpeaking = false;
+                
+                // إعادة المحاولة للهواتف
+                setTimeout(() => {
+                    if (confirm('حدث خطأ في القراءة. هل تريد المحاولة مرة أخرى؟')) {
+                        speakStory(index);
+                    }
+                }, 100);
             };
 
-            speechSynthesis.speak(utterance);
+            // للهواتف: التأكد من تفعيل الصوت أولاً
+            try {
+                speechSynthesis.cancel(); // إلغاء أي قراءة سابقة
+                speechSynthesis.speak(utterance);
+                
+                // التأكد من بدء القراءة على الهواتف
+                setTimeout(() => {
+                    if (!isSpeaking && speechSynthesis.paused) {
+                        speechSynthesis.resume();
+                    }
+                }, 100);
+            } catch (error) {
+                console.error('خطأ:', error);
+                statusEl.textContent = '❌ المتصفح لا يدعم القراءة الصوتية';
+                statusEl.classList.add('inactive');
+            }
         }
 
         // إيقاف القراءة
         function stopSpeaking() {
-            speechSynthesis.cancel();
-            isSpeaking = false;
-            isPaused = false;
-            document.querySelectorAll('.voice-status').forEach(s => {
-                s.textContent = '🔴 متوقفة';
-                s.classList.add('inactive');
-            });
+            try {
+                speechSynthesis.cancel();
+                isSpeaking = false;
+                isPaused = false;
+                document.querySelectorAll('.voice-status').forEach(s => {
+                    s.textContent = '🔴 متوقفة';
+                    s.classList.add('inactive');
+                });
+            } catch (error) {
+                console.error('خطأ في إيقاف القراءة:', error);
+            }
         }
 
         // تحديث شريط التقدم
