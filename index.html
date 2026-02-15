@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>قصص الرعب المرعبة</title>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6847506129570052"
+     crossorigin="anonymous"></script>
+    
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         * {
@@ -30,6 +35,7 @@
             100% { background-position: 100px 100px, 150px 150px, -200% -200%; }
         }
 
+        /* تأثيرات مرعبة */
         body::before {
             content: '';
             position: fixed;
@@ -103,10 +109,7 @@
             justify-content: space-between;
             align-items: center;
             backdrop-filter: blur(10px);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            position: relative;
             z-index: 100;
         }
 
@@ -187,9 +190,9 @@
         .sidebar {
             position: fixed;
             left: 0;
-            top: 100px;
+            top: 80px;
             width: 280px;
-            height: calc(100vh - 100px);
+            height: calc(100vh - 80px);
             background: linear-gradient(180deg, rgba(26, 26, 26, 0.95), rgba(45, 45, 45, 0.95));
             padding: 20px;
             border-right: 2px solid #8b0000;
@@ -251,7 +254,7 @@
         /* المحتوى الرئيسي */
         .container {
             margin-left: 280px;
-            margin-top: 100px;
+            margin-top: 80px;
             padding: 40px;
             min-height: 100vh;
             position: relative;
@@ -337,6 +340,20 @@
             color: #ff4444;
             font-style: italic;
             text-shadow: 0 0 5px rgba(255, 68, 68, 0.5);
+        }
+
+        .voice-speed {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+            background: rgba(139, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .voice-speed input {
+            width: 150px;
         }
 
         /* الإعدادات */
@@ -448,31 +465,29 @@
             color: #ff4444;
         }
 
-        .device-info {
+        /* Overlay للقائمة الجانبية */
+        .sidebar-overlay {
+            display: none;
             position: fixed;
-            bottom: 10px;
-            left: 10px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0, 0, 0, 0.7);
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 10px;
-            color: #00ff00;
             z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
         }
 
         /* ==================== تصميم الموبايل ==================== */
         @media (max-width: 768px) {
-            body.mobile-device {
-                font-size: 14px;
-            }
-
             /* إخفاء القائمة الجانبية بشكل افتراضي */
             .sidebar {
                 transform: translateX(-100%);
                 width: 85%;
                 max-width: 300px;
-                top: 80px;
-                height: calc(100vh - 80px);
             }
 
             .sidebar.active {
@@ -488,7 +503,6 @@
             /* تعديل المحتوى الرئيسي */
             .container {
                 margin-left: 0;
-                margin-top: 80px;
                 padding: 15px;
             }
 
@@ -594,31 +608,7 @@
             }
         }
 
-        /* ==================== تصميم التابلت ==================== */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            body.tablet-device .sidebar {
-                width: 220px;
-            }
-
-            body.tablet-device .container {
-                margin-left: 220px;
-                padding: 30px;
-            }
-
-            body.tablet-device header h1 {
-                font-size: 36px;
-            }
-
-            body.tablet-device .story-title {
-                font-size: 28px;
-            }
-
-            body.tablet-device .story-text {
-                font-size: 17px;
-            }
-        }
-
-        /* تحسينات إضافية للموبايل */
+        /* تحسينات إضافية للموبايل الصغير */
         @media (max-width: 480px) {
             .story-text {
                 font-size: 15px;
@@ -637,28 +627,9 @@
                 max-height: 50vh;
             }
         }
-
-        /* Overlay للقائمة الجانبية */
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 999;
-        }
-
-        .sidebar-overlay.active {
-            display: block;
-        }
     </style>
 </head>
 <body>
-    <!-- معلومات الجهاز -->
-    <div class="device-info" id="deviceInfo">جاري الكشف...</div>
-
     <!-- Overlay للقائمة -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
@@ -691,7 +662,7 @@
                 <div class="name" id="userName">المستخدم</div>
                 <div class="email" id="userEmail">البريد الإلكتروني</div>
             </div>
-            <button class="logout-btn" onclick="logout()">خروج</button>
+            <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
         </div>
     </header>
 
@@ -726,7 +697,7 @@
             </div>
 
             <div class="setting-item">
-                <label for="voiceSpeed">سرعة القراءة:</label>
+                <label for="voiceSpeed">سرعة الكشافة:</label>
                 <input type="range" id="voiceSpeed" min="0.5" max="2" step="0.1" value="1">
                 <span id="speedValue">1x</span>
             </div>
@@ -746,90 +717,74 @@
     </div>
 
     <script>
-        // ==================== اكتشاف نوع الجهاز ====================
-        function detectDevice() {
-            const ua = navigator.userAgent;
-            const width = window.innerWidth;
-            const height = window.innerHeight;
-            
-            let deviceType = 'desktop';
-            let deviceDetails = '';
-
-            // اكتشاف نوع الجهاز بناءً على User Agent والشاشة
-            if (/android/i.test(ua)) {
-                deviceType = 'mobile';
-                deviceDetails = 'Android';
-            } else if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
-                if (width > 768) {
-                    deviceType = 'tablet';
-                    deviceDetails = 'iPad';
-                } else {
-                    deviceType = 'mobile';
-                    deviceDetails = 'iPhone';
-                }
-            } else if (/Mobile|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(ua)) {
-                deviceType = 'mobile';
-                deviceDetails = 'Mobile Browser';
-            } else if (width <= 768) {
-                deviceType = 'mobile';
-                deviceDetails = 'Small Screen';
-            } else if (width > 768 && width <= 1024) {
-                deviceType = 'tablet';
-                deviceDetails = 'Tablet';
-            }
-
-            // إضافة كلاس للbody
-            document.body.classList.add(`${deviceType}-device`);
-
-            // عرض معلومات الجهاز
-            const deviceInfo = document.getElementById('deviceInfo');
-            deviceInfo.textContent = `📱 ${deviceDetails} | ${width}x${height}px | ${deviceType}`;
-
-            console.log('🔍 Device Detection:', {
-                type: deviceType,
-                details: deviceDetails,
-                width: width,
-                height: height,
-                userAgent: ua
-            });
-
-            return deviceType;
-        }
-
         // متغيرات المستخدم
         let currentUser = null;
         let currentStory = 0;
         let isSpeaking = false;
         let utterance = null;
         let isPaused = false;
-        let deviceType = 'desktop';
+
+        // دالة تنظيف النص من الرموز قبل القراءة
+        function cleanTextForSpeech(text) {
+            return text
+                .replace(/\-/g, ' ')  // استبدال الشرطة بمسافة
+                .replace(/\_/g, ' ')  // استبدال الشرطة السفلية بمسافة
+                .replace(/\*/g, ' ')  // حذف النجمة
+                .replace(/\#/g, ' ')  // حذف الهاشتاق
+                .replace(/\@/g, ' ')  // حذف @
+                .replace(/\$/g, ' ')  // حذف $
+                .replace(/\%/g, ' بالمئة ')  // استبدال % بـ"بالمئة"
+                .replace(/\&/g, ' و ')  // استبدال & بـ"و"
+                .replace(/\+/g, ' زائد ')  // استبدال + بـ"زائد"
+                .replace(/\=/g, ' يساوي ')  // استبدال = بـ"يساوي"
+                .replace(/\</g, ' أصغر من ')  // استبدال < بـ"أصغر من"
+                .replace(/\>/g, ' أكبر من ')  // استبدال > بـ"أكبر من"
+                .replace(/\|/g, ' ')  // حذف |
+                .replace(/\\/g, ' ')  // حذف \
+                .replace(/\//g, ' ')  // حذف /
+                .replace(/\[/g, ' ')  // حذف [
+                .replace(/\]/g, ' ')  // حذف ]
+                .replace(/\{/g, ' ')  // حذف {
+                .replace(/\}/g, ' ')  // حذف }
+                .replace(/\(/g, ' ')  // حذف (
+                .replace(/\)/g, ' ')  // حذف )
+                .replace(/\~/g, ' ')  // حذف ~
+                .replace(/\`/g, ' ')  // حذف `
+                .replace(/\^/g, ' ')  // حذف ^
+                .replace(/\;/g, ' ')  // حذف ;
+                .replace(/\:/g, ' ')  // حذف :
+                .replace(/\"/g, ' ')  // حذف "
+                .replace(/\'/g, ' ')  // حذف '
+                .replace(/\s+/g, ' ')  // استبدال المسافات المتعددة بمسافة واحدة
+                .trim();
+        }
 
         // بيانات القصص (20 قصة)
         const stories = [
             {
                 id: 0,
                 title: 'الساعة الملعونة',
-                text: 'في إحدى الليالي الباردة، اشترى محمد ساعة حائطية قديمة من متجر العتيقات. كانت الساعة جميلة بتصميمها العتيق، لكنها غريبة بطريقة ما. في الليلة الأولى، لاحظ محمد شيئاً غريباً - الساعة تتحرك بسرعة أسرع من المعتاد. عندما نظر إلى الساعة الساعة ثلاثة وثلاثة وثلاثين صباحاً، سمع صوت خطوات غريبة في الممر. من هناك؟ صرخ محمد، لكن لا أحد رد عليه. في كل ليلة، عندما تصل الساعة إلى ثلاثة وثلاثة وثلاثين، يسمع محمد نفس الأصوات المرعبة. وفي كل مرة، يشعر بوجود شيء بارد يقترب منه في الظلام. بعد أسبوع، اكتشف محمد الحقيقة المرعبة - السعر الذي دفعه للساعة كان نفس سعر حياة سابقة. والآن، الساعة تأخذ حياته، ثانية واحدة في كل مرة تدق فيها جرسها.'
+                text: 'في إحدى الليالي الباردة، اشترى محمد ساعة حائطية قديمة من متجر العتيقات. كانت الساعة جميلة بتصميمها العتيق، لكنها غريبة بطريقة ما. في الليلة الأولى، لاحظ محمد شيئاً غريباً، الساعة تتحرك بسرعة أسرع من المعتاد. عندما نظر إلى الساعة الساعة ثلاثة وثلاثة وثلاثين صباحاً، سمع صوت خطوات غريبة في الممر. من هناك؟ صرخ محمد، لكن لا أحد رد عليه. في كل ليلة، عندما تصل الساعة إلى ثلاثة وثلاثة وثلاثين، يسمع محمد نفس الأصوات المرعبة. وفي كل مرة، يشعر بوجود شيء بارد يقترب منه في الظلام. بعد أسبوع، اكتشف محمد الحقيقة المرعبة، السعر الذي دفعه للساعة كان نفس سعر حياة سابقة. والآن، الساعة تأخذ حياته، ثانية واحدة في كل مرة تدق فيها جرسها.'
             },
             {
                 id: 1,
                 title: 'الفندق الخالي',
-                text: 'حجزت سارة غرفة في فندق قديم بعيد عن المدينة. عندما وصلت، وجدت الفندق خالياً تماماً - لا موظفين، لا نزلاء آخرين. صعدت إلى غرفتها في الطابق الخامس. الممر كان طويلاً وهادئاً بشكل غريب. الأضواء كانت تومض بشكل متقطع. في منتصف الليل، سمعت سارة أصوات خطوات في الممر. ثم جرس باب غرفتها. فتحت الباب ببطء، لكن لم يكن هناك أحد. فقط مرآة قديمة معلقة على الجدار. وعندما نظرت في المرآة، رأت شخصاً خلفها - لكن الغرفة كانت خالية! في الصباح، اكتشفت سارة أن الفندق مغلق منذ ثلاثين سنة بعد حادثة غريبة حيث اختفى جميع الضيوف في ليلة واحدة. والآن، هي جزء من تلك الليلة الملعونة.'
+                text: 'حجزت سارة غرفة في فندق قديم بعيد عن المدينة. عندما وصلت، وجدت الفندق خالياً تماماً، لا موظفين، لا نزلاء آخرين. صعدت إلى غرفتها في الطابق الخامس. الممر كان طويلاً وهادئاً بشكل غريب. الأضواء كانت تومض بشكل متقطع. في منتصف الليل، سمعت سارة أصوات خطوات في الممر. ثم جرس باب غرفتها. فتحت الباب ببطء، لكن لم يكن هناك أحد. فقط مرآة قديمة معلقة على الجدار. وعندما نظرت في المرآة، رأت شخصاً خلفها، لكن الغرفة كانت خالية! في الصباح، اكتشفت سارة أن الفندق مغلق منذ ثلاثين سنة بعد حادثة غريبة حيث اختفى جميع الضيوف في ليلة واحدة. والآن، هي جزء من تلك الليلة الملعونة.'
             },
             {
                 id: 2,
                 title: 'الغابة المظلمة',
-                text: 'ذهب أحمد ورفاقه في رحلة تخييم إلى غابة بعيدة. كانت الغابة جميلة، لكن هناك شيء ما يشعر به غريب. في الليل، بينما كانوا حول النار، شعروا بأن شيئاً ما يراقبهم من الظلام. كانت هناك أصوات غريبة تقترب والتقترب. هل سمعتم ذلك؟ همس أحمد لصديقه. نعم، وهو يقترب منا. فجأة، ظهرت ظلال غريبة حول النار. ظلال بأشكال إنسانية، لكنها تتحرك بطريقة غير طبيعية. حاول الجميع الهروب، لكن الغابة التفت عليهم. في كل مرة يحاولون الخروج، يجدون أنفسهم يعودون إلى نقطة البداية. والظلال تقترب أكثر فأكثر. لم ينجُ أحمد ورفاقه من الغابة. وإلى اليوم، الناس يسمعون أصوات تنادي من داخل الغابة - أصوات أولئك الذين ضاعوا هناك.'
+                text: 'ذهب أحمد ورفاقه في رحلة تخييم إلى غابة بعيدة. كانت الغابة جميلة، لكن هناك شيء ما يشعر به غريب. في الليل، بينما كانوا حول النار، شعروا بأن شيئاً ما يراقبهم من الظلام. كانت هناك أصوات غريبة تقترب والتقترب. هل سمعتم ذلك؟ همس أحمد لصديقه. نعم، وهو يقترب منا. فجأة، ظهرت ظلال غريبة حول النار. ظلال بأشكال إنسانية، لكنها تتحرك بطريقة غير طبيعية. حاول الجميع الهروب، لكن الغابة التفت عليهم. في كل مرة يحاولون الخروج، يجدون أنفسهم يعودون إلى نقطة البداية. والظلال تقترب أكثر فأكثر. لم ينجُ أحمد ورفاقه من الغابة. وإلى اليوم، الناس يسمعون أصوات تنادي من داخل الغابة، أصوات أولئك الذين ضاعوا هناك.'
             },
             {
                 id: 3,
                 title: 'الدمية القديمة',
-                text: 'ورثت فاطمة دمية قديمة من جدتها. كانت الدمية بشعة المظهر، برؤية عميقة وابتسامة غريبة. في الليلة الأولى، استيقظت فاطمة بسبب صوت - صوت الدمية تسقط من الرف. لكن الدمية كانت على بعد متر من مكانها! في كل ليلة، تتحرك الدمية أقرب وأقرب إلى سرير فاطمة. بدأت فاطمة ترى في الدمية صورة شخص حقيقي - امرأة عجوز بعيون حزينة. الدمية تحاول أن تخبرها شيئاً ما. اكتشفت فاطمة أن الدمية تحتوي على رسالة خطيرة مكتوبة بخط يدها جدتها: لا تثقي بأحد. هي ليست من تبدو عليه. الآن، فاطمة تفهم - الدمية كانت تحذرها. والشخص الذي تعتقد أنه جدتها ليس جدتها على الإطلاق.'
+                text: 'ورثت فاطمة دمية قديمة من جدتها. كانت الدمية بشعة المظهر، برؤية عميقة وابتسامة غريبة. في الليلة الأولى، استيقظت فاطمة بسبب صوت، صوت الدمية تسقط من الرف. لكن الدمية كانت على بعد متر من مكانها! في كل ليلة، تتحرك الدمية أقرب وأقرب إلى سرير فاطمة. بدأت فاطمة ترى في الدمية صورة شخص حقيقي، امرأة عجوز بعيون حزينة. الدمية تحاول أن تخبرها شيئاً ما. اكتشفت فاطمة أن الدمية تحتوي على رسالة خطيرة مكتوبة بخط يدها جدتها: لا تثقي بأحد. هي ليست من تبدو عليه. الآن، فاطمة تفهم، الدمية كانت تحذرها. والشخص الذي تعتقد أنه جدتها ليس جدتها على الإطلاق.'
             },
             {
                 id: 4,
                 title: 'الشبح في المرآة',
-                text: 'اشترت نور مرآة قديمة من سوق العتيقات. كانت المرآة جميلة، برسومات معقدة على إطارها الخشبي. في الليل الأول، لاحظت نور شيئاً غريباً - في المرآة، ترى نفسها بشكل مختلف قليلاً. ابتسامتها تبدو أوسع، وعينيها تبدو أكثر قتامة. هذا مجرد انعكاس، قالت نور لنفسها، لكنها لم تكن متأكدة. كل ليلة، تصبح النسخة في المرآة أكثر اختلافاً. تقترب من الزجاج. تضع يدها على الجانب الداخلي من المرآة. ذات ليلة، اكتشفت نور أن يدها الحقيقية باردة جداً. ثم أدركت - هي من في المرآة الآن، والنسخة الأخرى تعيش حياتها في العالم الحقيقي. الآن، نور محبوسة في المرآة، تراقب نسختها الأخرى تسرق حياتها. وكل يوم، تقترب أكثر من الزجاج، محاولة الهروب.'
+                text: 'اشترت نور مرآة قديمة من سوق العتيقات. كانت المرآة جميلة، برسومات معقدة على إطارها الخشبي. في الليل الأول، لاحظت نور شيئاً غريباً، في المرآة، ترى نفسها بشكل مختلف قليلاً. ابتسامتها تبدو أوسع، وعينيها تبدو أكثر قتامة. هذا مجرد انعكاس، قالت نور لنفسها، لكنها لم تكن متأكدة. كل ليلة، تصبح النسخة في المرآة أكثر اختلافاً. تقترب من الزجاج. تضع يدها على الجانب الداخلي من المرآة. ذات ليلة، اكتشفت نور أن يدها الحقيقية باردة جداً. ثم أدركت، هي من في المرآة الآن، والنسخة الأخرى تعيش حياتها في العالم الحقيقي. الآن، نور محبوسة في المرآة، تراقب نسختها الأخرى تسرق حياتها. وكل يوم، تقترب أكثر من الزجاج، محاولة الهروب.'
             },
             {
                 id: 5,
@@ -844,7 +799,7 @@
             {
                 id: 7,
                 title: 'المكالمة المجهولة',
-                text: 'بدأ خالد يتلقى مكالمات غريبة في منتصف الليل. المكالمة لا تحتوي على أي صوت، فقط تنفس ثقيل. في البداية، اعتقد أنها مزحة. لكن المكالمات استمرت كل ليلة في نفس الساعة - تماماً الساعة ثلاثة وثلاثة وثلاثين. في إحدى المرات، قرر خالد أن يتحدث. قال من أنت؟ كان هناك صمت طويل، ثم رد صوت خافت وبطيء: أنا أنت. شعر خالد بالرعب يسكن جسده. بدأ يتتبع المكالمات. جميع المكالمات تأتي من رقمه هو. من خلفه؟ كان ينظر حوله في كل مكان. في إحدى الليالي، رأى نسخة منه في المرآة. كانت تبتسم وتمسك الهاتف. الهاتف في يد خالد يرن مرة أخرى. وفي هذه المرة، الصوت أقرب.'
+                text: 'بدأ خالد يتلقى مكالمات غريبة في منتصف الليل. المكالمة لا تحتوي على أي صوت، فقط تنفس ثقيل. في البداية، اعتقد أنها مزحة. لكن المكالمات استمرت كل ليلة في نفس الساعة، تماماً الساعة ثلاثة وثلاثة وثلاثين. في إحدى المرات، قرر خالد أن يتحدث. قال من أنت؟ كان هناك صمت طويل، ثم رد صوت خافت وبطيء: أنا أنت. شعر خالد بالرعب يسكن جسده. بدأ يتتبع المكالمات. جميع المكالمات تأتي من رقمه هو. من خلفه؟ كان ينظر حوله في كل مكان. في إحدى الليالي، رأى نسخة منه في المرآة. كانت تبتسم وتمسك الهاتف. الهاتف في يد خالد يرن مرة أخرى. وفي هذه المرة، الصوت أقرب.'
             },
             {
                 id: 8,
@@ -904,7 +859,7 @@
             {
                 id: 19,
                 title: 'الحرف الأخير',
-                text: 'كتبت زينب رسالة إلى صديقتها. رسالة عادية. لكن عندما أعادت قراءتها، لاحظت حرفاً غريباً في نهاية الرسالة. حرف لم تكتبه. في الليلة التالية، كتبت رسالة أخرى. الحرف الغريب ظهر مرة أخرى. الآن، كل ما تكتبه يحتوي على الحرف. الحرف يظهر بنفسه. زينب حاولت كتابة جملة بدون الحرف، لكنها فشلت. الحرف يفرض نفسه. والآن، الحرف يظهر في أشياء أخرى - على الجدران، على الملابس، في المرآة. الحرف يريد أن يخبرها شيئاً ما. ولا تستطيع زينب أن تفهمه.'
+                text: 'كتبت زينب رسالة إلى صديقتها. رسالة عادية. لكن عندما أعادت قراءتها، لاحظت حرفاً غريباً في نهاية الرسالة. حرف لم تكتبه. في الليلة التالية، كتبت رسالة أخرى. الحرف الغريب ظهر مرة أخرى. الآن، كل ما تكتبه يحتوي على الحرف. الحرف يظهر بنفسه. زينب حاولت كتابة جملة بدون الحرف، لكنها فشلت. الحرف يفرض نفسه. والآن، الحرف يظهر في أشياء أخرى، على الجدران، على الملابس، في المرآة. الحرف يريد أن يخبرها شيئاً ما. ولا تستطيع زينب أن تفهمه.'
             }
         ];
 
@@ -955,7 +910,7 @@
                 li.addEventListener('click', () => {
                     selectStory(index);
                     // إغلاق القائمة على الموبايل
-                    if (deviceType === 'mobile') {
+                    if (window.innerWidth <= 768) {
                         closeSidebar();
                     }
                 });
@@ -1007,12 +962,12 @@
             document.querySelector('.container').scrollTop = 0;
         }
 
-        // قراءة القصة بصوت
+        // قراءة القصة بصوت (مع تنظيف النص)
         function speakStory(index) {
             stopSpeaking();
             
             const story = stories[index];
-            const text = story.text;
+            const text = cleanTextForSpeech(story.text); // تنظيف النص من الرموز
             
             utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'ar-SA';
@@ -1025,7 +980,7 @@
             utterance.onstart = () => {
                 isSpeaking = true;
                 isPaused = false;
-                statusEl.textContent = '🟢 جاري التشغيل...';
+                statusEl.textContent = '🟢 جاري التشغيل... اضغط استئناف للمتابعة بعد الإيقاف المؤقت';
                 statusEl.classList.remove('inactive');
             };
 
@@ -1037,7 +992,7 @@
 
             utterance.onpause = () => {
                 isPaused = true;
-                statusEl.textContent = '⏸️ متوقف مؤقتاً';
+                statusEl.textContent = '⏸️ مؤقف مؤقتاً';
             };
 
             utterance.onresume = () => {
@@ -1059,7 +1014,7 @@
             isSpeaking = false;
             isPaused = false;
             document.querySelectorAll('.voice-status').forEach(s => {
-                s.textContent = '🔴 متوقف';
+                s.textContent = '🔴 متوقفة';
                 s.classList.add('inactive');
             });
         }
@@ -1165,9 +1120,6 @@
 
         // تبديل الإعدادات
         document.addEventListener('DOMContentLoaded', () => {
-            // اكتشاف نوع الجهاز
-            deviceType = detectDevice();
-
             // زر القائمة للموبايل
             const menuToggle = document.getElementById('menuToggle');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
@@ -1180,7 +1132,6 @@
                 sidebarOverlay.addEventListener('click', closeSidebar);
             }
 
-            // الإعدادات
             const settingsToggle = document.getElementById('settingsToggle');
             if (settingsToggle) {
                 settingsToggle.addEventListener('click', () => {
@@ -1241,28 +1192,6 @@
                     localStorage.setItem('voicePitch', e.target.value);
                 });
             }
-
-            // إعادة اكتشاف الجهاز عند تغيير حجم الشاشة
-            window.addEventListener('resize', () => {
-                const newDeviceType = detectDevice();
-                if (newDeviceType !== deviceType) {
-                    document.body.classList.remove(`${deviceType}-device`);
-                    deviceType = newDeviceType;
-                    document.body.classList.add(`${deviceType}-device`);
-                }
-            });
-
-            // إغلاق لوحة الإعدادات عند النقر خارجها
-            document.addEventListener('click', (e) => {
-                const settingsPanel = document.getElementById('settingsPanel');
-                const settingsBtn = document.getElementById('settingsToggle');
-                
-                if (settingsPanel && settingsBtn) {
-                    if (!settingsPanel.contains(e.target) && !settingsBtn.contains(e.target)) {
-                        settingsPanel.classList.remove('active');
-                    }
-                }
-            });
         });
 
         // فحص تسجيل الدخول عند التحميل
