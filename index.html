@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -31,7 +30,6 @@
             100% { background-position: 100px 100px, 150px 150px, -200% -200%; }
         }
 
-        /* تأثيرات مرعبة */
         body::before {
             content: '';
             position: fixed;
@@ -289,6 +287,10 @@
             box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
         }
 
+        .story-btn.favorite {
+            background: linear-gradient(135deg, #ffaa00, #ff8800);
+        }
+
         .story-title {
             font-size: 36px;
             color: #ff4444;
@@ -321,18 +323,158 @@
             text-shadow: 0 0 5px rgba(255, 68, 68, 0.5);
         }
 
-        .voice-speed {
+        /* نظام التقييم */
+        .rating-section {
+            background: rgba(139, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #ffaa00;
+        }
+
+        .rating-label {
+            color: #ffaa00;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .star-rating {
             display: flex;
-            align-items: center;
             gap: 10px;
             margin: 10px 0;
+        }
+
+        .star {
+            font-size: 28px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .star:hover, .star.active {
+            color: #ffaa00;
+            transform: scale(1.2);
+        }
+
+        /* نظام التعليقات */
+        .comments-section {
             background: rgba(139, 0, 0, 0.2);
-            padding: 10px;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #00ff00;
+        }
+
+        .comments-title {
+            color: #00ff00;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(51, 51, 51, 0.8);
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            color: white;
+            resize: vertical;
+            min-height: 80px;
+            margin-bottom: 10px;
+        }
+
+        .comment-btn {
+            background: linear-gradient(135deg, #00ff00, #00dd00);
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .comment-btn:hover {
+            background: linear-gradient(135deg, #00dd00, #00bb00);
+            transform: translateY(-2px);
+        }
+
+        .comments-list {
+            margin-top: 15px;
+        }
+
+        .comment {
+            background: rgba(0, 255, 0, 0.1);
+            padding: 12px;
+            margin: 10px 0;
+            border-left: 3px solid #00ff00;
             border-radius: 5px;
         }
 
-        .voice-speed input {
-            width: 150px;
+        .comment-author {
+            color: #00ff00;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .comment-text {
+            color: #e0e0e0;
+            margin-top: 5px;
+        }
+
+        /* نظام الإعدادات المتقدم */
+        .preferences-section {
+            background: rgba(139, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #00ccff;
+        }
+
+        .preference-label {
+            color: #00ccff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: #e0e0e0;
+            font-size: 14px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        /* الإحصائيات */
+        .statistics-section {
+            background: rgba(139, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #ff00ff;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 68, 68, 0.2);
+            color: #e0e0e0;
+        }
+
+        .stat-value {
+            color: #ff00ff;
+            font-weight: bold;
         }
 
         /* الإعدادات */
@@ -567,6 +709,20 @@
         let utterance = null;
         let isPaused = false;
 
+        // قاعدة بيانات المستخدمين
+        let userData = {
+            favorites: [],
+            ratings: {},
+            comments: {},
+            readStories: [],
+            readingTime: {},
+            preferences: {
+                notifications: true,
+                darkMode: true,
+                notificationEmail: true
+            }
+        };
+
         // بيانات القصص (20 قصة)
         const stories = [
             {
@@ -657,7 +813,7 @@
             {
                 id: 17,
                 title: 'المرآة الثانية',
-                text: 'اشترى سارة مرآة ثانية لتضعها في منزلها. الآن عندها مرآتان. في البداية، لم تلاحظ أي شيء غريب. لكن بعد بضعة أيام، اكتشفت شيئاً: كل مرآة تعرض نسخة مختلفة منها. في مرآة، هي تبدو شاحبة. في الأخرى، هي تبدو شريرة. المرآتان تريانها بطرق مختلفة. والآن، سارة لا تعرف أي نسخة هي النسخة الحقيقية. والمرآتان تحاولان إقناعها بأنها نسخة مزيفة.'
+                text: 'اشترت سارة مرآة ثانية لتضعها في منزلها. الآن عندها مرآتان. في البداية، لم تلاحظ أي شيء غريب. لكن بعد بضعة أيام، اكتشفت شيئاً: كل مرآة تعرض نسخة مختلفة منها. في مرآة، هي تبدو شاحبة. في الأخرى، هي تبدو شريرة. المرآتان تريانها بطرق مختلفة. والآن، سارة لا تعرف أي نسخة هي النسخة الحقيقية. والمرآتان تحاولان إقناعها بأنها نسخة مزيفة.'
             },
             {
                 id: 18,
@@ -683,6 +839,7 @@
             };
 
             localStorage.setItem('user', JSON.stringify(currentUser));
+            loadUserData();
             displayUser(currentUser);
             showMainContent();
         }
@@ -697,11 +854,101 @@
             return JSON.parse(jsonPayload);
         }
 
+        // تحميل بيانات المستخدم
+        function loadUserData() {
+            const saved = localStorage.getItem(`userData_${currentUser.id}`);
+            if (saved) {
+                userData = JSON.parse(saved);
+            }
+        }
+
+        // حفظ بيانات المستخدم
+        function saveUserData() {
+            localStorage.setItem(`userData_${currentUser.id}`, JSON.stringify(userData));
+        }
+
         // عرض بيانات المستخدم
         function displayUser(user) {
             document.getElementById('userImage').src = user.picture;
             document.getElementById('userName').textContent = user.name;
             document.getElementById('userEmail').textContent = user.email;
+        }
+
+        // إضافة/إزالة من المفضلة
+        function toggleFavorite(index) {
+            const btn = document.querySelector(`[data-story="${index}"] .favorite-btn`);
+            if (userData.favorites.includes(index)) {
+                userData.favorites = userData.favorites.filter(id => id !== index);
+                btn.classList.remove('favorite');
+                btn.textContent = '❤️ أضف للمفضلة';
+            } else {
+                userData.favorites.push(index);
+                btn.classList.add('favorite');
+                btn.textContent = '❌ إزالة من المفضلة';
+            }
+            saveUserData();
+        }
+
+        // تقييم القصة
+        function rateStory(index, rating) {
+            userData.ratings[index] = rating;
+            saveUserData();
+            updateStarRating(index, rating);
+            alert(`تم تقييم القصة بـ ${rating} نجوم`);
+        }
+
+        // تحديث نجوم التقييم
+        function updateStarRating(index, rating) {
+            document.querySelectorAll(`#story-${index} .star`).forEach((star, i) => {
+                if (i < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        // إضافة تعليق
+        function addComment(index) {
+            const commentInput = document.getElementById(`comment-input-${index}`);
+            const commentText = commentInput.value.trim();
+            
+            if (!commentText) {
+                alert('يرجى كتابة تعليق');
+                return;
+            }
+
+            if (!userData.comments[index]) {
+                userData.comments[index] = [];
+            }
+
+            userData.comments[index].push({
+                author: currentUser.name,
+                text: commentText,
+                date: new Date().toLocaleDateString('ar-SA')
+            });
+
+            saveUserData();
+            commentInput.value = '';
+            displayComments(index);
+        }
+
+        // عرض التعليقات
+        function displayComments(index) {
+            const commentsList = document.getElementById(`comments-list-${index}`);
+            commentsList.innerHTML = '';
+
+            if (userData.comments[index]) {
+                userData.comments[index].forEach(comment => {
+                    const commentDiv = document.createElement('div');
+                    commentDiv.className = 'comment';
+                    commentDiv.innerHTML = `
+                        <div class="comment-author">${comment.author} - ${comment.date}</div>
+                        <div class="comment-text">${comment.text}</div>
+                    `;
+                    commentsList.appendChild(commentDiv);
+                });
+            }
         }
 
         // بناء القصص ديناميكياً
@@ -713,7 +960,8 @@
                 // إضافة في القائمة الجانبية
                 const li = document.createElement('li');
                 li.dataset.story = index;
-                li.textContent = `${index + 1}. ${story.title}`;
+                const favIcon = userData.favorites.includes(index) ? '❤️' : '🤍';
+                li.textContent = `${favIcon} ${story.title}`;
                 if (index === 0) li.classList.add('active');
                 li.addEventListener('click', () => selectStory(index));
                 storyList.appendChild(li);
@@ -722,6 +970,11 @@
                 const storyDiv = document.createElement('div');
                 storyDiv.className = 'story' + (index === 0 ? ' active' : '');
                 storyDiv.id = `story-${index}`;
+                
+                const isFavorite = userData.favorites.includes(index);
+                const favoriteText = isFavorite ? '❌ إزالة من المفضلة' : '❤️ أضف للمفضلة';
+                const rating = userData.ratings[index] || 0;
+
                 storyDiv.innerHTML = `
                     <h2 class="story-title">${story.title}</h2>
                     <div class="story-controls">
@@ -737,14 +990,79 @@
                         <button class="story-btn" onclick="resumeSpeaking()">
                             ▶️ استئناف
                         </button>
+                        <button class="story-btn favorite-btn ${isFavorite ? 'favorite' : ''}" onclick="toggleFavorite(${index})">
+                            ${favoriteText}
+                        </button>
                     </div>
                     <div class="voice-status inactive" id="status-${index}">🔴 لم يتم التشغيل</div>
+
+                    <!-- نظام التقييم -->
+                    <div class="rating-section">
+                        <div class="rating-label">قيّم هذه القصة ⭐</div>
+                        <div class="star-rating">
+                            ${[1,2,3,4,5].map(i => `<span class="star ${i <= rating ? 'active' : ''}" onclick="rateStory(${index}, ${i})">⭐</span>`).join('')}
+                        </div>
+                    </div>
+
+                    <!-- نظام التعليقات -->
+                    <div class="comments-section">
+                        <div class="comments-title">💬 التعليقات</div>
+                        <textarea class="comment-input" id="comment-input-${index}" placeholder="أضف تعليقك..."></textarea>
+                        <button class="comment-btn" onclick="addComment(${index})">إضافة تعليق</button>
+                        <div class="comments-list" id="comments-list-${index}"></div>
+                    </div>
+
+                    <!-- نظام الإعدادات الشخصية -->
+                    <div class="preferences-section">
+                        <div class="preference-label">📋 تفضيلاتك</div>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" id="notif-${index}" ${userData.preferences.notifications ? 'checked' : ''} onchange="updatePreference('notifications', ${index})">
+                                إرسال إشعار عند قصص جديدة مشابهة
+                            </label>
+                            <label>
+                                <input type="checkbox" id="email-${index}" ${userData.preferences.notificationEmail ? 'checked' : ''} onchange="updatePreference('notificationEmail', ${index})">
+                                إرسال بريد إلكتروني للتحديثات
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- الإحصائيات -->
+                    <div class="statistics-section">
+                        <div class="stat-item">
+                            <span>عدد القصص المقروءة:</span>
+                            <span class="stat-value">${userData.readStories.length}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>عدد المفضلة:</span>
+                            <span class="stat-value">${userData.favorites.length}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>عدد التقييمات:</span>
+                            <span class="stat-value">${Object.keys(userData.ratings).length}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>عدد التعليقات:</span>
+                            <span class="stat-value">${userData.comments[index] ? userData.comments[index].length : 0}</span>
+                        </div>
+                    </div>
+
                     <div class="story-text">
                         ${story.text.split('. ').map(p => p.trim() ? `<p>${p}.</p>` : '').join('')}
                     </div>
                 `;
                 storiesContainer.appendChild(storyDiv);
+
+                // عرض التعليقات الموجودة
+                displayComments(index);
             });
+        }
+
+        // تحديث التفضيلات
+        function updatePreference(key, index) {
+            const checkbox = document.getElementById(`${key === 'notifications' ? 'notif' : 'email'}-${index}`);
+            userData.preferences[key] = checkbox.checked;
+            saveUserData();
         }
 
         // تحديد قصة
@@ -756,11 +1074,14 @@
             document.querySelector(`[data-story="${index}"]`).classList.add('active');
             currentStory = index;
 
+            if (!userData.readStories.includes(index)) {
+                userData.readStories.push(index);
+            }
+
             updateProgressBar();
             saveProgress();
             stopSpeaking();
 
-            // Scroll إلى أعلى
             document.querySelector('.container').scrollTop = 0;
         }
 
@@ -782,7 +1103,7 @@
             utterance.onstart = () => {
                 isSpeaking = true;
                 isPaused = false;
-                statusEl.textContent = '🟢 جاري التشغيل... اضغط استئناف للمتابعة بعد الإيقاف المؤقت';
+                statusEl.textContent = '🟢 جاري التشغيل...';
                 statusEl.classList.remove('inactive');
             };
 
@@ -973,6 +1294,7 @@
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
                 displayUser(currentUser);
+                loadUserData();
                 showMainContent();
             }
         });
