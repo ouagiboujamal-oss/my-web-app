@@ -10,6 +10,10 @@
      crossorigin="anonymous"></script>
     
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
+    <!-- ResponsiveVoice للقراءة الصوتية - يعمل على جميع الأجهزة -->
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=jQZ2zboard"></script>
+    
     <style>
         * {
             margin: 0;
@@ -18,34 +22,11 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: #000000;
-            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #e8e8e8;
             overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(139, 0, 0, 0.3) 1px, transparent 1px),
-                radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.5) 2px, transparent 2px),
-                linear-gradient(135deg, #0a0a0a 0%, #1a0000 25%, #0a0a0a 50%, #1a0000 75%, #0a0a0a 100%);
-            background-size: 100px 100px, 150px 150px, 200% 200%;
-            animation: backgroundMove 20s ease infinite;
-        }
-
-        @keyframes backgroundMove {
-            0% { background-position: 0 0, 0 0, 0 0; }
-            100% { background-position: 100px 100px, 150px 150px, -200% -200%; }
-        }
-
-        /* تأثيرات مرعبة */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
-            pointer-events: none;
-            z-index: 1;
+            min-height: 100vh;
         }
 
         /* شاشة تسجيل الدخول */
@@ -55,12 +36,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #000000, #1a0000);
+            background: linear-gradient(135deg, #0f3460, #16213e);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 2000;
-            backdrop-filter: blur(10px);
         }
 
         .login-screen.hidden {
@@ -68,75 +48,68 @@
         }
 
         .login-container {
-            background: linear-gradient(135deg, rgba(26, 0, 0, 0.9), rgba(51, 0, 0, 0.9));
-            padding: 60px 40px;
-            border-radius: 20px;
-            border: 3px solid #8b0000;
-            text-align: center;
-            box-shadow: 0 0 50px rgba(139, 0, 0, 0.9), inset 0 0 30px rgba(0, 0, 0, 0.5);
-            max-width: 450px;
-            width: 90%;
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
+            padding: 50px 40px;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
         }
 
         .login-container h1 {
-            font-size: 48px;
-            color: #ff4444;
+            font-size: 36px;
+            color: #e94560;
             margin-bottom: 10px;
-            text-shadow: 0 0 20px #8b0000, 0 0 40px #ff0000;
-            animation: glow 2s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 20px #8b0000, 0 0 40px #ff0000; }
-            50% { text-shadow: 0 0 30px #ff0000, 0 0 60px #ff4444; }
+            text-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
         }
 
         .login-container p {
-            color: #cccccc;
-            margin-bottom: 40px;
-            font-size: 16px;
+            color: #b8b8b8;
+            margin-bottom: 30px;
+            font-size: 14px;
         }
 
         /* الشريط العلوي */
         header {
-            background: linear-gradient(135deg, rgba(26, 0, 0, 0.95), rgba(51, 0, 0, 0.95));
-            padding: 20px;
-            text-align: center;
-            border-bottom: 3px solid #8b0000;
-            box-shadow: 0 0 20px rgba(139, 0, 0, 0.8);
+            background: rgba(22, 33, 62, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            border-bottom: 2px solid #e94560;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(10px);
-            position: relative;
+            position: sticky;
+            top: 0;
             z-index: 100;
         }
 
         header h1 {
-            font-size: 48px;
-            color: #ff4444;
-            text-shadow: 0 0 20px #8b0000;
+            font-size: 28px;
+            color: #e94560;
+            text-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
             flex: 1;
+            text-align: center;
         }
 
         .user-profile {
             display: flex;
             align-items: center;
-            gap: 15px;
-            background: rgba(139, 0, 0, 0.3);
-            padding: 10px 20px;
-            border-radius: 10px;
-            border: 1px solid #ff4444;
-            backdrop-filter: blur(10px);
+            gap: 10px;
+            background: rgba(233, 69, 96, 0.1);
+            padding: 8px 15px;
+            border-radius: 25px;
+            border: 1px solid rgba(233, 69, 96, 0.3);
         }
 
         .user-profile img {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            border: 2px solid #ff4444;
-            box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+            border: 2px solid #e94560;
         }
 
         .user-info {
@@ -144,328 +117,51 @@
         }
 
         .user-info .name {
-            color: #ff4444;
+            color: #e94560;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .user-info .email {
-            color: #cccccc;
-            font-size: 12px;
+            color: #b8b8b8;
+            font-size: 11px;
         }
 
         .logout-btn {
-            background: #ff4444;
+            background: #e94560;
             color: white;
             border: none;
-            padding: 8px 20px;
-            border-radius: 5px;
+            padding: 6px 15px;
+            border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 12px;
             transition: all 0.3s;
         }
 
         .logout-btn:hover {
-            background: #ff6666;
-            box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+            background: #ff6b7a;
+            box-shadow: 0 0 15px rgba(233, 69, 96, 0.5);
         }
 
         /* زر القائمة للموبايل */
         .menu-toggle {
             display: none;
-            background: #ff4444;
+            background: #e94560;
             border: none;
             color: white;
-            font-size: 24px;
-            padding: 10px 15px;
-            border-radius: 5px;
+            font-size: 20px;
+            padding: 8px 12px;
+            border-radius: 8px;
             cursor: pointer;
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 15px;
+            left: 15px;
             z-index: 1001;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
-        /* القائمة الجانبية */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 80px;
-            width: 280px;
-            height: calc(100vh - 80px);
-            background: linear-gradient(180deg, rgba(26, 26, 26, 0.95), rgba(45, 45, 45, 0.95));
-            padding: 20px;
-            border-right: 2px solid #8b0000;
-            overflow-y: auto;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            box-shadow: inset -20px 0 30px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease;
-        }
-
-        .sidebar::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .sidebar::-webkit-scrollbar-track {
-            background: rgba(139, 0, 0, 0.1);
-        }
-
-        .sidebar::-webkit-scrollbar-thumb {
-            background: #ff4444;
-            border-radius: 4px;
-        }
-
-        .sidebar h2 {
-            color: #ff4444;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #8b0000;
-            padding-bottom: 10px;
-            text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
-        }
-
-        .story-list {
-            list-style: none;
-        }
-
-        .story-list li {
-            padding: 12px;
-            margin: 10px 0;
-            background: rgba(139, 0, 0, 0.2);
-            border-left: 3px solid #ff4444;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-
-        .story-list li:hover {
-            background: rgba(139, 0, 0, 0.5);
-            transform: translateX(-5px);
-            box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
-        }
-
-        .story-list li.active {
-            background: rgba(255, 68, 68, 0.3);
-            border-left: 5px solid #ff4444;
-            box-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
-        }
-
-        /* المحتوى الرئيسي */
-        .container {
-            margin-left: 280px;
-            margin-top: 80px;
-            padding: 40px;
-            min-height: 100vh;
-            position: relative;
-            z-index: 10;
-        }
-
-        .story {
-            display: none;
-            animation: fadeIn 0.5s;
-        }
-
-        .story.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .story-controls {
-            display: flex;
-            gap: 10px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-
-        .story-btn {
-            background: linear-gradient(135deg, #ff4444, #ff6666);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
-        }
-
-        .story-btn:hover {
-            background: linear-gradient(135deg, #ff6666, #ff8888);
-            box-shadow: 0 0 20px rgba(255, 68, 68, 0.6);
-            transform: translateY(-2px);
-        }
-
-        .story-btn.active {
-            background: linear-gradient(135deg, #00ff00, #00dd00);
-            color: black;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
-        }
-
-        .story-title {
-            font-size: 36px;
-            color: #ff4444;
-            text-shadow: 0 0 20px #8b0000;
-            margin: 30px 0 20px 0;
-            border-bottom: 2px solid #8b0000;
-            padding-bottom: 15px;
-        }
-
-        .story-text {
-            font-size: 18px;
-            line-height: 1.8;
-            color: #e0e0e0;
-            margin: 20px 0;
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9), rgba(20, 20, 20, 0.9));
-            padding: 25px;
-            border-left: 4px solid #ff4444;
-            border-radius: 5px;
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
-        }
-
-        .story-text p {
-            margin: 15px 0;
-        }
-
-        .story-text em {
-            color: #ff4444;
-            font-style: italic;
-            text-shadow: 0 0 5px rgba(255, 68, 68, 0.5);
-        }
-
-        .voice-speed {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 10px 0;
-            background: rgba(139, 0, 0, 0.2);
-            padding: 10px;
-            border-radius: 5px;
-        }
-
-        .voice-speed input {
-            width: 150px;
-        }
-
-        /* الإعدادات */
-        .settings {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 999;
-        }
-
-        .settings-btn {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #ff4444, #ff6666);
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
-            transition: all 0.3s;
-        }
-
-        .settings-btn:hover {
-            background: linear-gradient(135deg, #ff6666, #ff8888);
-            box-shadow: 0 0 25px rgba(255, 68, 68, 0.8);
-            transform: scale(1.1);
-        }
-
-        .settings-panel {
-            position: fixed;
-            bottom: 100px;
-            right: 30px;
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(45, 45, 45, 0.95));
-            border: 2px solid #ff4444;
-            border-radius: 10px;
-            padding: 20px;
-            width: 300px;
-            display: none;
-            box-shadow: 0 0 30px rgba(139, 0, 0, 0.8);
-            max-height: 400px;
-            overflow-y: auto;
-            backdrop-filter: blur(10px);
-        }
-
-        .settings-panel.active {
-            display: block;
-        }
-
-        .settings-panel h3 {
-            color: #ff4444;
-            margin-bottom: 15px;
-            text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
-        }
-
-        .setting-item {
-            margin: 15px 0;
-        }
-
-        .setting-item label {
-            display: block;
-            color: #e0e0e0;
-            margin-bottom: 8px;
-            font-size: 12px;
-        }
-
-        .setting-item input[type="range"] {
-            width: 100%;
-            cursor: pointer;
-        }
-
-        .setting-item select {
-            width: 100%;
-            padding: 8px;
-            background: rgba(51, 51, 51, 0.8);
-            color: #fff;
-            border: 1px solid #ff4444;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-
-        .progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #ff4444, #8b0000);
-            width: 0%;
-            z-index: 1001;
-            box-shadow: 0 0 10px rgba(255, 68, 68, 0.8);
-        }
-
-        .voice-status {
-            background: rgba(0, 255, 0, 0.2);
-            border-left: 3px solid #00ff00;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            color: #00ff00;
-            font-size: 12px;
-        }
-
-        .voice-status.inactive {
-            background: rgba(139, 0, 0, 0.2);
-            border-left-color: #ff4444;
-            color: #ff4444;
-        }
-
-        /* Overlay للقائمة الجانبية */
+        /* overlay للموبايل */
         .sidebar-overlay {
             display: none;
             position: fixed;
@@ -481,203 +177,369 @@
             display: block;
         }
 
-        /* ==================== تصميم الموبايل ==================== */
+        /* القائمة الجانبية */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 70px;
+            width: 280px;
+            height: calc(100vh - 70px);
+            background: rgba(22, 33, 62, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-right: 2px solid rgba(233, 69, 96, 0.3);
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(233, 69, 96, 0.1);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #e94560;
+            border-radius: 3px;
+        }
+
+        .sidebar h2 {
+            color: #e94560;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(233, 69, 96, 0.3);
+            padding-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .story-list {
+            list-style: none;
+        }
+
+        .story-list li {
+            padding: 12px;
+            margin: 8px 0;
+            background: rgba(233, 69, 96, 0.1);
+            border-left: 3px solid #e94560;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-size: 14px;
+            color: #e8e8e8;
+        }
+
+        .story-list li:hover {
+            background: rgba(233, 69, 96, 0.2);
+            transform: translateX(-5px);
+        }
+
+        .story-list li.active {
+            background: rgba(233, 69, 96, 0.3);
+            border-left: 5px solid #ff6b7a;
+        }
+
+        /* المحتوى الرئيسي */
+        .container {
+            margin-right: 300px;
+            padding: 30px;
+            max-width: 900px;
+            min-height: calc(100vh - 70px);
+        }
+
+        .story-content {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .story {
+            display: none;
+        }
+
+        .story.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .story-title {
+            font-size: 32px;
+            color: #e94560;
+            text-align: center;
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px rgba(233, 69, 96, 0.3);
+        }
+
+        .story-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .story-btn {
+            background: linear-gradient(135deg, #e94560, #ff6b7a);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
+        }
+
+        .story-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 69, 96, 0.5);
+        }
+
+        .story-btn:active {
+            transform: translateY(0);
+        }
+
+        .voice-status {
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            background: rgba(233, 69, 96, 0.1);
+            border: 1px solid rgba(233, 69, 96, 0.3);
+        }
+
+        .voice-status.inactive {
+            opacity: 0.6;
+        }
+
+        .story-text {
+            line-height: 2;
+            font-size: 18px;
+            text-align: justify;
+            color: #e8e8e8;
+        }
+
+        .story-text p {
+            margin-bottom: 15px;
+        }
+
+        /* شريط التقدم */
+        .progress-container {
+            background: rgba(255, 255, 255, 0.1);
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #e94560, #ff6b7a);
+            width: 0;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+        }
+
+        /* الإعدادات */
+        .settings {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 500;
+        }
+
+        .settings-btn {
+            background: linear-gradient(135deg, #e94560, #ff6b7a);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+            transition: all 0.3s;
+        }
+
+        .settings-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        .settings-panel {
+            position: fixed;
+            bottom: 80px;
+            left: 20px;
+            background: rgba(22, 33, 62, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid rgba(233, 69, 96, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            width: 300px;
+            display: none;
+        }
+
+        .settings-panel.active {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .settings-panel h3 {
+            color: #e94560;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .setting-item {
+            margin-bottom: 15px;
+        }
+
+        .setting-item label {
+            display: block;
+            color: #b8b8b8;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .setting-item input[type="range"] {
+            width: 100%;
+            accent-color: #e94560;
+        }
+
+        .setting-item span {
+            color: #e94560;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* تصميم متجاوب للموبايل */
         @media (max-width: 768px) {
-            /* إخفاء القائمة الجانبية بشكل افتراضي */
+            header h1 {
+                font-size: 20px;
+            }
+
+            .user-profile {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
             .sidebar {
-                transform: translateX(-100%);
-                width: 85%;
+                transform: translateX(100%);
+                top: 0;
+                height: 100vh;
+                width: 80%;
                 max-width: 300px;
             }
 
             .sidebar.active {
                 transform: translateX(0);
-                box-shadow: 5px 0 20px rgba(0, 0, 0, 0.8);
             }
 
-            /* إظهار زر القائمة */
-            .menu-toggle {
-                display: block;
-            }
-
-            /* تعديل المحتوى الرئيسي */
             .container {
-                margin-left: 0;
+                margin-right: 0;
                 padding: 15px;
             }
 
-            /* تعديل الهيدر */
-            header {
-                flex-direction: column;
-                gap: 10px;
-                padding: 15px;
+            .story-content {
+                padding: 20px 15px;
             }
 
-            header h1 {
-                font-size: 24px;
-            }
-
-            .user-profile {
-                width: 100%;
-                justify-content: space-between;
-                padding: 10px;
-            }
-
-            .user-profile img {
-                width: 40px;
-                height: 40px;
-            }
-
-            .user-info .name {
-                font-size: 12px;
-            }
-
-            .user-info .email {
-                font-size: 10px;
-            }
-
-            .logout-btn {
-                padding: 6px 15px;
-                font-size: 12px;
-            }
-
-            /* تعديل عنوان القصة */
             .story-title {
                 font-size: 24px;
-                margin: 15px 0;
             }
 
-            /* تعديل نص القصة */
             .story-text {
                 font-size: 16px;
-                padding: 15px;
-                line-height: 1.6;
+                line-height: 1.8;
             }
 
-            /* تعديل الأزرار */
             .story-controls {
                 flex-direction: column;
-                gap: 8px;
             }
 
             .story-btn {
                 width: 100%;
-                justify-content: center;
-                padding: 15px;
-                font-size: 16px;
-            }
-
-            /* تعديل الإعدادات */
-            .settings {
-                bottom: 20px;
-                right: 20px;
-            }
-
-            .settings-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 20px;
             }
 
             .settings-panel {
-                width: calc(100vw - 40px);
-                right: 20px;
-                left: 20px;
-                bottom: 80px;
-                max-height: 60vh;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%;
+                max-width: 300px;
             }
 
-            /* تعديل شاشة تسجيل الدخول */
-            .login-container {
-                padding: 40px 20px;
-                width: 95%;
-            }
-
-            .login-container h1 {
-                font-size: 32px;
-            }
-
-            .login-container p {
-                font-size: 14px;
-            }
-
-            /* تحسين قائمة القصص */
-            .story-list li {
-                font-size: 15px;
-                padding: 15px;
-            }
-        }
-
-        /* تحسينات إضافية للموبايل الصغير */
-        @media (max-width: 480px) {
-            .story-text {
-                font-size: 15px;
-                padding: 12px;
-            }
-
-            .story-title {
-                font-size: 20px;
-            }
-
-            header h1 {
-                font-size: 20px;
-            }
-
-            .settings-panel {
-                max-height: 50vh;
+            .settings-panel.active {
+                left: 50%;
+                transform: translateX(-50%);
             }
         }
     </style>
 </head>
 <body>
-    <!-- Overlay للقائمة -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <!-- زر القائمة للموبايل -->
-    <button class="menu-toggle" id="menuToggle">☰</button>
-
     <!-- شاشة تسجيل الدخول -->
     <div class="login-screen" id="loginScreen">
         <div class="login-container">
-            <h1>👻 قصص الرعب 👻</h1>
-            <p>سجل الدخول للاستمتاع بقصص الرعب المرعبة</p>
-            
+            <h1>👻 قصص الرعب</h1>
+            <p>سجل الدخول للاستمتاع بأفضل القصص المرعبة</p>
             <div id="g_id_onload"
-                data-client_id="295699802302-t4l7rov5vo93g20fuphhbh4sj21dbgu1.apps.googleusercontent.com"
-                data-callback="handleCredentialResponse">
+                 data-client_id="YOUR_GOOGLE_CLIENT_ID"
+                 data-callback="handleCredentialResponse">
             </div>
             <div class="g_id_signin" data-type="standard"></div>
         </div>
     </div>
 
-    <!-- شريط التقدم -->
-    <div class="progress-bar" id="progressBar"></div>
+    <!-- زر القائمة للموبايل -->
+    <button class="menu-toggle" id="menuToggle">☰</button>
 
-    <!-- الرأس -->
+    <!-- overlay للموبايل -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- الشريط العلوي -->
     <header id="header" style="display: none;">
-        <h1>👻 قصص الرعب المرعبة 👻</h1>
-        <div class="user-profile" id="userProfile">
-            <img id="userImage" src="" alt="صورة المستخدم">
+        <h1>👻 قصص الرعب المرعبة</h1>
+        <div class="user-profile">
+            <img id="userImage" src="" alt="User">
             <div class="user-info">
-                <div class="name" id="userName">المستخدم</div>
-                <div class="email" id="userEmail">البريد الإلكتروني</div>
+                <div class="name" id="userName"></div>
+                <div class="email" id="userEmail"></div>
             </div>
-            <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
+            <button class="logout-btn" onclick="logout()">تسجيل خروج</button>
         </div>
     </header>
 
     <!-- القائمة الجانبية -->
     <div class="sidebar" id="sidebar" style="display: none;">
-        <h2>📖 القصص</h2>
-        <ul class="story-list" id="storyList">
-            <!-- سيتم ملؤها ديناميكياً -->
-        </ul>
+        <h2>📚 القصص</h2>
+        <ul class="story-list" id="storyList"></ul>
     </div>
 
     <!-- المحتوى الرئيسي -->
     <div class="container" id="container" style="display: none;">
-        <div id="storiesContainer">
-            <!-- سيتم ملؤها ديناميكياً -->
+        <div class="story-content">
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div id="storiesContainer"></div>
         </div>
     </div>
 
@@ -697,7 +559,7 @@
             </div>
 
             <div class="setting-item">
-                <label for="voiceSpeed">سرعة الكشافة:</label>
+                <label for="voiceSpeed">سرعة القراءة:</label>
                 <input type="range" id="voiceSpeed" min="0.5" max="2" step="0.1" value="1">
                 <span id="speedValue">1x</span>
             </div>
@@ -705,18 +567,6 @@
             <div class="setting-item">
                 <label for="voiceVolume">مستوى الصوت:</label>
                 <input type="range" id="voiceVolume" min="0" max="1" step="0.1" value="1">
-            </div>
-
-            <div class="setting-item">
-                <label for="voicePitch">درجة الصوت:</label>
-                <input type="range" id="voicePitch" min="0.5" max="2" step="0.1" value="1">
-            </div>
-            
-            <div class="setting-item" id="audioTestSection" style="display: none;">
-                <button class="story-btn" onclick="testAudio()" style="width: 100%; margin-top: 10px;">
-                    🔊 اختبار الصوت (للهواتف)
-                </button>
-                <div id="audioTestStatus" style="color: #ff4444; margin-top: 5px; font-size: 12px;"></div>
             </div>
         </div>
 
@@ -727,72 +577,7 @@
         // متغيرات المستخدم
         let currentUser = null;
         let currentStory = 0;
-        let isSpeaking = false;
-        let utterance = null;
-        let isPaused = false;
-
-        // تهيئة خاصة للهواتف المحمولة
-        let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        let audioInitialized = false;
-        
-        // التأكد من دعم القراءة الصوتية
-        if (!window.speechSynthesis) {
-            console.error('المتصفح لا يدعم القراءة الصوتية');
-        }
-        
-        // للهواتف: تهيئة الصوت عند أول تفاعل (نقر أو لمس)
-        function initAudioForMobile() {
-            if (!audioInitialized) {
-                const utterance = new SpeechSynthesisUtterance('');
-                utterance.volume = 0;
-                speechSynthesis.speak(utterance);
-                speechSynthesis.cancel();
-                audioInitialized = true;
-                console.log('تم تهيئة الصوت للهاتف');
-            }
-        }
-        
-        if (isMobile) {
-            // تهيئة عند اللمس
-            document.addEventListener('touchstart', initAudioForMobile, { once: true });
-            // تهيئة عند النقر أيضاً
-            document.addEventListener('click', initAudioForMobile, { once: true });
-        }
-
-        // دالة تنظيف النص من الرموز قبل القراءة
-        function cleanTextForSpeech(text) {
-            return text
-                .replace(/\-/g, ' ')  // استبدال الشرطة بمسافة
-                .replace(/\_/g, ' ')  // استبدال الشرطة السفلية بمسافة
-                .replace(/\*/g, ' ')  // حذف النجمة
-                .replace(/\#/g, ' ')  // حذف الهاشتاق
-                .replace(/\@/g, ' ')  // حذف @
-                .replace(/\$/g, ' ')  // حذف $
-                .replace(/\%/g, ' بالمئة ')  // استبدال % بـ"بالمئة"
-                .replace(/\&/g, ' و ')  // استبدال & بـ"و"
-                .replace(/\+/g, ' زائد ')  // استبدال + بـ"زائد"
-                .replace(/\=/g, ' يساوي ')  // استبدال = بـ"يساوي"
-                .replace(/\</g, ' أصغر من ')  // استبدال < بـ"أصغر من"
-                .replace(/\>/g, ' أكبر من ')  // استبدال > بـ"أكبر من"
-                .replace(/\|/g, ' ')  // حذف |
-                .replace(/\\/g, ' ')  // حذف \
-                .replace(/\//g, ' ')  // حذف /
-                .replace(/\[/g, ' ')  // حذف [
-                .replace(/\]/g, ' ')  // حذف ]
-                .replace(/\{/g, ' ')  // حذف {
-                .replace(/\}/g, ' ')  // حذف }
-                .replace(/\(/g, ' ')  // حذف (
-                .replace(/\)/g, ' ')  // حذف )
-                .replace(/\~/g, ' ')  // حذف ~
-                .replace(/\`/g, ' ')  // حذف `
-                .replace(/\^/g, ' ')  // حذف ^
-                .replace(/\;/g, ' ')  // حذف ;
-                .replace(/\:/g, ' ')  // حذف :
-                .replace(/\"/g, ' ')  // حذف "
-                .replace(/\'/g, ' ')  // حذف '
-                .replace(/\s+/g, ' ')  // استبدال المسافات المتعددة بمسافة واحدة
-                .trim();
-        }
+        let isReading = false;
 
         // بيانات القصص (20 قصة)
         const stories = [
@@ -810,91 +595,6 @@
                 id: 2,
                 title: 'الغابة المظلمة',
                 text: 'ذهب أحمد ورفاقه في رحلة تخييم إلى غابة بعيدة. كانت الغابة جميلة، لكن هناك شيء ما يشعر به غريب. في الليل، بينما كانوا حول النار، شعروا بأن شيئاً ما يراقبهم من الظلام. كانت هناك أصوات غريبة تقترب والتقترب. هل سمعتم ذلك؟ همس أحمد لصديقه. نعم، وهو يقترب منا. فجأة، ظهرت ظلال غريبة حول النار. ظلال بأشكال إنسانية، لكنها تتحرك بطريقة غير طبيعية. حاول الجميع الهروب، لكن الغابة التفت عليهم. في كل مرة يحاولون الخروج، يجدون أنفسهم يعودون إلى نقطة البداية. والظلال تقترب أكثر فأكثر. لم ينجُ أحمد ورفاقه من الغابة. وإلى اليوم، الناس يسمعون أصوات تنادي من داخل الغابة، أصوات أولئك الذين ضاعوا هناك.'
-            },
-            {
-                id: 3,
-                title: 'الدمية القديمة',
-                text: 'ورثت فاطمة دمية قديمة من جدتها. كانت الدمية بشعة المظهر، برؤية عميقة وابتسامة غريبة. في الليلة الأولى، استيقظت فاطمة بسبب صوت، صوت الدمية تسقط من الرف. لكن الدمية كانت على بعد متر من مكانها! في كل ليلة، تتحرك الدمية أقرب وأقرب إلى سرير فاطمة. بدأت فاطمة ترى في الدمية صورة شخص حقيقي، امرأة عجوز بعيون حزينة. الدمية تحاول أن تخبرها شيئاً ما. اكتشفت فاطمة أن الدمية تحتوي على رسالة خطيرة مكتوبة بخط يدها جدتها: لا تثقي بأحد. هي ليست من تبدو عليه. الآن، فاطمة تفهم، الدمية كانت تحذرها. والشخص الذي تعتقد أنه جدتها ليس جدتها على الإطلاق.'
-            },
-            {
-                id: 4,
-                title: 'الشبح في المرآة',
-                text: 'اشترت نور مرآة قديمة من سوق العتيقات. كانت المرآة جميلة، برسومات معقدة على إطارها الخشبي. في الليل الأول، لاحظت نور شيئاً غريباً، في المرآة، ترى نفسها بشكل مختلف قليلاً. ابتسامتها تبدو أوسع، وعينيها تبدو أكثر قتامة. هذا مجرد انعكاس، قالت نور لنفسها، لكنها لم تكن متأكدة. كل ليلة، تصبح النسخة في المرآة أكثر اختلافاً. تقترب من الزجاج. تضع يدها على الجانب الداخلي من المرآة. ذات ليلة، اكتشفت نور أن يدها الحقيقية باردة جداً. ثم أدركت، هي من في المرآة الآن، والنسخة الأخرى تعيش حياتها في العالم الحقيقي. الآن، نور محبوسة في المرآة، تراقب نسختها الأخرى تسرق حياتها. وكل يوم، تقترب أكثر من الزجاج، محاولة الهروب.'
-            },
-            {
-                id: 5,
-                title: 'العين الساهرة',
-                text: 'اشترى علي لوحة قديمة جداً. اللوحة تحتوي على عين ضخمة جداً تنظر إلى الأمام. في البداية، كانت مجرد لوحة عادية. لكن في الليل، لاحظ علي أن العين تتحرك. تتابعه في كل مكان يذهب إليه. أحياناً، كانت العين تنظر مباشرة إليه. ظنه أنه تعب أو إرهاق. لكن الأمر استمر. في إحدى الليالي، استيقظ علي ورأى العين بجانب السرير. كانت العين تنظر إليه بشكل مباشر. حاول علي الصراخ، لكن جسده لم يستجب. العين اقتربت ببطء. شعر علي بأن شيئاً بارداً يدخل جسده. عندما استعاد السيطرة على جسده، لاحظ أنه يراقب نفسه من بعيد. الآن، علي هو العين. وعين أخرى تراقبه.'
-            },
-            {
-                id: 6,
-                title: 'الباب الأسود',
-                text: 'عثرت مريم على باب أسود غريب في الطابق السفلي من منزلها القديم. كانت متأكدة أنه لم يكن هناك من قبل. الباب لا يحتوي على مقبض أو قفل، فقط سطح أسود ناعم. في فضولها، حاولت دفع الباب فانفتح. خلف الباب كان هناك ممر طويل وظلام دامس. سمعت أصواتاً غريبة تأتي من داخل الممر. أصوات تنادي باسمها. خرجت مريم سريعاً وأغلقت الباب. لكن في اليوم التالي، وجدت الباب مفتوحاً مرة أخرى. والممر كان أطول هذه المرة. استمرت مريم في محاولة إغلاق الباب، لكنه يعود ليفتح. الآن، تسمع الأصوات في كل مكان في المنزل. والباب الأسود ينتظرها.'
-            },
-            {
-                id: 7,
-                title: 'المكالمة المجهولة',
-                text: 'بدأ خالد يتلقى مكالمات غريبة في منتصف الليل. المكالمة لا تحتوي على أي صوت، فقط تنفس ثقيل. في البداية، اعتقد أنها مزحة. لكن المكالمات استمرت كل ليلة في نفس الساعة، تماماً الساعة ثلاثة وثلاثة وثلاثين. في إحدى المرات، قرر خالد أن يتحدث. قال من أنت؟ كان هناك صمت طويل، ثم رد صوت خافت وبطيء: أنا أنت. شعر خالد بالرعب يسكن جسده. بدأ يتتبع المكالمات. جميع المكالمات تأتي من رقمه هو. من خلفه؟ كان ينظر حوله في كل مكان. في إحدى الليالي، رأى نسخة منه في المرآة. كانت تبتسم وتمسك الهاتف. الهاتف في يد خالد يرن مرة أخرى. وفي هذه المرة، الصوت أقرب.'
-            },
-            {
-                id: 8,
-                title: 'الليل الذي لا ينتهي',
-                text: 'استيقظ سامر من نومه في منتصف الليل. لم يكن هناك شيء غريب في البداية. نهض ليشرب ماء. عندما عاد إلى السرير، نام مرة أخرى. وفي الصباح، استيقظ من جديد. لكن الشمس لم تشرق. كان لا يزال منتصف الليل. اعتقد أنه نام أكثر من اللازم. ذهب إلى الشارع. كانت جميع المنازل مظلمة والشارع خاوي. جميع الساعات تشير إلى ثلاثة وثلاثة وثلاثين صباحاً. حاول الاتصال بشخص ما، لكن الهاتف لم يعمل. في كل ليلة يحاول النوم، يستيقظ في نفس الوقت. الليل لم يتغير أبداً. ويوماً بعد يوم، أدرك سامر أنه ميت.'
-            },
-            {
-                id: 9,
-                title: 'في الظل',
-                text: 'لاحظ محمود أن ظله بدأ يتصرف بغرابة. كان يتحرك بشكل مختلف عن حركاته. أحياناً، كان الظل يرفع يده بينما محمود يبقي يده في مكانها. ظنه أنه تعب أو إرهاق. لكن الأمر استمر. في إحدى الليالي، استيقظ محمود ورأى ظله واقفاً بجانب السرير. كان الظل ينظر إليه بشكل مباشر. حاول محمود الصراخ، لكن جسده لم يستجب. الظل اقترب ببطء. شعر محمود بأن شيئاً بارداً يدخل جسده. عندما استعاد السيطرة على جسده، لاحظ أنه يراقب نفسه من بعيد. الآن، محمود هو الظل. وشخص آخر يسيطر على جسده.'
-            },
-            {
-                id: 10,
-                title: 'الكتاب المحرم',
-                text: 'وجد طارق كتاباً قديماً جداً في مكتبة جده المنسية. الكتاب بدون عنوان، فقط رسومات غريبة على الغلاف. فضوله جعله يفتح الكتاب. قراءة الصفحات الأولى كانت سهلة، لكن الكلمات بدأت تتغير. الحروف تتحرك على الصفحة. في الليلة الأولى بعد قراءة الكتاب، استيقظ طارق بكوابيس مرعبة. رأى مخلوقات غريبة تطارده. في اليوم التالي، بدأ يسمع أصواتاً بداخل رأسه. أصوات تتحدث بلغة غريبة. حاول طارق إرجاع الكتاب، لكنه لم يستطع إيجاده. الكتاب اختفى. لكن الأصوات لم تختف. الآن، طارق يشعر أنه ليس وحده في جسده. هناك شيء آخر يعيش معه.'
-            },
-            {
-                id: 11,
-                title: 'الصورة القديمة',
-                text: 'ورثت ليلى صورة قديمة جداً من والديها. الصورة تحتوي على عائلة غريبة الوجوه. لكن في كل مرة تنظر إلى الصورة، الوجوه تتغير قليلاً. في البداية، اعتقدت أنها تخيل. لكن الوجوه بدأت تصبح مألوفة. تحت الصورة كانت هناك أسماء: اسم ليلى مكتوب هناك. والتاريخ الذي تحته يشير إلى تاريخ ولادتها. في الصورة، رأت نفسها. لكن كيف؟ الصورة قديمة جداً. أدركت ليلى أن الصورة تحتوي على صور لأشخاص لم يولدوا بعد. أو لم يموتوا بعد. الآن، وجهها في الصورة يتغير كل يوم. وفي الصورة، تقترب من نهايتها.'
-            },
-            {
-                id: 12,
-                title: 'الضحكة في الظلام',
-                text: 'سمع دعاء صوت ضحكة غريبة في الظلام. ضحكة لا تنتمي لأحد في المنزل. في البداية، اعتقد أنها من التلفاز. لكن التلفاز كان مغلقاً. الضحكة استمرت. كل ليلة، تقترب أكثر. في الليلة الثالثة، سمع الضحكة تأتي من داخل حجرته. كانت قريبة جداً. شعر بنفس بارد على وجهه. حاول دعاء أن يصرخ، لكن صوته خرج كضحكة. الآن، دعاء يضحك بدون إرادته. يضحك في الليل بينما يحاول النوم. ولا يستطيع التوقف.'
-            },
-            {
-                id: 13,
-                title: 'الخدش على الجدار',
-                text: 'بدأ ياسر يسمع صوت خدش على الجدار كل ليلة. الخدش يبدأ من السقف وينزل ببطء. في الليلة الأولى، اعتقد أنها فأرة. لكن الصوت كان أكبر بكثير. في الليلة الثانية، ذهب للتحقق من الجدار. وجد آثار خدش طويلة على الجدار. خطوط عميقة. في الليلة الثالثة، الخدش كان على الجدار من الداخل. الصوت كان يأتي من خلف الجدار. في الليلة الرابعة، رأى ياسر يد شاحبة تخرج من الجدار. اليد كانت تخدش من الداخل. الآن، الجدار يتشقق. والشيء خلفه يحاول الخروج.'
-            },
-            {
-                id: 14,
-                title: 'الماء الأسود',
-                text: 'اكتشفت نادية أن ماء الحنفية أصبح أسود. الماء له رائحة غريبة وكريهة. في البداية، اعتقدت أنها مشكلة في السباكة. استدعت السباك. لكنه قال أن السباكة بحالة جيدة. الماء الأسود استمر. نادية بدأت ترى أشياء في الماء. أشباح تتحرك داخل الماء الأسود. عندما حاولت لمس الماء، الشبح مد يده للخارج. الآن، نادية ترى العالم من خلال الماء الأسود. وهي عالقة بداخله.'
-            },
-            {
-                id: 15,
-                title: 'الرقعة السوداء',
-                text: 'ظهرت رقعة سوداء على جسم رافع. صغيرة في البداية، بحجم حبة الأرز. حاول رافع حكها، لكنها لم تختف. في كل يوم، الرقعة تكبر قليلاً. بعد أسبوع، أصبحت بحجم يد. بعد شهر، غطت نصف جسده. رافع ذهب إلى الطبيب، لكنه قال أنه لم يرَ شيئاً. لكن رافع يراها. وهي تنمو. الرقعة السوداء الآن تنتشر إلى روحه. وكل يوم، يفقد جزءاً آخر من ذاته.'
-            },
-            {
-                id: 16,
-                title: 'أصوات الجدران',
-                text: 'بدأت إيمان تسمع أصواتاً تأتي من داخل الجدران. أصوات هسهسة غريبة. في البداية، حاولت تجاهلها. لكن الأصوات استمرت وأصبحت أوضح. الآن، تستطيع سماع كلمات. الجدران تتحدث بلغة غريبة. تحاول الجدران أن تخبرها شيئاً ما. إيمان بدأت تحفر في الجدار لترى ما بداخله. وجدت عظام. عظام بشرية. الجدران مليئة بالجثث. والأصوات تستمر في الكلام.'
-            },
-            {
-                id: 17,
-                title: 'المرآة الثانية',
-                text: 'اشترى سارة مرآة ثانية لتضعها في منزلها. الآن عندها مرآتان. في البداية، لم تلاحظ أي شيء غريب. لكن بعد بضعة أيام، اكتشفت شيئاً: كل مرآة تعرض نسخة مختلفة منها. في مرآة، هي تبدو شاحبة. في الأخرى، هي تبدو شريرة. المرآتان تريانها بطرق مختلفة. والآن، سارة لا تعرف أي نسخة هي النسخة الحقيقية. والمرآتان تحاولان إقناعها بأنها نسخة مزيفة.'
-            },
-            {
-                id: 18,
-                title: 'الضيف الليلي',
-                text: 'بدأ محمود يسمع أصوات خطوات في منزله كل ليلة. خطوات غريبة تتحرك من غرفة إلى غرفة. في البداية، اعتقد أنها حيوان. لكن الخطوات كانت خطوات إنسان. محمود قرر أن يراقب. في إحدى الليالي، رأى ظل شخص يمر في الممر. حاول محمود أن يمسكه، لكن الشخص اختفى. في الليلة التالية، استيقظ محمود ووجد الشخص ينظر إليه من سرير آخر بجانبه. الشخص لا يتحرك. فقط ينظر. محمود صرخ وأطفأ الضوء. عندما أشعل الضوء مرة أخرى، الشخص كان أقرب. الآن، الشخص نائم بجانبه.'
-            },
-            {
-                id: 19,
-                title: 'الحرف الأخير',
-                text: 'كتبت زينب رسالة إلى صديقتها. رسالة عادية. لكن عندما أعادت قراءتها، لاحظت حرفاً غريباً في نهاية الرسالة. حرف لم تكتبه. في الليلة التالية، كتبت رسالة أخرى. الحرف الغريب ظهر مرة أخرى. الآن، كل ما تكتبه يحتوي على الحرف. الحرف يظهر بنفسه. زينب حاولت كتابة جملة بدون الحرف، لكنها فشلت. الحرف يفرض نفسه. والآن، الحرف يظهر في أشياء أخرى، على الجدران، على الملابس، في المرآة. الحرف يريد أن يخبرها شيئاً ما. ولا تستطيع زينب أن تفهمه.'
             }
         ];
 
@@ -958,14 +658,14 @@
                 storyDiv.innerHTML = `
                     <h2 class="story-title">${story.title}</h2>
                     <div class="story-controls">
-                        <button class="story-btn" onclick="speakStory(${index})">
+                        <button class="story-btn" onclick="readStory(${index})">
                             🔊 قراءة القصة
                         </button>
-                        <button class="story-btn" onclick="stopSpeaking()">
+                        <button class="story-btn" onclick="stopReading()">
                             ⏹️ توقف
                         </button>
                     </div>
-                    <div class="voice-status inactive" id="status-${index}">🔴 لم يتم التشغيل</div>
+                    <div class="voice-status inactive" id="status-${index}">🔴 جاهز للقراءة</div>
                     <div class="story-text">
                         ${story.text.split('. ').map(p => p.trim() ? `<p>${p}.</p>` : '').join('')}
                     </div>
@@ -985,156 +685,70 @@
 
             updateProgressBar();
             saveProgress();
-            stopSpeaking();
+            stopReading();
 
             // Scroll إلى أعلى
             document.querySelector('.container').scrollTop = 0;
         }
 
-        // قراءة القصة بصوت (مع تنظيف النص)
-        function speakStory(index) {
-            // إيقاف أي قراءة سابقة
-            stopSpeaking();
+        // قراءة القصة باستخدام ResponsiveVoice
+        function readStory(index) {
+            stopReading();
             
             const story = stories[index];
-            const text = cleanTextForSpeech(story.text);
             const statusEl = document.getElementById(`status-${index}`);
             
-            // للهواتف: تهيئة الصوت أولاً
-            if (isMobile && !audioInitialized) {
-                initAudioForMobile();
+            // التحقق من وجود ResponsiveVoice
+            if (typeof responsiveVoice === 'undefined') {
+                statusEl.textContent = '❌ جاري تحميل مكتبة القراءة...';
+                setTimeout(() => readStory(index), 1000);
+                return;
             }
             
-            try {
-                // إنشاء utterance جديد مباشرة
-                utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'ar-SA';
-                utterance.rate = parseFloat(document.getElementById('voiceSpeed').value);
-                utterance.volume = parseFloat(document.getElementById('voiceVolume').value);
-                utterance.pitch = parseFloat(document.getElementById('voicePitch').value);
-                
-                // عند بدء القراءة
-                utterance.onstart = () => {
-                    isSpeaking = true;
+            isReading = true;
+            statusEl.textContent = '🟢 جاري القراءة...';
+            statusEl.classList.remove('inactive');
+            
+            const rate = parseFloat(document.getElementById('voiceSpeed').value);
+            const volume = parseFloat(document.getElementById('voiceVolume').value);
+            
+            // استخدام ResponsiveVoice للقراءة - يعمل على جميع الأجهزة
+            responsiveVoice.speak(story.text, "Arabic Male", {
+                rate: rate,
+                volume: volume,
+                onstart: function() {
+                    isReading = true;
                     statusEl.textContent = '🟢 جاري القراءة...';
-                    statusEl.classList.remove('inactive');
-                    console.log('بدأت القراءة');
-                };
-                
-                // عند انتهاء القراءة
-                utterance.onend = () => {
-                    if (isSpeaking) { // فقط إذا لم يتم إيقافها يدوياً
-                        isSpeaking = false;
+                    console.log("بدأت القراءة");
+                },
+                onend: function() {
+                    if (isReading) {
+                        isReading = false;
                         statusEl.textContent = '✅ انتهت القراءة';
                         statusEl.classList.add('inactive');
-                        console.log('انتهت القراءة');
+                        console.log("انتهت القراءة");
                     }
-                };
-                
-                // عند حدوث خطأ
-                utterance.onerror = (event) => {
-                    console.log('نوع الخطأ:', event.error);
-                    // فقط اظهر رسالة خطأ للأخطاء الحقيقية، ليس عند الإلغاء
-                    if (event.error !== 'canceled' && event.error !== 'interrupted') {
-                        statusEl.textContent = '❌ خطأ في التشغيل';
-                        statusEl.classList.add('inactive');
-                        isSpeaking = false;
-                    }
-                };
-                
-                // بدء القراءة مباشرة
-                statusEl.textContent = '⏳ جاري التحضير...';
-                statusEl.classList.remove('inactive');
-                
-                // تنظيف قائمة الانتظار
-                speechSynthesis.cancel();
-                
-                // بدء القراءة
-                speechSynthesis.speak(utterance);
-                
-                // للهواتف: التحقق من بدء القراءة
-                if (isMobile) {
-                    setTimeout(() => {
-                        if (!isSpeaking && speechSynthesis.speaking) {
-                            isSpeaking = true;
-                        }
-                        // إذا لم تبدأ القراءة، حاول مرة أخرى
-                        if (!speechSynthesis.speaking && !isSpeaking) {
-                            console.log('إعادة المحاولة...');
-                            speechSynthesis.speak(utterance);
-                        }
-                    }, 500);
+                },
+                onerror: function() {
+                    statusEl.textContent = '❌ خطأ في القراءة';
+                    statusEl.classList.add('inactive');
+                    isReading = false;
                 }
-                
-            } catch (error) {
-                console.error('خطأ في بدء القراءة:', error);
-                statusEl.textContent = '❌ فشل التشغيل - جرب مرة أخرى';
-                statusEl.classList.add('inactive');
-                isSpeaking = false;
-            }
+            });
         }
 
         // إيقاف القراءة
-        function stopSpeaking() {
-            try {
-                if (isSpeaking || speechSynthesis.speaking) {
-                    speechSynthesis.cancel();
-                    isSpeaking = false;
-                    isPaused = false;
-                    
-                    // تحديث جميع حالات القراءة
-                    document.querySelectorAll('.voice-status').forEach(s => {
-                        s.textContent = '⏹️ تم الإيقاف';
-                        s.classList.add('inactive');
-                    });
-                    
-                    console.log('تم إيقاف القراءة');
-                }
-            } catch (error) {
-                console.error('خطأ في إيقاف القراءة:', error);
-            }
-        }
-        
-        // اختبار الصوت للهواتف
-        function testAudio() {
-            const statusEl = document.getElementById('audioTestStatus');
-            statusEl.textContent = '⏳ جاري الاختبار...';
-            
-            try {
-                // تهيئة الصوت
-                if (!audioInitialized) {
-                    initAudioForMobile();
-                }
+        function stopReading() {
+            if (typeof responsiveVoice !== 'undefined' && isReading) {
+                responsiveVoice.cancel();
+                isReading = false;
                 
-                // إنشاء نص اختبار
-                const testUtterance = new SpeechSynthesisUtterance('مرحبا، هذا اختبار للقراءة الصوتية');
-                testUtterance.lang = 'ar-SA';
-                testUtterance.rate = 1;
-                testUtterance.volume = 1;
-                testUtterance.pitch = 1;
+                document.querySelectorAll('.voice-status').forEach(s => {
+                    s.textContent = '⏹️ تم الإيقاف';
+                    s.classList.add('inactive');
+                });
                 
-                testUtterance.onstart = () => {
-                    statusEl.textContent = '✅ الصوت يعمل بشكل صحيح!';
-                    statusEl.style.color = '#00ff00';
-                };
-                
-                testUtterance.onend = () => {
-                    setTimeout(() => {
-                        statusEl.textContent = '';
-                    }, 3000);
-                };
-                
-                testUtterance.onerror = (event) => {
-                    statusEl.textContent = '❌ خطأ: ' + event.error;
-                    statusEl.style.color = '#ff0000';
-                };
-                
-                speechSynthesis.cancel();
-                speechSynthesis.speak(testUtterance);
-                
-            } catch (error) {
-                statusEl.textContent = '❌ فشل الاختبار: ' + error.message;
-                statusEl.style.color = '#ff0000';
+                console.log('تم إيقاف القراءة');
             }
         }
 
@@ -1168,7 +782,7 @@
             localStorage.removeItem('user');
             localStorage.removeItem('lastStory');
             currentUser = null;
-            stopSpeaking();
+            stopReading();
             location.reload();
         }
 
@@ -1179,7 +793,6 @@
             const lastStory = localStorage.getItem('lastStory');
             const voiceSpeed = localStorage.getItem('voiceSpeed');
             const voiceVolume = localStorage.getItem('voiceVolume');
-            const voicePitch = localStorage.getItem('voicePitch');
 
             if (fontSize) {
                 document.getElementById('fontSize').value = fontSize;
@@ -1195,9 +808,6 @@
             }
             if (voiceVolume) {
                 document.getElementById('voiceVolume').value = voiceVolume;
-            }
-            if (voicePitch) {
-                document.getElementById('voicePitch').value = voicePitch;
             }
             if (lastStory) {
                 selectStory(parseInt(lastStory));
@@ -1223,14 +833,6 @@
 
         // تبديل الإعدادات
         document.addEventListener('DOMContentLoaded', () => {
-            // إظهار زر اختبار الصوت للهواتف فقط
-            if (isMobile) {
-                const audioTestSection = document.getElementById('audioTestSection');
-                if (audioTestSection) {
-                    audioTestSection.style.display = 'block';
-                }
-            }
-            
             // زر القائمة للموبايل
             const menuToggle = document.getElementById('menuToggle');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
@@ -1275,9 +877,6 @@
             if (voiceSpeedInput) {
                 voiceSpeedInput.addEventListener('input', (e) => {
                     document.getElementById('speedValue').textContent = e.target.value + 'x';
-                    if (utterance) {
-                        utterance.rate = parseFloat(e.target.value);
-                    }
                     localStorage.setItem('voiceSpeed', e.target.value);
                 });
             }
@@ -1286,21 +885,7 @@
             const voiceVolumeInput = document.getElementById('voiceVolume');
             if (voiceVolumeInput) {
                 voiceVolumeInput.addEventListener('input', (e) => {
-                    if (utterance) {
-                        utterance.volume = parseFloat(e.target.value);
-                    }
                     localStorage.setItem('voiceVolume', e.target.value);
-                });
-            }
-
-            // درجة الصوت
-            const voicePitchInput = document.getElementById('voicePitch');
-            if (voicePitchInput) {
-                voicePitchInput.addEventListener('input', (e) => {
-                    if (utterance) {
-                        utterance.pitch = parseFloat(e.target.value);
-                    }
-                    localStorage.setItem('voicePitch', e.target.value);
                 });
             }
         });
