@@ -711,6 +711,13 @@
                 <label for="voicePitch">درجة الصوت:</label>
                 <input type="range" id="voicePitch" min="0.5" max="2" step="0.1" value="1">
             </div>
+            
+            <div class="setting-item" id="audioTestSection" style="display: none;">
+                <button class="story-btn" onclick="testAudio()" style="width: 100%; margin-top: 10px;">
+                    🔊 اختبار الصوت (للهواتف)
+                </button>
+                <div id="audioTestStatus" style="color: #ff4444; margin-top: 5px; font-size: 12px;"></div>
+            </div>
         </div>
 
         <button class="settings-btn" id="settingsToggle">⚙️</button>
@@ -726,20 +733,30 @@
 
         // تهيئة خاصة للهواتف المحمولة
         let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        let audioInitialized = false;
         
         // التأكد من دعم القراءة الصوتية
         if (!window.speechSynthesis) {
             console.error('المتصفح لا يدعم القراءة الصوتية');
         }
         
-        // للهواتف: تهيئة الصوت عند أول تفاعل
-        if (isMobile) {
-            document.addEventListener('touchstart', function initAudio() {
+        // للهواتف: تهيئة الصوت عند أول تفاعل (نقر أو لمس)
+        function initAudioForMobile() {
+            if (!audioInitialized) {
                 const utterance = new SpeechSynthesisUtterance('');
+                utterance.volume = 0;
                 speechSynthesis.speak(utterance);
                 speechSynthesis.cancel();
-                document.removeEventListener('touchstart', initAudio);
-            }, { once: true });
+                audioInitialized = true;
+                console.log('تم تهيئة الصوت للهاتف');
+            }
+        }
+        
+        if (isMobile) {
+            // تهيئة عند اللمس
+            document.addEventListener('touchstart', initAudioForMobile, { once: true });
+            // تهيئة عند النقر أيضاً
+            document.addEventListener('click', initAudioForMobile, { once: true });
         }
 
         // دالة تنظيف النص من الرموز قبل القراءة
@@ -976,77 +993,148 @@
 
         // قراءة القصة بصوت (مع تنظيف النص)
         function speakStory(index) {
+            // إيقاف أي قراءة سابقة
             stopSpeaking();
             
             const story = stories[index];
-            const text = cleanTextForSpeech(story.text); // تنظيف النص من الرموز
-            
-            // للهواتف: يجب إنشاء utterance جديد مباشرة عند النقر
-            utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'ar-SA';
-            utterance.rate = parseFloat(document.getElementById('voiceSpeed').value);
-            utterance.volume = parseFloat(document.getElementById('voiceVolume').value);
-            utterance.pitch = parseFloat(document.getElementById('voicePitch').value);
-
+            const text = cleanTextForSpeech(story.text);
             const statusEl = document.getElementById(`status-${index}`);
-
-            utterance.onstart = () => {
-                isSpeaking = true;
-                isPaused = false;
-                statusEl.textContent = '🟢 جاري القراءة...';
-                statusEl.classList.remove('inactive');
-            };
-
-            utterance.onend = () => {
-                isSpeaking = false;
-                statusEl.textContent = '✅ انتهت القراءة';
-                statusEl.classList.add('inactive');
-            };
-
-            utterance.onerror = (event) => {
-                console.error('خطأ في القراءة:', event);
-                statusEl.textContent = '❌ خطأ في التشغيل - حاول مرة أخرى';
-                statusEl.classList.add('inactive');
-                isSpeaking = false;
-                
-                // إعادة المحاولة للهواتف
-                setTimeout(() => {
-                    if (confirm('حدث خطأ في القراءة. هل تريد المحاولة مرة أخرى؟')) {
-                        speakStory(index);
-                    }
-                }, 100);
-            };
-
-            // للهواتف: التأكد من تفعيل الصوت أولاً
+            
+            // للهواتف: تهيئة الصوت أولاً
+            if (isMobile && !audioInitialized) {
+                initAudioForMobile();
+            }
+            
             try {
-                speechSynthesis.cancel(); // إلغاء أي قراءة سابقة
+                // إنشاء utterance جديد مباشرة
+                utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ar-SA';
+                utterance.rate = parseFloat(document.getElementById('voiceSpeed').value);
+                utterance.volume = parseFloat(document.getElementById('voiceVolume').value);
+                utterance.pitch = parseFloat(document.getElementById('voicePitch').value);
+                
+                // عند بدء القراءة
+                utterance.onstart = () => {
+                    isSpeaking = true;
+                    statusEl.textContent = '🟢 جاري القراءة...';
+                    statusEl.classList.remove('inactive');
+                    console.log('بدأت القراءة');
+                };
+                
+                // عند انتهاء القراءة
+                utterance.onend = () => {
+                    if (isSpeaking) { // فقط إذا لم يتم إيقافها يدوياً
+                        isSpeaking = false;
+                        statusEl.textContent = '✅ انتهت القراءة';
+                        statusEl.classList.add('inactive');
+                        console.log('انتهت القراءة');
+                    }
+                };
+                
+                // عند حدوث خطأ
+                utterance.onerror = (event) => {
+                    console.log('نوع الخطأ:', event.error);
+                    // فقط اظهر رسالة خطأ للأخطاء الحقيقية، ليس عند الإلغاء
+                    if (event.error !== 'canceled' && event.error !== 'interrupted') {
+                        statusEl.textContent = '❌ خطأ في التشغيل';
+                        statusEl.classList.add('inactive');
+                        isSpeaking = false;
+                    }
+                };
+                
+                // بدء القراءة مباشرة
+                statusEl.textContent = '⏳ جاري التحضير...';
+                statusEl.classList.remove('inactive');
+                
+                // تنظيف قائمة الانتظار
+                speechSynthesis.cancel();
+                
+                // بدء القراءة
                 speechSynthesis.speak(utterance);
                 
-                // التأكد من بدء القراءة على الهواتف
-                setTimeout(() => {
-                    if (!isSpeaking && speechSynthesis.paused) {
-                        speechSynthesis.resume();
-                    }
-                }, 100);
+                // للهواتف: التحقق من بدء القراءة
+                if (isMobile) {
+                    setTimeout(() => {
+                        if (!isSpeaking && speechSynthesis.speaking) {
+                            isSpeaking = true;
+                        }
+                        // إذا لم تبدأ القراءة، حاول مرة أخرى
+                        if (!speechSynthesis.speaking && !isSpeaking) {
+                            console.log('إعادة المحاولة...');
+                            speechSynthesis.speak(utterance);
+                        }
+                    }, 500);
+                }
+                
             } catch (error) {
-                console.error('خطأ:', error);
-                statusEl.textContent = '❌ المتصفح لا يدعم القراءة الصوتية';
+                console.error('خطأ في بدء القراءة:', error);
+                statusEl.textContent = '❌ فشل التشغيل - جرب مرة أخرى';
                 statusEl.classList.add('inactive');
+                isSpeaking = false;
             }
         }
 
         // إيقاف القراءة
         function stopSpeaking() {
             try {
-                speechSynthesis.cancel();
-                isSpeaking = false;
-                isPaused = false;
-                document.querySelectorAll('.voice-status').forEach(s => {
-                    s.textContent = '🔴 متوقفة';
-                    s.classList.add('inactive');
-                });
+                if (isSpeaking || speechSynthesis.speaking) {
+                    speechSynthesis.cancel();
+                    isSpeaking = false;
+                    isPaused = false;
+                    
+                    // تحديث جميع حالات القراءة
+                    document.querySelectorAll('.voice-status').forEach(s => {
+                        s.textContent = '⏹️ تم الإيقاف';
+                        s.classList.add('inactive');
+                    });
+                    
+                    console.log('تم إيقاف القراءة');
+                }
             } catch (error) {
                 console.error('خطأ في إيقاف القراءة:', error);
+            }
+        }
+        
+        // اختبار الصوت للهواتف
+        function testAudio() {
+            const statusEl = document.getElementById('audioTestStatus');
+            statusEl.textContent = '⏳ جاري الاختبار...';
+            
+            try {
+                // تهيئة الصوت
+                if (!audioInitialized) {
+                    initAudioForMobile();
+                }
+                
+                // إنشاء نص اختبار
+                const testUtterance = new SpeechSynthesisUtterance('مرحبا، هذا اختبار للقراءة الصوتية');
+                testUtterance.lang = 'ar-SA';
+                testUtterance.rate = 1;
+                testUtterance.volume = 1;
+                testUtterance.pitch = 1;
+                
+                testUtterance.onstart = () => {
+                    statusEl.textContent = '✅ الصوت يعمل بشكل صحيح!';
+                    statusEl.style.color = '#00ff00';
+                };
+                
+                testUtterance.onend = () => {
+                    setTimeout(() => {
+                        statusEl.textContent = '';
+                    }, 3000);
+                };
+                
+                testUtterance.onerror = (event) => {
+                    statusEl.textContent = '❌ خطأ: ' + event.error;
+                    statusEl.style.color = '#ff0000';
+                };
+                
+                speechSynthesis.cancel();
+                speechSynthesis.speak(testUtterance);
+                
+            } catch (error) {
+                statusEl.textContent = '❌ فشل الاختبار: ' + error.message;
+                statusEl.style.color = '#ff0000';
             }
         }
 
@@ -1135,6 +1223,14 @@
 
         // تبديل الإعدادات
         document.addEventListener('DOMContentLoaded', () => {
+            // إظهار زر اختبار الصوت للهواتف فقط
+            if (isMobile) {
+                const audioTestSection = document.getElementById('audioTestSection');
+                if (audioTestSection) {
+                    audioTestSection.style.display = 'block';
+                }
+            }
+            
             // زر القائمة للموبايل
             const menuToggle = document.getElementById('menuToggle');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
