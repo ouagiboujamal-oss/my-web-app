@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -14,9 +15,33 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: #0a0a0a;
+            background: #000000;
             color: #fff;
             overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(139, 0, 0, 0.3) 1px, transparent 1px),
+                radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.5) 2px, transparent 2px),
+                linear-gradient(135deg, #0a0a0a 0%, #1a0000 25%, #0a0a0a 50%, #1a0000 75%, #0a0a0a 100%);
+            background-size: 100px 100px, 150px 150px, 200% 200%;
+            animation: backgroundMove 20s ease infinite;
+        }
+
+        @keyframes backgroundMove {
+            0% { background-position: 0 0, 0 0, 0 0; }
+            100% { background-position: 100px 100px, 150px 150px, -200% -200%; }
+        }
+
+        /* تأثيرات مرعبة */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+            pointer-events: none;
+            z-index: 1;
         }
 
         /* شاشة تسجيل الدخول */
@@ -26,11 +51,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+            background: linear-gradient(135deg, #000000, #1a0000);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 2000;
+            backdrop-filter: blur(10px);
         }
 
         .login-screen.hidden {
@@ -38,21 +64,28 @@
         }
 
         .login-container {
-            background: linear-gradient(135deg, #1a0000, #330000);
+            background: linear-gradient(135deg, rgba(26, 0, 0, 0.9), rgba(51, 0, 0, 0.9));
             padding: 60px 40px;
             border-radius: 20px;
             border: 3px solid #8b0000;
             text-align: center;
-            box-shadow: 0 0 50px rgba(139, 0, 0, 0.7);
+            box-shadow: 0 0 50px rgba(139, 0, 0, 0.9), inset 0 0 30px rgba(0, 0, 0, 0.5);
             max-width: 450px;
             width: 90%;
+            backdrop-filter: blur(10px);
         }
 
         .login-container h1 {
             font-size: 48px;
             color: #ff4444;
             margin-bottom: 10px;
-            text-shadow: 0 0 10px #8b0000;
+            text-shadow: 0 0 20px #8b0000, 0 0 40px #ff0000;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px #8b0000, 0 0 40px #ff0000; }
+            50% { text-shadow: 0 0 30px #ff0000, 0 0 60px #ff4444; }
         }
 
         .login-container p {
@@ -61,41 +94,25 @@
             font-size: 16px;
         }
 
-        #g_id_onload {
-            margin: 30px 0;
-        }
-
-        .login-divider {
-            margin: 30px 0;
-            color: #888;
-        }
-
-        .login-info {
-            background: rgba(139, 0, 0, 0.2);
-            padding: 15px;
-            border-left: 3px solid #ff4444;
-            margin-top: 20px;
-            text-align: right;
-            font-size: 14px;
-            color: #e0e0e0;
-        }
-
-        /* الشريط العلوي مع بيانات المستخدم */
+        /* الشريط العلوي */
         header {
-            background: linear-gradient(135deg, #1a0000, #330000);
+            background: linear-gradient(135deg, rgba(26, 0, 0, 0.95), rgba(51, 0, 0, 0.95));
             padding: 20px;
             text-align: center;
             border-bottom: 3px solid #8b0000;
-            box-shadow: 0 0 20px rgba(139, 0, 0, 0.5);
+            box-shadow: 0 0 20px rgba(139, 0, 0, 0.8);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 100;
         }
 
         header h1 {
             font-size: 48px;
             color: #ff4444;
-            text-shadow: 0 0 10px #8b0000;
+            text-shadow: 0 0 20px #8b0000;
             flex: 1;
         }
 
@@ -107,6 +124,7 @@
             padding: 10px 20px;
             border-radius: 10px;
             border: 1px solid #ff4444;
+            backdrop-filter: blur(10px);
         }
 
         .user-profile img {
@@ -114,6 +132,7 @@
             height: 50px;
             border-radius: 50%;
             border: 2px solid #ff4444;
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
         }
 
         .user-info {
@@ -152,13 +171,28 @@
             position: fixed;
             left: 0;
             top: 80px;
-            width: 250px;
+            width: 280px;
             height: calc(100vh - 80px);
-            background: linear-gradient(180deg, #1a1a1a, #2d2d2d);
+            background: linear-gradient(180deg, rgba(26, 26, 26, 0.95), rgba(45, 45, 45, 0.95));
             padding: 20px;
             border-right: 2px solid #8b0000;
             overflow-y: auto;
             z-index: 1000;
+            backdrop-filter: blur(10px);
+            box-shadow: inset -20px 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(139, 0, 0, 0.1);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #ff4444;
+            border-radius: 4px;
         }
 
         .sidebar h2 {
@@ -166,6 +200,7 @@
             margin-bottom: 20px;
             border-bottom: 2px solid #8b0000;
             padding-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
         }
 
         .story-list {
@@ -180,24 +215,29 @@
             cursor: pointer;
             border-radius: 5px;
             transition: all 0.3s;
+            font-size: 14px;
         }
 
         .story-list li:hover {
             background: rgba(139, 0, 0, 0.5);
             transform: translateX(-5px);
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
         }
 
         .story-list li.active {
             background: rgba(255, 68, 68, 0.3);
             border-left: 5px solid #ff4444;
+            box-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
         }
 
         /* المحتوى الرئيسي */
         .container {
-            margin-left: 250px;
+            margin-left: 280px;
             margin-top: 80px;
             padding: 40px;
             min-height: 100vh;
+            position: relative;
+            z-index: 10;
         }
 
         .story {
@@ -210,50 +250,49 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .story-image {
-            width: 100%;
-            max-width: 600px;
-            height: 400px;
-            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
-            border: 2px solid #8b0000;
-            border-radius: 10px;
+        .story-controls {
+            display: flex;
+            gap: 10px;
             margin: 20px 0;
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(139, 0, 0, 0.5);
+            flex-wrap: wrap;
+        }
+
+        .story-btn {
+            background: linear-gradient(135deg, #ff4444, #ff6666);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 100px;
+            gap: 8px;
+            font-size: 14px;
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
         }
 
-        .story-image.img1 {
-            background: linear-gradient(135deg, #4a0000, #1a0000);
+        .story-btn:hover {
+            background: linear-gradient(135deg, #ff6666, #ff8888);
+            box-shadow: 0 0 20px rgba(255, 68, 68, 0.6);
+            transform: translateY(-2px);
         }
 
-        .story-image.img2 {
-            background: linear-gradient(135deg, #001a4a, #000a1a);
-        }
-
-        .story-image.img3 {
-            background: linear-gradient(135deg, #1a0a00, #4a2a00);
-        }
-
-        .story-image.img4 {
-            background: linear-gradient(135deg, #2d0a2d, #1a0000);
-        }
-
-        .story-image.img5 {
-            background: linear-gradient(135deg, #000a1a, #0a1a2d);
+        .story-btn.active {
+            background: linear-gradient(135deg, #00ff00, #00dd00);
+            color: black;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
         }
 
         .story-title {
             font-size: 36px;
             color: #ff4444;
-            text-shadow: 0 0 10px #8b0000;
+            text-shadow: 0 0 20px #8b0000;
             margin: 30px 0 20px 0;
             border-bottom: 2px solid #8b0000;
             padding-bottom: 15px;
@@ -264,10 +303,12 @@
             line-height: 1.8;
             color: #e0e0e0;
             margin: 20px 0;
-            background: rgba(26, 26, 26, 0.8);
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9), rgba(20, 20, 20, 0.9));
             padding: 25px;
             border-left: 4px solid #ff4444;
             border-radius: 5px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
         }
 
         .story-text p {
@@ -277,6 +318,21 @@
         .story-text em {
             color: #ff4444;
             font-style: italic;
+            text-shadow: 0 0 5px rgba(255, 68, 68, 0.5);
+        }
+
+        .voice-speed {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+            background: rgba(139, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .voice-speed input {
+            width: 150px;
         }
 
         /* الإعدادات */
@@ -290,7 +346,7 @@
         .settings-btn {
             width: 60px;
             height: 60px;
-            background: #ff4444;
+            background: linear-gradient(135deg, #ff4444, #ff6666);
             border: none;
             border-radius: 50%;
             cursor: pointer;
@@ -303,21 +359,25 @@
         }
 
         .settings-btn:hover {
-            background: #ff6666;
+            background: linear-gradient(135deg, #ff6666, #ff8888);
             box-shadow: 0 0 25px rgba(255, 68, 68, 0.8);
+            transform: scale(1.1);
         }
 
         .settings-panel {
             position: fixed;
             bottom: 100px;
             right: 30px;
-            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(45, 45, 45, 0.95));
             border: 2px solid #ff4444;
             border-radius: 10px;
             padding: 20px;
             width: 300px;
             display: none;
-            box-shadow: 0 0 30px rgba(139, 0, 0, 0.5);
+            box-shadow: 0 0 30px rgba(139, 0, 0, 0.8);
+            max-height: 400px;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
         }
 
         .settings-panel.active {
@@ -327,6 +387,7 @@
         .settings-panel h3 {
             color: #ff4444;
             margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
         }
 
         .setting-item {
@@ -337,6 +398,7 @@
             display: block;
             color: #e0e0e0;
             margin-bottom: 8px;
+            font-size: 12px;
         }
 
         .setting-item input[type="range"] {
@@ -347,11 +409,12 @@
         .setting-item select {
             width: 100%;
             padding: 8px;
-            background: #333;
+            background: rgba(51, 51, 51, 0.8);
             color: #fff;
             border: 1px solid #ff4444;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 12px;
         }
 
         .progress-bar {
@@ -362,6 +425,23 @@
             background: linear-gradient(90deg, #ff4444, #8b0000);
             width: 0%;
             z-index: 1001;
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.8);
+        }
+
+        .voice-status {
+            background: rgba(0, 255, 0, 0.2);
+            border-left: 3px solid #00ff00;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            color: #00ff00;
+            font-size: 12px;
+        }
+
+        .voice-status.inactive {
+            background: rgba(139, 0, 0, 0.2);
+            border-left-color: #ff4444;
+            color: #ff4444;
         }
 
         @media (max-width: 768px) {
@@ -386,6 +466,15 @@
             .user-profile {
                 width: 100%;
             }
+
+            .story-controls {
+                flex-direction: column;
+            }
+
+            .story-btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -394,25 +483,20 @@
     <div class="login-screen" id="loginScreen">
         <div class="login-container">
             <h1>👻 قصص الرعب 👻</h1>
-            <p>سجل الدخول للاستمتاع بقصص الرعب</p>
+            <p>سجل الدخول للاستمتاع بقصص الرعب المرعبة</p>
             
             <div id="g_id_onload"
                 data-client_id="295699802302-t4l7rov5vo93g20fuphhbh4sj21dbgu1.apps.googleusercontent.com"
                 data-callback="handleCredentialResponse">
             </div>
             <div class="g_id_signin" data-type="standard"></div>
-
-            <div class="login-info">
-                <p>🔐 بيانات حسابك آمنة تماماً</p>
-                <p>سنستخدم بيانات حسابك فقط لحفظ تقدمك</p>
-            </div>
         </div>
     </div>
 
     <!-- شريط التقدم -->
     <div class="progress-bar" id="progressBar"></div>
 
-    <!-- الرأس (مخفي حتى تسجيل الدخول) -->
+    <!-- الرأس -->
     <header id="header" style="display: none;">
         <h1>👻 قصص الرعب المرعبة 👻</h1>
         <div class="user-profile" id="userProfile">
@@ -428,83 +512,15 @@
     <!-- القائمة الجانبية -->
     <div class="sidebar" id="sidebar" style="display: none;">
         <h2>📖 القصص</h2>
-        <ul class="story-list">
-            <li class="active" data-story="0">1️⃣ الساعة الملعونة</li>
-            <li data-story="1">2️⃣ الفندق الخالي</li>
-            <li data-story="2">3️⃣ الغابة المظلمة</li>
-            <li data-story="3">4️⃣ الدمية القديمة</li>
-            <li data-story="4">5️⃣ الشبح في المرآة</li>
+        <ul class="story-list" id="storyList">
+            <!-- سيتم ملؤها ديناميكياً -->
         </ul>
     </div>
 
     <!-- المحتوى الرئيسي -->
     <div class="container" id="container" style="display: none;">
-        <!-- القصة الأولى -->
-        <div class="story active" id="story-0">
-            <h2 class="story-title">⏰ الساعة الملعونة</h2>
-            <div class="story-image img1">⏰</div>
-            <div class="story-text">
-                <p>في إحدى الليالي الباردة، اشترى محمد ساعة حائطية قديمة من متجر العتيقات. كانت الساعة جميلة بتصميمها العتيق، لكنها غريبة بطريقة ما.</p>
-                <p>في الليلة الأولى، لاحظ محمد شيئاً غريباً - الساعة تتحرك بسرعة أسرع من المعتاد. عندما نظر إلى الساعة الساعة 3:33 صباحاً، سمع صوت خطوات غريبة في الممر.</p>
-                <p><em>"من هناك؟" صرخ محمد، لكن لا أحد رد عليه.</em></p>
-                <p>في كل ليلة، عندما تصل الساعة إلى 3:33، يسمع محمد نفس الأصوات المرعبة. وفي كل مرة، يشعر بوجود شيء بارد يقترب منه في الظلام.</p>
-                <p>بعد أسبوع، اكتشف محمد الحقيقة المرعبة - السعر الذي دفعه للساعة كان نفس سعر حياة سابقة. والآن، الساعة تأخذ حياته، ثانية واحدة في كل مرة تدق فيها جرسها.</p>
-            </div>
-        </div>
-
-        <!-- القصة الثانية -->
-        <div class="story" id="story-1">
-            <h2 class="story-title">🏨 الفندق الخالي</h2>
-            <div class="story-image img2">🏨</div>
-            <div class="story-text">
-                <p>حجزت سارة غرفة في فندق قديم بعيد عن المدينة. عندما وصلت، وجدت الفندق خالياً تماماً - لا موظفين، لا نزلاء آخرين.</p>
-                <p>صعدت إلى غرفتها في الطابق الخامس. الممر كان طويلاً وهادئاً بشكل غريب. الأضواء كانت تومض بشكل متقطع.</p>
-                <p><em>في منتصف الليل، سمعت سارة أصوات خطوات في الممر. ثم جرس باب غرفتها.</em></p>
-                <p>فتحت الباب ببطء، لكن لم يكن هناك أحد. فقط مرآة قديمة معلقة على الجدار. وعندما نظرت في المرآة، رأت شخصاً خلفها - لكن الغرفة كانت خالية!</p>
-                <p>في الصباح، اكتشفت سارة أن الفندق مغلق منذ 30 سنة بعد حادثة غريبة حيث اختفى جميع الضيوف في ليلة واحدة. والآن، هي جزء من تلك الليلة الملعونة.</p>
-            </div>
-        </div>
-
-        <!-- القصة الثالثة -->
-        <div class="story" id="story-2">
-            <h2 class="story-title">🌲 الغابة المظلمة</h2>
-            <div class="story-image img3">🌲</div>
-            <div class="story-text">
-                <p>ذهب أحمد ورفاقه في رحلة تخييم إلى غابة بعيدة. كانت الغابة جميلة، لكن هناك شيء ما يشعر به غريب.</p>
-                <p>في الليل، بينما كانوا حول النار، شعروا بأن شيئاً ما يراقبهم من الظلام. كانت هناك أصوات غريبة تقترب والتقترب.</p>
-                <p><em>"هل سمعتم ذلك؟" همس أحمد لصديقه. "نعم، وهو يقترب منا."</em></p>
-                <p>فجأة، ظهرت ظلال غريبة حول النار. ظلال بأشكال إنسانية، لكنها تتحرك بطريقة غير طبيعية.</p>
-                <p>حاول الجميع الهروب، لكن الغابة التفت عليهم. في كل مرة يحاولون الخروج، يجدون أنفسهم يعودون إلى نقطة البداية. والظلال تقترب أكثر فأكثر.</p>
-                <p>لم ينجُ أحمد ورفاقه من الغابة. وإلى اليوم، الناس يسمعون أصوات تنادي من داخل الغابة - أصوات أولئك الذين ضاعوا هناك.</p>
-            </div>
-        </div>
-
-        <!-- القصة الرابعة -->
-        <div class="story" id="story-3">
-            <h2 class="story-title">🎎 الدمية القديمة</h2>
-            <div class="story-image img4">🎎</div>
-            <div class="story-text">
-                <p>ورثت فاطمة دمية قديمة من جدتها. كانت الدمية بشعة المظهر، برؤية عميقة وابتسامة غريبة.</p>
-                <p>في الليلة الأولى، استيقظت فاطمة بسبب صوت - صوت الدمية تسقط من الرف. لكن الدمية كانت على بعد متر من مكانها!</p>
-                <p><em>في كل ليلة، تتحرك الدمية أقرب وأقرب إلى سرير فاطمة.</em></p>
-                <p>بدأت فاطمة ترى في الدمية صورة شخص حقيقي - امرأة عجوز بعيون حزينة. الدمية تحاول أن تخبرها شيئاً ما.</p>
-                <p>اكتشفت فاطمة أن الدمية تحتوي على رسالة خطيرة مكتوبة بخط يدها جدتها: "لا تثقي بأحد. هي ليست من تبدو عليه."</p>
-                <p>الآن، فاطمة تفهم - الدمية كانت تحذرها. والشخص الذي تعتقد أنه جدتها ليس جدتها على الإطلاق.</p>
-            </div>
-        </div>
-
-        <!-- القصة الخامسة -->
-        <div class="story" id="story-4">
-            <h2 class="story-title">🪞 الشبح في المرآة</h2>
-            <div class="story-image img5">🪞</div>
-            <div class="story-text">
-                <p>اشترت نور مرآة قديمة من سوق العتيقات. كانت المرآة جميلة، برسومات معقدة على إطارها الخشبي.</p>
-                <p>في الليل الأول، لاحظت نور شيئاً غريباً - في المرآة، ترى نفسها بشكل مختلف قليلاً. ابتسامتها تبدو أوسع، وعينيها تبدو أكثر قتامة.</p>
-                <p><em>"هذا مجرد انعكاس"، قالت نور لنفسها، لكنها لم تكن متأكدة.</em></p>
-                <p>كل ليلة، تصبح النسخة في المرآة أكثر اختلافاً. تقترب من الزجاج. تضع يدها على الجانب الداخلي من المرآة.</p>
-                <p>ذات ليلة، اكتشفت نور أن يدها الحقيقية باردة جداً. ثم أدركت - هي من في المرآة الآن، والنسخة الأخرى تعيش حياتها في العالم الحقيقي.</p>
-                <p>الآن، نور محبوسة في المرآة، تراقب نسختها الأخرى تسرق حياتها. وكل يوم، تقترب أكثر من الزجاج، محاولة الهروب.</p>
-            </div>
+        <div id="storiesContainer">
+            <!-- سيتم ملؤها ديناميكياً -->
         </div>
     </div>
 
@@ -524,11 +540,19 @@
             </div>
 
             <div class="setting-item">
-                <label for="theme">المظهر:</label>
-                <select id="theme">
-                    <option value="dark">مظهر داكن</option>
-                    <option value="night">وضع الليل</option>
-                </select>
+                <label for="voiceSpeed">سرعة الكشافة:</label>
+                <input type="range" id="voiceSpeed" min="0.5" max="2" step="0.1" value="1">
+                <span id="speedValue">1x</span>
+            </div>
+
+            <div class="setting-item">
+                <label for="voiceVolume">مستوى الصوت:</label>
+                <input type="range" id="voiceVolume" min="0" max="1" step="0.1" value="1">
+            </div>
+
+            <div class="setting-item">
+                <label for="voicePitch">درجة الصوت:</label>
+                <input type="range" id="voicePitch" min="0.5" max="2" step="0.1" value="1">
             </div>
         </div>
 
@@ -539,13 +563,118 @@
         // متغيرات المستخدم
         let currentUser = null;
         let currentStory = 0;
+        let isSpeaking = false;
+        let utterance = null;
+        let isPaused = false;
+
+        // بيانات القصص (20 قصة)
+        const stories = [
+            {
+                id: 0,
+                title: 'الساعة الملعونة',
+                text: 'في إحدى الليالي الباردة، اشترى محمد ساعة حائطية قديمة من متجر العتيقات. كانت الساعة جميلة بتصميمها العتيق، لكنها غريبة بطريقة ما. في الليلة الأولى، لاحظ محمد شيئاً غريباً - الساعة تتحرك بسرعة أسرع من المعتاد. عندما نظر إلى الساعة الساعة ثلاثة وثلاثة وثلاثين صباحاً، سمع صوت خطوات غريبة في الممر. من هناك؟ صرخ محمد، لكن لا أحد رد عليه. في كل ليلة، عندما تصل الساعة إلى ثلاثة وثلاثة وثلاثين، يسمع محمد نفس الأصوات المرعبة. وفي كل مرة، يشعر بوجود شيء بارد يقترب منه في الظلام. بعد أسبوع، اكتشف محمد الحقيقة المرعبة - السعر الذي دفعه للساعة كان نفس سعر حياة سابقة. والآن، الساعة تأخذ حياته، ثانية واحدة في كل مرة تدق فيها جرسها.'
+            },
+            {
+                id: 1,
+                title: 'الفندق الخالي',
+                text: 'حجزت سارة غرفة في فندق قديم بعيد عن المدينة. عندما وصلت، وجدت الفندق خالياً تماماً - لا موظفين، لا نزلاء آخرين. صعدت إلى غرفتها في الطابق الخامس. الممر كان طويلاً وهادئاً بشكل غريب. الأضواء كانت تومض بشكل متقطع. في منتصف الليل، سمعت سارة أصوات خطوات في الممر. ثم جرس باب غرفتها. فتحت الباب ببطء، لكن لم يكن هناك أحد. فقط مرآة قديمة معلقة على الجدار. وعندما نظرت في المرآة، رأت شخصاً خلفها - لكن الغرفة كانت خالية! في الصباح، اكتشفت سارة أن الفندق مغلق منذ ثلاثين سنة بعد حادثة غريبة حيث اختفى جميع الضيوف في ليلة واحدة. والآن، هي جزء من تلك الليلة الملعونة.'
+            },
+            {
+                id: 2,
+                title: 'الغابة المظلمة',
+                text: 'ذهب أحمد ورفاقه في رحلة تخييم إلى غابة بعيدة. كانت الغابة جميلة، لكن هناك شيء ما يشعر به غريب. في الليل، بينما كانوا حول النار، شعروا بأن شيئاً ما يراقبهم من الظلام. كانت هناك أصوات غريبة تقترب والتقترب. هل سمعتم ذلك؟ همس أحمد لصديقه. نعم، وهو يقترب منا. فجأة، ظهرت ظلال غريبة حول النار. ظلال بأشكال إنسانية، لكنها تتحرك بطريقة غير طبيعية. حاول الجميع الهروب، لكن الغابة التفت عليهم. في كل مرة يحاولون الخروج، يجدون أنفسهم يعودون إلى نقطة البداية. والظلال تقترب أكثر فأكثر. لم ينجُ أحمد ورفاقه من الغابة. وإلى اليوم، الناس يسمعون أصوات تنادي من داخل الغابة - أصوات أولئك الذين ضاعوا هناك.'
+            },
+            {
+                id: 3,
+                title: 'الدمية القديمة',
+                text: 'ورثت فاطمة دمية قديمة من جدتها. كانت الدمية بشعة المظهر، برؤية عميقة وابتسامة غريبة. في الليلة الأولى، استيقظت فاطمة بسبب صوت - صوت الدمية تسقط من الرف. لكن الدمية كانت على بعد متر من مكانها! في كل ليلة، تتحرك الدمية أقرب وأقرب إلى سرير فاطمة. بدأت فاطمة ترى في الدمية صورة شخص حقيقي - امرأة عجوز بعيون حزينة. الدمية تحاول أن تخبرها شيئاً ما. اكتشفت فاطمة أن الدمية تحتوي على رسالة خطيرة مكتوبة بخط يدها جدتها: لا تثقي بأحد. هي ليست من تبدو عليه. الآن، فاطمة تفهم - الدمية كانت تحذرها. والشخص الذي تعتقد أنه جدتها ليس جدتها على الإطلاق.'
+            },
+            {
+                id: 4,
+                title: 'الشبح في المرآة',
+                text: 'اشترت نور مرآة قديمة من سوق العتيقات. كانت المرآة جميلة، برسومات معقدة على إطارها الخشبي. في الليل الأول، لاحظت نور شيئاً غريباً - في المرآة، ترى نفسها بشكل مختلف قليلاً. ابتسامتها تبدو أوسع، وعينيها تبدو أكثر قتامة. هذا مجرد انعكاس، قالت نور لنفسها، لكنها لم تكن متأكدة. كل ليلة، تصبح النسخة في المرآة أكثر اختلافاً. تقترب من الزجاج. تضع يدها على الجانب الداخلي من المرآة. ذات ليلة، اكتشفت نور أن يدها الحقيقية باردة جداً. ثم أدركت - هي من في المرآة الآن، والنسخة الأخرى تعيش حياتها في العالم الحقيقي. الآن، نور محبوسة في المرآة، تراقب نسختها الأخرى تسرق حياتها. وكل يوم، تقترب أكثر من الزجاج، محاولة الهروب.'
+            },
+            {
+                id: 5,
+                title: 'العين الساهرة',
+                text: 'اشترى علي لوحة قديمة جداً. اللوحة تحتوي على عين ضخمة جداً تنظر إلى الأمام. في البداية، كانت مجرد لوحة عادية. لكن في الليل، لاحظ علي أن العين تتحرك. تتابعه في كل مكان يذهب إليه. أحياناً، كانت العين تنظر مباشرة إليه. ظنه أنه تعب أو إرهاق. لكن الأمر استمر. في إحدى الليالي، استيقظ علي ورأى العين بجانب السرير. كانت العين تنظر إليه بشكل مباشر. حاول علي الصراخ، لكن جسده لم يستجب. العين اقتربت ببطء. شعر علي بأن شيئاً بارداً يدخل جسده. عندما استعاد السيطرة على جسده، لاحظ أنه يراقب نفسه من بعيد. الآن، علي هو العين. وعين أخرى تراقبه.'
+            },
+            {
+                id: 6,
+                title: 'الباب الأسود',
+                text: 'عثرت مريم على باب أسود غريب في الطابق السفلي من منزلها القديم. كانت متأكدة أنه لم يكن هناك من قبل. الباب لا يحتوي على مقبض أو قفل، فقط سطح أسود ناعم. في فضولها، حاولت دفع الباب فانفتح. خلف الباب كان هناك ممر طويل وظلام دامس. سمعت أصواتاً غريبة تأتي من داخل الممر. أصوات تنادي باسمها. خرجت مريم سريعاً وأغلقت الباب. لكن في اليوم التالي، وجدت الباب مفتوحاً مرة أخرى. والممر كان أطول هذه المرة. استمرت مريم في محاولة إغلاق الباب، لكنه يعود ليفتح. الآن، تسمع الأصوات في كل مكان في المنزل. والباب الأسود ينتظرها.'
+            },
+            {
+                id: 7,
+                title: 'المكالمة المجهولة',
+                text: 'بدأ خالد يتلقى مكالمات غريبة في منتصف الليل. المكالمة لا تحتوي على أي صوت، فقط تنفس ثقيل. في البداية، اعتقد أنها مزحة. لكن المكالمات استمرت كل ليلة في نفس الساعة - تماماً الساعة ثلاثة وثلاثة وثلاثين. في إحدى المرات، قرر خالد أن يتحدث. قال من أنت؟ كان هناك صمت طويل، ثم رد صوت خافت وبطيء: أنا أنت. شعر خالد بالرعب يسكن جسده. بدأ يتتبع المكالمات. جميع المكالمات تأتي من رقمه هو. من خلفه؟ كان ينظر حوله في كل مكان. في إحدى الليالي، رأى نسخة منه في المرآة. كانت تبتسم وتمسك الهاتف. الهاتف في يد خالد يرن مرة أخرى. وفي هذه المرة، الصوت أقرب.'
+            },
+            {
+                id: 8,
+                title: 'الليل الذي لا ينتهي',
+                text: 'استيقظ سامر من نومه في منتصف الليل. لم يكن هناك شيء غريب في البداية. نهض ليشرب ماء. عندما عاد إلى السرير، نام مرة أخرى. وفي الصباح، استيقظ من جديد. لكن الشمس لم تشرق. كان لا يزال منتصف الليل. اعتقد أنه نام أكثر من اللازم. ذهب إلى الشارع. كانت جميع المنازل مظلمة والشارع خاوي. جميع الساعات تشير إلى ثلاثة وثلاثة وثلاثين صباحاً. حاول الاتصال بشخص ما، لكن الهاتف لم يعمل. في كل ليلة يحاول النوم، يستيقظ في نفس الوقت. الليل لم يتغير أبداً. ويوماً بعد يوم، أدرك سامر أنه ميت.'
+            },
+            {
+                id: 9,
+                title: 'في الظل',
+                text: 'لاحظ محمود أن ظله بدأ يتصرف بغرابة. كان يتحرك بشكل مختلف عن حركاته. أحياناً، كان الظل يرفع يده بينما محمود يبقي يده في مكانها. ظنه أنه تعب أو إرهاق. لكن الأمر استمر. في إحدى الليالي، استيقظ محمود ورأى ظله واقفاً بجانب السرير. كان الظل ينظر إليه بشكل مباشر. حاول محمود الصراخ، لكن جسده لم يستجب. الظل اقترب ببطء. شعر محمود بأن شيئاً بارداً يدخل جسده. عندما استعاد السيطرة على جسده، لاحظ أنه يراقب نفسه من بعيد. الآن، محمود هو الظل. وشخص آخر يسيطر على جسده.'
+            },
+            {
+                id: 10,
+                title: 'الكتاب المحرم',
+                text: 'وجد طارق كتاباً قديماً جداً في مكتبة جده المنسية. الكتاب بدون عنوان، فقط رسومات غريبة على الغلاف. فضوله جعله يفتح الكتاب. قراءة الصفحات الأولى كانت سهلة، لكن الكلمات بدأت تتغير. الحروف تتحرك على الصفحة. في الليلة الأولى بعد قراءة الكتاب، استيقظ طارق بكوابيس مرعبة. رأى مخلوقات غريبة تطارده. في اليوم التالي، بدأ يسمع أصواتاً بداخل رأسه. أصوات تتحدث بلغة غريبة. حاول طارق إرجاع الكتاب، لكنه لم يستطع إيجاده. الكتاب اختفى. لكن الأصوات لم تختف. الآن، طارق يشعر أنه ليس وحده في جسده. هناك شيء آخر يعيش معه.'
+            },
+            {
+                id: 11,
+                title: 'الصورة القديمة',
+                text: 'ورثت ليلى صورة قديمة جداً من والديها. الصورة تحتوي على عائلة غريبة الوجوه. لكن في كل مرة تنظر إلى الصورة، الوجوه تتغير قليلاً. في البداية، اعتقدت أنها تخيل. لكن الوجوه بدأت تصبح مألوفة. تحت الصورة كانت هناك أسماء: اسم ليلى مكتوب هناك. والتاريخ الذي تحته يشير إلى تاريخ ولادتها. في الصورة، رأت نفسها. لكن كيف؟ الصورة قديمة جداً. أدركت ليلى أن الصورة تحتوي على صور لأشخاص لم يولدوا بعد. أو لم يموتوا بعد. الآن، وجهها في الصورة يتغير كل يوم. وفي الصورة، تقترب من نهايتها.'
+            },
+            {
+                id: 12,
+                title: 'الضحكة في الظلام',
+                text: 'سمع دعاء صوت ضحكة غريبة في الظلام. ضحكة لا تنتمي لأحد في المنزل. في البداية، اعتقد أنها من التلفاز. لكن التلفاز كان مغلقاً. الضحكة استمرت. كل ليلة، تقترب أكثر. في الليلة الثالثة، سمع الضحكة تأتي من داخل حجرته. كانت قريبة جداً. شعر بنفس بارد على وجهه. حاول دعاء أن يصرخ، لكن صوته خرج كضحكة. الآن، دعاء يضحك بدون إرادته. يضحك في الليل بينما يحاول النوم. ولا يستطيع التوقف.'
+            },
+            {
+                id: 13,
+                title: 'الخدش على الجدار',
+                text: 'بدأ ياسر يسمع صوت خدش على الجدار كل ليلة. الخدش يبدأ من السقف وينزل ببطء. في الليلة الأولى، اعتقد أنها فأرة. لكن الصوت كان أكبر بكثير. في الليلة الثانية، ذهب للتحقق من الجدار. وجد آثار خدش طويلة على الجدار. خطوط عميقة. في الليلة الثالثة، الخدش كان على الجدار من الداخل. الصوت كان يأتي من خلف الجدار. في الليلة الرابعة، رأى ياسر يد شاحبة تخرج من الجدار. اليد كانت تخدش من الداخل. الآن، الجدار يتشقق. والشيء خلفه يحاول الخروج.'
+            },
+            {
+                id: 14,
+                title: 'الماء الأسود',
+                text: 'اكتشفت نادية أن ماء الحنفية أصبح أسود. الماء له رائحة غريبة وكريهة. في البداية، اعتقدت أنها مشكلة في السباكة. استدعت السباك. لكنه قال أن السباكة بحالة جيدة. الماء الأسود استمر. نادية بدأت ترى أشياء في الماء. أشباح تتحرك داخل الماء الأسود. عندما حاولت لمس الماء، الشبح مد يده للخارج. الآن، نادية ترى العالم من خلال الماء الأسود. وهي عالقة بداخله.'
+            },
+            {
+                id: 15,
+                title: 'الرقعة السوداء',
+                text: 'ظهرت رقعة سوداء على جسم رافع. صغيرة في البداية، بحجم حبة الأرز. حاول رافع حكها، لكنها لم تختف. في كل يوم، الرقعة تكبر قليلاً. بعد أسبوع، أصبحت بحجم يد. بعد شهر، غطت نصف جسده. رافع ذهب إلى الطبيب، لكنه قال أنه لم يرَ شيئاً. لكن رافع يراها. وهي تنمو. الرقعة السوداء الآن تنتشر إلى روحه. وكل يوم، يفقد جزءاً آخر من ذاته.'
+            },
+            {
+                id: 16,
+                title: 'أصوات الجدران',
+                text: 'بدأت إيمان تسمع أصواتاً تأتي من داخل الجدران. أصوات هسهسة غريبة. في البداية، حاولت تجاهلها. لكن الأصوات استمرت وأصبحت أوضح. الآن، تستطيع سماع كلمات. الجدران تتحدث بلغة غريبة. تحاول الجدران أن تخبرها شيئاً ما. إيمان بدأت تحفر في الجدار لترى ما بداخله. وجدت عظام. عظام بشرية. الجدران مليئة بالجثث. والأصوات تستمر في الكلام.'
+            },
+            {
+                id: 17,
+                title: 'المرآة الثانية',
+                text: 'اشترى سارة مرآة ثانية لتضعها في منزلها. الآن عندها مرآتان. في البداية، لم تلاحظ أي شيء غريب. لكن بعد بضعة أيام، اكتشفت شيئاً: كل مرآة تعرض نسخة مختلفة منها. في مرآة، هي تبدو شاحبة. في الأخرى، هي تبدو شريرة. المرآتان تريانها بطرق مختلفة. والآن، سارة لا تعرف أي نسخة هي النسخة الحقيقية. والمرآتان تحاولان إقناعها بأنها نسخة مزيفة.'
+            },
+            {
+                id: 18,
+                title: 'الضيف الليلي',
+                text: 'بدأ محمود يسمع أصوات خطوات في منزله كل ليلة. خطوات غريبة تتحرك من غرفة إلى غرفة. في البداية، اعتقد أنها حيوان. لكن الخطوات كانت خطوات إنسان. محمود قرر أن يراقب. في إحدى الليالي، رأى ظل شخص يمر في الممر. حاول محمود أن يمسكه، لكن الشخص اختفى. في الليلة التالية، استيقظ محمود ووجد الشخص ينظر إليه من سرير آخر بجانبه. الشخص لا يتحرك. فقط ينظر. محمود صرخ وأطفأ الضوء. عندما أشعل الضوء مرة أخرى، الشخص كان أقرب. الآن، الشخص نائم بجانبه.'
+            },
+            {
+                id: 19,
+                title: 'الحرف الأخير',
+                text: 'كتبت زينب رسالة إلى صديقتها. رسالة عادية. لكن عندما أعادت قراءتها، لاحظت حرفاً غريباً في نهاية الرسالة. حرف لم تكتبه. في الليلة التالية، كتبت رسالة أخرى. الحرف الغريب ظهر مرة أخرى. الآن، كل ما تكتبه يحتوي على الحرف. الحرف يظهر بنفسه. زينب حاولت كتابة جملة بدون الحرف، لكنها فشلت. الحرف يفرض نفسه. والآن، الحرف يظهر في أشياء أخرى - على الجدران، على الملابس، في المرآة. الحرف يريد أن يخبرها شيئاً ما. ولا تستطيع زينب أن تفهمه.'
+            }
+        ];
 
         // معالج استجابة Google
         function handleCredentialResponse(response) {
-            // فك تشفير JWT من Google
             const responsePayload = decodeJwtResponse(response.credential);
             
-            // حفظ بيانات المستخدم
             currentUser = {
                 id: responsePayload.sub,
                 name: responsePayload.name,
@@ -553,13 +682,8 @@
                 picture: responsePayload.picture
             };
 
-            // حفظ البيانات محلياً
             localStorage.setItem('user', JSON.stringify(currentUser));
-
-            // عرض بيانات المستخدم
             displayUser(currentUser);
-
-            // إظهار المحتوى الرئيسي
             showMainContent();
         }
 
@@ -580,71 +704,142 @@
             document.getElementById('userEmail').textContent = user.email;
         }
 
-        // إظهار المحتوى الرئيسي
-        function showMainContent() {
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('header').style.display = 'flex';
-            document.getElementById('sidebar').style.display = 'block';
-            document.getElementById('container').style.display = 'block';
-            document.getElementById('settings').style.display = 'block';
+        // بناء القصص ديناميكياً
+        function buildStories() {
+            const storyList = document.getElementById('storyList');
+            const storiesContainer = document.getElementById('storiesContainer');
 
-            // استعادة التفضيلات
-            restoreSettings();
+            stories.forEach((story, index) => {
+                // إضافة في القائمة الجانبية
+                const li = document.createElement('li');
+                li.dataset.story = index;
+                li.textContent = `${index + 1}. ${story.title}`;
+                if (index === 0) li.classList.add('active');
+                li.addEventListener('click', () => selectStory(index));
+                storyList.appendChild(li);
+
+                // إضافة القصة
+                const storyDiv = document.createElement('div');
+                storyDiv.className = 'story' + (index === 0 ? ' active' : '');
+                storyDiv.id = `story-${index}`;
+                storyDiv.innerHTML = `
+                    <h2 class="story-title">${story.title}</h2>
+                    <div class="story-controls">
+                        <button class="story-btn" onclick="speakStory(${index})">
+                            🔊 اقرأ بصوت
+                        </button>
+                        <button class="story-btn" onclick="stopSpeaking()">
+                            ⏹️ إيقاف
+                        </button>
+                        <button class="story-btn" onclick="pauseSpeaking()">
+                            ⏸️ إيقاف مؤقت
+                        </button>
+                        <button class="story-btn" onclick="resumeSpeaking()">
+                            ▶️ استئناف
+                        </button>
+                    </div>
+                    <div class="voice-status inactive" id="status-${index}">🔴 لم يتم التشغيل</div>
+                    <div class="story-text">
+                        ${story.text.split('. ').map(p => p.trim() ? `<p>${p}.</p>` : '').join('')}
+                    </div>
+                `;
+                storiesContainer.appendChild(storyDiv);
+            });
         }
 
-        // تسجيل الخروج
-        function logout() {
-            // محو بيانات المستخدم
-            localStorage.removeItem('user');
-            localStorage.removeItem('lastStory');
-            currentUser = null;
+        // تحديد قصة
+        function selectStory(index) {
+            document.querySelectorAll('.story').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.story-list li').forEach(l => l.classList.remove('active'));
 
-            // إعادة تحميل الصفحة
-            location.reload();
+            document.getElementById(`story-${index}`).classList.add('active');
+            document.querySelector(`[data-story="${index}"]`).classList.add('active');
+            currentStory = index;
+
+            updateProgressBar();
+            saveProgress();
+            stopSpeaking();
+
+            // Scroll إلى أعلى
+            document.querySelector('.container').scrollTop = 0;
         }
 
-        // تغيير القصة
-        document.querySelectorAll('.story-list li').forEach((li, index) => {
-            li.addEventListener('click', () => {
-                document.querySelectorAll('.story').forEach(s => s.classList.remove('active'));
-                document.querySelectorAll('.story-list li').forEach(l => l.classList.remove('active'));
+        // قراءة القصة بصوت
+        function speakStory(index) {
+            stopSpeaking();
+            
+            const story = stories[index];
+            const text = story.text;
+            
+            utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ar-SA';
+            utterance.rate = parseFloat(document.getElementById('voiceSpeed').value);
+            utterance.volume = parseFloat(document.getElementById('voiceVolume').value);
+            utterance.pitch = parseFloat(document.getElementById('voicePitch').value);
 
-                document.getElementById(`story-${index}`).classList.add('active');
-                li.classList.add('active');
-                currentStory = index;
+            const statusEl = document.getElementById(`status-${index}`);
 
-                updateProgressBar();
-                saveProgress();
+            utterance.onstart = () => {
+                isSpeaking = true;
+                isPaused = false;
+                statusEl.textContent = '🟢 جاري التشغيل... اضغط استئناف للمتابعة بعد الإيقاف المؤقت';
+                statusEl.classList.remove('inactive');
+            };
+
+            utterance.onend = () => {
+                isSpeaking = false;
+                statusEl.textContent = '✅ انتهى التشغيل';
+                statusEl.classList.add('inactive');
+            };
+
+            utterance.onpause = () => {
+                isPaused = true;
+                statusEl.textContent = '⏸️ مؤقف مؤقتاً';
+            };
+
+            utterance.onresume = () => {
+                isPaused = false;
+                statusEl.textContent = '🟢 جاري التشغيل...';
+            };
+
+            utterance.onerror = (event) => {
+                statusEl.textContent = '❌ خطأ في التشغيل: ' + event.error;
+                statusEl.classList.add('inactive');
+            };
+
+            speechSynthesis.speak(utterance);
+        }
+
+        // إيقاف القراءة
+        function stopSpeaking() {
+            speechSynthesis.cancel();
+            isSpeaking = false;
+            isPaused = false;
+            document.querySelectorAll('.voice-status').forEach(s => {
+                s.textContent = '🔴 متوقفة';
+                s.classList.add('inactive');
             });
-        });
+        }
 
-        // تبديل الإعدادات
-        document.getElementById('settingsToggle').addEventListener('click', () => {
-            document.getElementById('settingsPanel').classList.toggle('active');
-        });
+        // إيقاف مؤقت
+        function pauseSpeaking() {
+            if (isSpeaking && !isPaused) {
+                speechSynthesis.pause();
+                isPaused = true;
+            }
+        }
 
-        // حجم الخط
-        document.getElementById('fontSize').addEventListener('input', (e) => {
-            document.querySelectorAll('.story-text').forEach(text => {
-                text.style.fontSize = e.target.value + 'px';
-            });
-            localStorage.setItem('fontSize', e.target.value);
-        });
-
-        // السطوع
-        document.getElementById('brightness').addEventListener('input', (e) => {
-            document.body.style.filter = `brightness(${e.target.value}%)`;
-            localStorage.setItem('brightness', e.target.value);
-        });
-
-        // المظهر
-        document.getElementById('theme').addEventListener('change', (e) => {
-            localStorage.setItem('theme', e.target.value);
-        });
+        // استئناف
+        function resumeSpeaking() {
+            if (isPaused) {
+                speechSynthesis.resume();
+                isPaused = false;
+            }
+        }
 
         // تحديث شريط التقدم
         function updateProgressBar() {
-            const progress = ((currentStory + 1) / 5) * 100;
+            const progress = ((currentStory + 1) / stories.length) * 100;
             document.getElementById('progressBar').style.width = progress + '%';
         }
 
@@ -655,12 +850,35 @@
             }
         }
 
+        // إظهار المحتوى الرئيسي
+        function showMainContent() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('header').style.display = 'flex';
+            document.getElementById('sidebar').style.display = 'block';
+            document.getElementById('container').style.display = 'block';
+            document.getElementById('settings').style.display = 'block';
+
+            buildStories();
+            restoreSettings();
+        }
+
+        // تسجيل الخروج
+        function logout() {
+            localStorage.removeItem('user');
+            localStorage.removeItem('lastStory');
+            currentUser = null;
+            stopSpeaking();
+            location.reload();
+        }
+
         // استعادة الإعدادات
         function restoreSettings() {
             const fontSize = localStorage.getItem('fontSize');
             const brightness = localStorage.getItem('brightness');
-            const theme = localStorage.getItem('theme');
             const lastStory = localStorage.getItem('lastStory');
+            const voiceSpeed = localStorage.getItem('voiceSpeed');
+            const voiceVolume = localStorage.getItem('voiceVolume');
+            const voicePitch = localStorage.getItem('voicePitch');
 
             if (fontSize) {
                 document.getElementById('fontSize').value = fontSize;
@@ -670,13 +888,84 @@
                 document.getElementById('brightness').value = brightness;
                 document.getElementById('brightness').dispatchEvent(new Event('input'));
             }
-            if (theme) {
-                document.getElementById('theme').value = theme;
+            if (voiceSpeed) {
+                document.getElementById('voiceSpeed').value = voiceSpeed;
+                document.getElementById('speedValue').textContent = voiceSpeed + 'x';
+            }
+            if (voiceVolume) {
+                document.getElementById('voiceVolume').value = voiceVolume;
+            }
+            if (voicePitch) {
+                document.getElementById('voicePitch').value = voicePitch;
             }
             if (lastStory) {
-                document.querySelectorAll('.story-list li')[lastStory].click();
+                selectStory(parseInt(lastStory));
             }
         }
+
+        // تبديل الإعدادات
+        document.addEventListener('DOMContentLoaded', () => {
+            const settingsToggle = document.getElementById('settingsToggle');
+            if (settingsToggle) {
+                settingsToggle.addEventListener('click', () => {
+                    document.getElementById('settingsPanel').classList.toggle('active');
+                });
+            }
+
+            // حجم الخط
+            const fontSizeInput = document.getElementById('fontSize');
+            if (fontSizeInput) {
+                fontSizeInput.addEventListener('input', (e) => {
+                    document.querySelectorAll('.story-text').forEach(text => {
+                        text.style.fontSize = e.target.value + 'px';
+                    });
+                    localStorage.setItem('fontSize', e.target.value);
+                });
+            }
+
+            // السطوع
+            const brightnessInput = document.getElementById('brightness');
+            if (brightnessInput) {
+                brightnessInput.addEventListener('input', (e) => {
+                    document.body.style.filter = `brightness(${e.target.value}%)`;
+                    localStorage.setItem('brightness', e.target.value);
+                });
+            }
+
+            // سرعة الصوت
+            const voiceSpeedInput = document.getElementById('voiceSpeed');
+            if (voiceSpeedInput) {
+                voiceSpeedInput.addEventListener('input', (e) => {
+                    document.getElementById('speedValue').textContent = e.target.value + 'x';
+                    if (utterance) {
+                        utterance.rate = parseFloat(e.target.value);
+                    }
+                    localStorage.setItem('voiceSpeed', e.target.value);
+                });
+            }
+
+            // مستوى الصوت
+            const voiceVolumeInput = document.getElementById('voiceVolume');
+            if (voiceVolumeInput) {
+                voiceVolumeInput.addEventListener('input', (e) => {
+                    if (utterance) {
+                        utterance.volume = parseFloat(e.target.value);
+                    }
+                    localStorage.setItem('voiceVolume', e.target.value);
+                });
+            }
+
+            // درجة الصوت
+            const voicePitchInput = document.getElementById('voicePitch');
+            if (voicePitchInput) {
+                voicePitchInput.addEventListener('input', (e) => {
+                    if (utterance) {
+                        utterance.pitch = parseFloat(e.target.value);
+                    }
+                    localStorage.setItem('voicePitch', e.target.value);
+                });
+            }
+        });
 
         // فحص تسجيل الدخول عند التحميل
         window.addEventListener('load', () => {
@@ -688,7 +977,6 @@
             }
         });
 
-        // تعديل onload callback
         window.handleCredentialResponse = handleCredentialResponse;
     </script>
 </body>
