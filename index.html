@@ -8,7 +8,18 @@
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6847506129570052"
      crossorigin="anonymous"></script>
-    
+    <div id="g_id_onload"
+     data-client_id="295699802302-t4l7rov5vo93g20fuphhbh4sj21dbgu1.apps.googleusercontent.com"
+     data-callback="handleCredentialResponse">
+</div>
+<div class="g_id_signin" data-type="standard"></div>
+
+<script>
+  function handleCredentialResponse(response) {
+    alert("تم تسجيل الدخول بنجاح!");
+    console.log("الرمز المستلم: " + response.credential);
+  }
+</script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     
     <style>
@@ -1141,3 +1152,4 @@
 </body>
 </html>
      
+
