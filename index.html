@@ -187,6 +187,21 @@
             text-align: center;
         }
 
+        .header-center {
+            text-align: center;
+        }
+
+        .desktop-welcome {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            margin-top: 8px;
+        }
+
+        .desktop-welcome strong {
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+
         .user-profile {
             display: flex;
             align-items: center;
@@ -262,6 +277,10 @@
         }
 
         .menu-toggle:hover { transform: scale(1.15) rotate(90deg); }
+        
+        .menu-toggle.active {
+            background: linear-gradient(135deg, #f87171, #ef4444);
+        }
 
         .sidebar-overlay {
             display: none;
@@ -312,6 +331,52 @@
             font-size: 24px;
             text-align: center;
             text-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
+        }
+
+        .sidebar-header {
+            display: none;
+        }
+
+        .mobile-user-info {
+            background: rgba(255, 107, 53, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 2px solid var(--border-glow);
+        }
+
+        .welcome-message {
+            color: white;
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .welcome-message strong {
+            color: var(--primary-color);
+            font-size: 18px;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .mobile-logout-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .mobile-logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.6);
         }
 
         .story-list { list-style: none; }
@@ -511,7 +576,13 @@
             header h1 { font-size: 26px; }
             .user-profile { display: none; }
             .header-icon { display: none; }
+            .header-center .desktop-welcome { display: none; }
             .menu-toggle { display: block; }
+            
+            .sidebar-header {
+                display: block !important;
+            }
+            
             .sidebar {
                 position: fixed;
                 top: 0;
@@ -592,19 +663,30 @@
 
     <header id="header" style="display: none;">
         <div class="header-icon" aria-hidden="true">🎃</div>
-        <h1>قصص الرعب المرعبة 🌙</h1>
+        <div class="header-center">
+            <h1>قصص الرعب المرعبة 🌙</h1>
+            <div class="desktop-welcome">مرحباً بك يا <strong id="desktopUserName"></strong></div>
+        </div>
         <div class="user-profile">
             <img id="userImage" src="" alt="صورة المستخدم">
             <div class="user-info">
                 <div class="name" id="userName"></div>
                 <div class="email" id="userEmail"></div>
             </div>
-            <button class="logout-btn" onclick="logout()">خروج</button>
+            <button class="logout-btn" onclick="logout()">🚪 خروج</button>
         </div>
     </header>
 
     <div class="main-layout" id="mainLayout" style="display: none;">
         <aside class="sidebar" id="sidebar" role="navigation" aria-label="قائمة القصص">
+            <div class="sidebar-header">
+                <div class="mobile-user-info">
+                    <div class="welcome-message">
+                        👋 مرحباً بك يا <strong id="mobileUserName"></strong>
+                    </div>
+                    <button class="mobile-logout-btn" onclick="logout()">🚪 تسجيل الخروج</button>
+                </div>
+            </div>
             <h2>📚 قائمة القصص المرعبة</h2>
             <ul class="story-list" id="storyList"></ul>
         </aside>
@@ -734,6 +816,8 @@
             const userImage = document.getElementById('userImage');
             const userName = document.getElementById('userName');
             const userEmail = document.getElementById('userEmail');
+            const desktopUserName = document.getElementById('desktopUserName');
+            const mobileUserName = document.getElementById('mobileUserName');
 
             if (userImage && user.picture) {
                 userImage.src = user.picture;
@@ -743,6 +827,11 @@
             }
             if (userName) userName.textContent = user.name || 'مستخدم';
             if (userEmail) userEmail.textContent = user.email || '';
+            
+            // إضافة اسم المستخدم في رسالة الترحيب
+            const firstName = user.name ? user.name.split(' ')[0] : 'عزيزي';
+            if (desktopUserName) desktopUserName.textContent = firstName;
+            if (mobileUserName) mobileUserName.textContent = firstName;
         }
 
         function buildStories() {
