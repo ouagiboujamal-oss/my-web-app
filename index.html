@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="قصص رعب مخيفة - تجربة قراءة صوتية تفاعلية">
-    <meta name="theme-color" content="#1a0033">
     <title>قصص الرعب - هالوين المرعب 🎃</title>
     
-    <!-- Google AdSense -->
+    <!-- ✅ سكريبت AdSense الرئيسي -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6847506129570052"
      crossorigin="anonymous"></script>
     
@@ -38,7 +37,6 @@
             min-height: 100vh;
         }
 
-        /* أشكال هالوين المتحركة المحسّنة */
         .halloween-decorations {
             position: fixed;
             top: 0;
@@ -56,25 +54,11 @@
             opacity: 0.6;
         }
 
-        .pumpkin {
-            animation: float 6s ease-in-out infinite, rotate 8s linear infinite;
-        }
-
-        .ghost {
-            animation: float 5s ease-in-out infinite, ghostMove 10s ease-in-out infinite;
-        }
-
-        .bat {
-            animation: fly 4s ease-in-out infinite;
-        }
-
-        .spider {
-            animation: spiderDrop 8s ease-in-out infinite;
-        }
-
-        .skull {
-            animation: float 7s ease-in-out infinite, skullShake 2s ease-in-out infinite;
-        }
+        .pumpkin { animation: float 6s ease-in-out infinite, rotate 8s linear infinite; }
+        .ghost { animation: float 5s ease-in-out infinite, ghostMove 10s ease-in-out infinite; }
+        .bat { animation: fly 4s ease-in-out infinite; }
+        .spider { animation: spiderDrop 8s ease-in-out infinite; }
+        .skull { animation: float 7s ease-in-out infinite, skullShake 2s ease-in-out infinite; }
 
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
@@ -108,7 +92,6 @@
             75% { transform: rotate(-5deg); }
         }
 
-        /* شاشة تسجيل الدخول المحسّنة */
         .login-screen {
             position: fixed;
             top: 0;
@@ -123,9 +106,7 @@
             animation: fadeIn 0.5s ease;
         }
 
-        .login-screen.hidden {
-            display: none;
-        }
+        .login-screen.hidden { display: none; }
 
         .login-container {
             background: rgba(45, 27, 78, 0.9);
@@ -134,8 +115,7 @@
             border-radius: 25px;
             border: 3px solid var(--primary-color);
             text-align: center;
-            box-shadow: 0 10px 40px rgba(255, 107, 53, 0.5), 
-                        0 0 80px rgba(255, 107, 53, 0.3);
+            box-shadow: 0 10px 40px rgba(255, 107, 53, 0.5), 0 0 80px rgba(255, 107, 53, 0.3);
             max-width: 450px;
             width: 90%;
             animation: slideUp 0.6s ease;
@@ -150,8 +130,7 @@
             font-size: 48px;
             color: var(--primary-color);
             margin-bottom: 15px;
-            text-shadow: 0 0 25px rgba(255, 107, 53, 0.9),
-                         0 0 50px rgba(255, 107, 53, 0.5);
+            text-shadow: 0 0 25px rgba(255, 107, 53, 0.9), 0 0 50px rgba(255, 107, 53, 0.5);
             animation: pulse 2s ease-in-out infinite;
         }
 
@@ -174,7 +153,6 @@
             font-weight: bold;
         }
 
-        /* زر تسجيل الدخول بجوجل المخصص */
         #customGoogleBtn {
             background: linear-gradient(135deg, #4285f4, #34a853);
             color: white;
@@ -197,39 +175,6 @@
             box-shadow: 0 8px 25px rgba(66, 133, 244, 0.6);
         }
 
-        #customGoogleBtn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        #customGoogleBtn svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        .error-message {
-            background: rgba(239, 68, 68, 0.2);
-            border: 2px solid #ef4444;
-            color: #fca5a5;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 15px;
-            display: none;
-        }
-
-        .error-message.show {
-            display: block;
-            animation: shake 0.5s ease;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-
-        /* الشريط العلوي المحسّن */
         header {
             background: rgba(26, 0, 51, 0.95);
             backdrop-filter: blur(10px);
@@ -254,8 +199,7 @@
         header h1 {
             font-size: 36px;
             color: var(--primary-color);
-            text-shadow: 0 0 20px rgba(255, 107, 53, 0.8),
-                         0 0 40px rgba(255, 107, 53, 0.4);
+            text-shadow: 0 0 20px rgba(255, 107, 53, 0.8), 0 0 40px rgba(255, 107, 53, 0.4);
             text-align: center;
         }
 
@@ -285,9 +229,7 @@
             box-shadow: 0 0 10px var(--border-glow);
         }
 
-        .user-info {
-            text-align: right;
-        }
+        .user-info { text-align: right; }
 
         .user-info .name {
             color: var(--primary-color);
@@ -318,52 +260,6 @@
             box-shadow: 0 6px 20px rgba(255, 107, 53, 0.7);
         }
 
-        /* زر القائمة للموبايل */
-        .menu-toggle {
-            display: none;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            border: none;
-            color: white;
-            font-size: 28px;
-            padding: 15px 20px;
-            border-radius: 15px;
-            cursor: pointer;
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1001;
-            box-shadow: 0 4px 15px var(--border-glow);
-            transition: all 0.3s ease;
-        }
-
-        .menu-toggle:hover {
-            transform: scale(1.15) rotate(90deg);
-        }
-
-        /* overlay للموبايل */
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 999;
-            backdrop-filter: blur(5px);
-        }
-
-        .sidebar-overlay.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* التخطيط الرئيسي */
         .main-layout {
             display: grid;
             grid-template-columns: 320px 1fr;
@@ -373,7 +269,6 @@
             z-index: 10;
         }
 
-        /* القائمة الجانبية المحسّنة */
         .sidebar {
             background: rgba(26, 0, 51, 0.95);
             backdrop-filter: blur(10px);
@@ -383,24 +278,6 @@
             position: sticky;
             top: 90px;
             height: calc(100vh - 90px);
-        }
-
-        .sidebar::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        .sidebar::-webkit-scrollbar-track {
-            background: rgba(255, 107, 53, 0.1);
-            border-radius: 5px;
-        }
-
-        .sidebar::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
-            border-radius: 5px;
-        }
-
-        .sidebar::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-color);
         }
 
         .sidebar h2 {
@@ -413,9 +290,7 @@
             text-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
         }
 
-        .story-list {
-            list-style: none;
-        }
+        .story-list { list-style: none; }
 
         .story-list li {
             padding: 16px;
@@ -431,22 +306,6 @@
             overflow: hidden;
         }
 
-        .story-list li::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 0;
-            height: 100%;
-            background: rgba(255, 107, 53, 0.2);
-            transition: width 0.3s ease;
-            z-index: -1;
-        }
-
-        .story-list li:hover::before {
-            width: 100%;
-        }
-
         .story-list li:hover {
             background: rgba(255, 107, 53, 0.25);
             transform: translateX(10px) scale(1.03);
@@ -460,13 +319,12 @@
             box-shadow: 0 4px 20px var(--border-glow);
         }
 
-        /* المحتوى الرئيسي */
         .content-area {
             padding: 40px;
             overflow-y: auto;
         }
 
-        /* مساحة الإعلانات */
+        /* ✅ مساحة الإعلانات - محسّنة */
         .ad-container {
             max-width: 800px;
             margin: 0 auto 30px;
@@ -474,7 +332,7 @@
             background: rgba(45, 27, 78, 0.4);
             border-radius: 15px;
             border: 2px solid rgba(255, 107, 53, 0.2);
-            min-height: 100px;
+            min-height: 120px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -488,18 +346,11 @@
             padding: 50px;
             border-radius: 25px;
             border: 2px solid var(--border-glow);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
-                        0 0 40px var(--border-glow);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 40px var(--border-glow);
         }
 
-        .story {
-            display: none;
-        }
-
-        .story.active {
-            display: block;
-            animation: fadeInUp 0.6s ease;
-        }
+        .story { display: none; }
+        .story.active { display: block; animation: fadeInUp 0.6s ease; }
 
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
@@ -511,8 +362,7 @@
             color: var(--primary-color);
             text-align: center;
             margin-bottom: 35px;
-            text-shadow: 0 0 20px rgba(255, 107, 53, 0.6),
-                         0 0 40px rgba(255, 107, 53, 0.3);
+            text-shadow: 0 0 20px rgba(255, 107, 53, 0.6), 0 0 40px rgba(255, 107, 53, 0.3);
         }
 
         .story-controls {
@@ -534,26 +384,6 @@
             font-size: 17px;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px var(--border-glow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .story-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .story-btn:hover::before {
-            width: 300px;
-            height: 300px;
         }
 
         .story-btn:hover:not(:disabled) {
@@ -561,14 +391,9 @@
             box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);
         }
 
-        .story-btn:active {
-            transform: translateY(-2px) scale(1.05);
-        }
-
         .story-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: none;
         }
 
         .voice-status {
@@ -580,20 +405,6 @@
             font-weight: bold;
             background: rgba(255, 107, 53, 0.2);
             border: 2px solid var(--border-glow);
-            transition: all 0.3s ease;
-        }
-
-        .voice-status.inactive {
-            opacity: 0.6;
-        }
-
-        .voice-status.active {
-            animation: statusPulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes statusPulse {
-            0%, 100% { box-shadow: 0 0 10px var(--border-glow); }
-            50% { box-shadow: 0 0 25px rgba(255, 107, 53, 0.8); }
         }
 
         .story-text {
@@ -608,7 +419,6 @@
             text-indent: 30px;
         }
 
-        /* شريط التقدم المحسّن */
         .progress-container {
             background: rgba(255, 255, 255, 0.1);
             height: 12px;
@@ -625,137 +435,8 @@
             width: 0;
             transition: width 0.5s ease;
             box-shadow: 0 0 20px rgba(255, 107, 53, 0.7);
-            position: relative;
-            overflow: hidden;
         }
 
-        .progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.3),
-                transparent
-            );
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        /* الإعدادات المحسّنة */
-        .settings {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            z-index: 500;
-        }
-
-        .settings-btn {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border: none;
-            padding: 20px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 30px;
-            box-shadow: 0 6px 20px var(--border-glow);
-            transition: all 0.3s ease;
-        }
-
-        .settings-btn:hover {
-            transform: rotate(180deg) scale(1.2);
-            box-shadow: 0 8px 30px rgba(255, 107, 53, 0.8);
-        }
-
-        .settings-panel {
-            position: fixed;
-            bottom: 100px;
-            left: 30px;
-            background: rgba(26, 0, 51, 0.95);
-            backdrop-filter: blur(15px);
-            padding: 30px;
-            border-radius: 25px;
-            border: 2px solid var(--border-glow);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            width: 340px;
-            display: none;
-        }
-
-        .settings-panel.active {
-            display: block;
-            animation: slideUpSettings 0.4s ease;
-        }
-
-        @keyframes slideUpSettings {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .settings-panel h3 {
-            color: var(--primary-color);
-            margin-bottom: 25px;
-            text-align: center;
-            font-size: 24px;
-            text-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
-        }
-
-        .setting-item {
-            margin-bottom: 20px;
-        }
-
-        .setting-item label {
-            display: block;
-            color: #c0c0c0;
-            font-size: 15px;
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-
-        .setting-item input[type="range"] {
-            width: 100%;
-            height: 8px;
-            border-radius: 5px;
-            background: rgba(255, 107, 53, 0.2);
-            outline: none;
-            cursor: pointer;
-        }
-
-        .setting-item input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--primary-color);
-            cursor: pointer;
-            box-shadow: 0 0 10px var(--border-glow);
-        }
-
-        .setting-item input[type="range"]::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--primary-color);
-            cursor: pointer;
-            box-shadow: 0 0 10px var(--border-glow);
-        }
-
-        .setting-item span {
-            color: var(--primary-color);
-            font-weight: bold;
-            margin-right: 10px;
-            font-size: 16px;
-        }
-
-        /* أزرار التنقل بين القصص */
         .story-navigation {
             display: flex;
             justify-content: space-between;
@@ -787,153 +468,32 @@
             cursor: not-allowed;
         }
 
-        /* تصميم متجاوب للموبايل */
         @media (max-width: 768px) {
-            header {
-                grid-template-columns: 1fr;
-                padding: 15px;
-            }
-
-            .header-icon {
-                display: none;
-            }
-
-            header h1 {
-                font-size: 26px;
-            }
-
-            .user-profile {
-                display: none;
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
-            .main-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                position: fixed;
-                top: 0;
-                right: 0;
-                height: 100vh;
-                width: 85%;
-                max-width: 350px;
-                transform: translateX(100%);
-                transition: transform 0.3s ease;
-                z-index: 1000;
-            }
-
-            .sidebar.active {
-                transform: translateX(0);
-            }
-
-            .content-area {
-                padding: 20px 15px;
-            }
-
-            .story-container {
-                padding: 30px 20px;
-            }
-
-            .story-title {
-                font-size: 28px;
-            }
-
-            .story-text {
-                font-size: 17px;
-                line-height: 2.1;
-            }
-
-            .story-controls {
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .story-btn {
-                width: 100%;
-                padding: 16px;
-            }
-
-            .story-navigation {
-                flex-direction: column;
-            }
-
-            .settings {
-                bottom: 20px;
-                left: 20px;
-            }
-
-            .settings-panel {
-                left: 50%;
-                transform: translateX(-50%);
-                width: 90%;
-                max-width: 340px;
-                bottom: 90px;
-            }
-
-            .settings-panel.active {
-                left: 50%;
-                transform: translateX(-50%);
-            }
-
-            .ad-container {
-                margin: 0 auto 20px;
-                padding: 15px;
-            }
-
-            .login-container {
-                padding: 40px 30px;
-            }
-
-            .login-container h1 {
-                font-size: 38px;
-            }
-        }
-
-        /* تحسين أداء الأنيميشن */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
+            .main-layout { grid-template-columns: 1fr; }
+            .content-area { padding: 20px 15px; }
+            .story-container { padding: 30px 20px; }
+            header { grid-template-columns: 1fr; }
+            header h1 { font-size: 26px; }
         }
     </style>
 </head>
 <body>
-    <!-- أشكال هالوين المتحركة -->
     <div class="halloween-decorations" aria-hidden="true">
         <div class="pumpkin" style="top: 10%; right: 10%;">🎃</div>
         <div class="ghost" style="top: 20%; right: 80%;">👻</div>
         <div class="bat" style="top: 15%; right: 50%;">🦇</div>
         <div class="spider" style="top: 5%; right: 30%;">🕷️</div>
         <div class="skull" style="top: 25%; right: 70%;">💀</div>
-        <div class="pumpkin" style="top: 70%; right: 20%;">🎃</div>
-        <div class="ghost" style="top: 80%; right: 70%;">👻</div>
-        <div class="bat" style="top: 60%; right: 90%;">🦇</div>
-        <div class="spider" style="top: 75%; right: 40%;">🕷️</div>
-        <div class="skull" style="top: 85%; right: 15%;">💀</div>
     </div>
 
-    <!-- شاشة تسجيل الدخول -->
     <div class="login-screen" id="loginScreen">
         <div class="login-container">
             <h1>🎃 قصص الرعب 👻</h1>
             <p class="subtitle">أهلاً بك في عالم الرعب والغموض</p>
-            <p>استعد لتجربة مرعبة لا تُنسى مع أفضل قصص الهالوين<br>
-            سجّل الدخول الآن لتبدأ رحلتك المخيفة</p>
+            <p>استعد لتجربة مرعبة لا تُنسى مع أفضل قصص الهالوين</p>
             
-            <!-- Google Sign-In -->
-            <!-- ⚠️ تحذير: استبدل YOUR_GOOGLE_CLIENT_ID بمعرف العميل الحقيقي الخاص بك -->
             <div id="g_id_onload"
-                 data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
-                 data-context="signin"
-                 data-ux_mode="popup"
+                 data-client_id="295699802302-t4l7rov5vo93g20fuphhbh4sj21dbgu1.apps.googleusercontent.com"
                  data-callback="handleCredentialResponse"
                  data-auto_prompt="false">
             </div>
@@ -947,24 +507,11 @@
                 </svg>
                 تسجيل الدخول بحساب جوجل
             </button>
-            
-            <div class="error-message" id="loginError"></div>
-            
-            <p style="margin-top: 25px; font-size: 13px; color: #888;">
-                بتسجيل الدخول، أنت توافق على شروط الخدمة وسياسة الخصوصية
-            </p>
         </div>
     </div>
 
-    <!-- زر القائمة للموبايل -->
-    <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة">☰</button>
-
-    <!-- overlay للموبايل -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <!-- الشريط العلوي -->
     <header id="header" style="display: none;">
-        <div class="header-icon" aria-hidden="true">🎃</div>
+        <div class="header-icon">🎃</div>
         <h1>قصص الرعب المرعبة 🌙</h1>
         <div class="user-profile">
             <img id="userImage" src="" alt="صورة المستخدم">
@@ -976,272 +523,140 @@
         </div>
     </header>
 
-    <!-- التخطيط الرئيسي -->
     <div class="main-layout" id="mainLayout" style="display: none;">
-        <!-- القائمة الجانبية -->
-        <aside class="sidebar" id="sidebar" role="navigation" aria-label="قائمة القصص">
+        <aside class="sidebar" id="sidebar">
             <h2>📚 قائمة القصص المرعبة</h2>
             <ul class="story-list" id="storyList"></ul>
         </aside>
 
-        <!-- المحتوى -->
         <main class="content-area">
-            <!-- مساحة الإعلان الأولى -->
-            <!-- ⚠️ تحذير: استبدل data-ad-slot بالقيمة الحقيقية من حسابك AdSense -->
+            
+            <!-- ✅✅✅ الإعلان الأول - هنا بالضبط ✅✅✅ -->
             <div class="ad-container">
                 <ins class="adsbygoogle"
                      style="display:block"
                      data-ad-client="ca-pub-6847506129570052"
-                     data-ad-slot="YOUR_AD_SLOT_1"
+                     data-ad-slot="5037307165"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
+            <!-- ✅✅✅ نهاية الإعلان الأول ✅✅✅ -->
 
             <div class="story-container">
-                <div class="progress-container" role="progressbar" aria-label="تقدم القراءة">
+                <div class="progress-container">
                     <div class="progress-bar" id="progressBar"></div>
                 </div>
                 <div id="storiesContainer"></div>
             </div>
 
-            <!-- مساحة الإعلان الثانية -->
+            <!-- ✅✅✅ الإعلان الثاني - هنا بالضبط ✅✅✅ -->
             <div class="ad-container" style="margin-top: 30px;">
                 <ins class="adsbygoogle"
                      style="display:block"
                      data-ad-client="ca-pub-6847506129570052"
-                     data-ad-slot="YOUR_AD_SLOT_2"
+                     data-ad-slot="5037307165"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
+            <!-- ✅✅✅ نهاية الإعلان الثاني ✅✅✅ -->
+            
         </main>
     </div>
 
-    <!-- الإعدادات -->
-    <div class="settings" id="settings" style="display: none;">
-        <button class="settings-btn" id="settingsToggle" aria-label="فتح الإعدادات">⚙️</button>
-        <div class="settings-panel" id="settingsPanel" role="dialog" aria-label="إعدادات القراءة">
-            <h3>⚙️ إعدادات القراءة</h3>
-            
-            <div class="setting-item">
-                <label for="fontSize">حجم الخط: <span id="fontSizeValue">19px</span></label>
-                <input type="range" id="fontSize" min="14" max="26" value="19" aria-label="حجم الخط">
-            </div>
-
-            <div class="setting-item">
-                <label for="brightness">السطوع: <span id="brightnessValue">100%</span></label>
-                <input type="range" id="brightness" min="30" max="100" value="100" aria-label="السطوع">
-            </div>
-
-            <div class="setting-item">
-                <label for="voiceSpeed">سرعة القراءة: <span id="speedValue">1.0x</span></label>
-                <input type="range" id="voiceSpeed" min="0.5" max="2" step="0.1" value="1" aria-label="سرعة القراءة">
-            </div>
-
-            <div class="setting-item">
-                <label for="voiceVolume">مستوى الصوت: <span id="volumeValue">100%</span></label>
-                <input type="range" id="voiceVolume" min="0" max="1" step="0.1" value="1" aria-label="مستوى الصوت">
-            </div>
-
-            <div class="setting-item">
-                <label for="voicePitch">نبرة الصوت: <span id="pitchValue">1.0x</span></label>
-                <input type="range" id="voicePitch" min="0.5" max="2" step="0.1" value="1" aria-label="نبرة الصوت">
-            </div>
-        </div>
-    </div>
-
     <script>
-        // متغيرات عامة
         let currentUser = null;
         let currentStory = 0;
         let isReading = false;
         let utterance = null;
         let voices = [];
 
-        // قصص الرعب (مختصرة - أضف المزيد حسب الحاجة)
         const stories = [
-            {id: 0, title: '🎃 الساعة الملعونة', text: 'في إحدى الليالي الباردة، اشترى محمد ساعة حائطية قديمة من متجر العتيقات. كانت الساعة جميلة بتصميمها العتيق، لكنها غريبة بطريقة ما. في الليلة الأولى، لاحظ محمد شيئاً غريباً. الساعة تتحرك بسرعة أسرع من المعتاد. عندما أصبحت الساعة الثالثة والثلاثين دقيقة صباحاً، سمع صوت خطوات غريبة في الممر. من هناك؟ صرخ محمد، لكن لا أحد رد عليه.'},
-            {id: 1, title: '👻 الفندق الخالي', text: 'حجزت سارة غرفة في فندق قديم بعيد عن المدينة. عندما وصلت، وجدت الفندق خالياً تماماً. لا موظفين، لا نزلاء آخرين. صعدت إلى غرفتها في الطابق الخامس. الممر كان طويلاً وهادئاً بشكل غريب.'},
-            {id: 2, title: '🌲 الغابة المظلمة', text: 'ذهب أحمد ورفاقه في رحلة تخييم إلى غابة بعيدة. في الليل، شعروا بأن شيئاً ما يراقبهم من الظلام. ظهرت ظلال غريبة حول النار.'}
+            {id: 0, title: '🎃 الساعة الملعونة', text: 'في إحدى الليالي الباردة، اشترى محمد ساعة حائطية قديمة من متجر العتيقات. كانت الساعة جميلة بتصميمها العتيق، لكنها غريبة بطريقة ما. في الليلة الأولى، لاحظ محمد شيئاً غريباً. الساعة تتحرك بسرعة أسرع من المعتاد.'},
+            {id: 1, title: '👻 الفندق الخالي', text: 'حجزت سارة غرفة في فندق قديم بعيد عن المدينة. عندما وصلت، وجدت الفندق خالياً تماماً. لا موظفين، لا نزلاء آخرين.'},
+            {id: 2, title: '🌲 الغابة المظلمة', text: 'ذهب أحمد ورفاقه في رحلة تخييم إلى غابة بعيدة. في الليل، شعروا بأن شيئاً ما يراقبهم من الظلام.'}
         ];
 
-        // ✅ إدارة الأخطاء المحسّنة
-        function showError(message) {
-            const errorEl = document.getElementById('loginError');
-            if (errorEl) {
-                errorEl.textContent = message;
-                errorEl.classList.add('show');
-                setTimeout(() => errorEl.classList.remove('show'), 5000);
-            }
-        }
-
-        // ✅ Google Sign-In المحسّن
         function initiateGoogleSignIn() {
-            const clientId = document.getElementById('g_id_onload')?.getAttribute('data-client_id');
-            
-            if (!clientId || clientId === 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com') {
-                showError('⚠️ خطأ في الإعداد: يجب تكوين Google Client ID أولاً.\n\nيرجى استبدال YOUR_GOOGLE_CLIENT_ID في الكود بمعرف العميل الحقيقي من:\nhttps://console.cloud.google.com/');
-                return;
-            }
-
-            // محاولة تشغيل تسجيل الدخول
-            if (window.google?.accounts?.id) {
-                try {
-                    google.accounts.id.prompt();
-                } catch (error) {
-                    console.error('خطأ في تسجيل الدخول:', error);
-                    showError('حدث خطأ أثناء تسجيل الدخول. يرجى المحاولة مرة أخرى.');
-                }
-            } else {
-                showError('لم يتم تحميل مكتبة Google Sign-In بشكل صحيح.');
-            }
+            alert('يرجى استبدال YOUR_GOOGLE_CLIENT_ID بمعرف العميل الحقيقي');
         }
 
-        // ✅ معالجة تسجيل الدخول مع إدارة الأخطاء
         function handleCredentialResponse(response) {
-            if (!response || !response.credential) {
-                showError('فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.');
-                return;
-            }
-
+            if (!response || !response.credential) return;
             try {
-                const responsePayload = decodeJwtResponse(response.credential);
-                
-                // التحقق من صحة البيانات
-                if (!responsePayload || !responsePayload.sub || !responsePayload.email) {
-                    throw new Error('بيانات غير صحيحة');
-                }
-
+                const payload = decodeJwtResponse(response.credential);
                 currentUser = {
-                    id: responsePayload.sub,
-                    name: responsePayload.name || 'مستخدم',
-                    email: responsePayload.email,
-                    picture: responsePayload.picture || ''
+                    id: payload.sub,
+                    name: payload.name,
+                    email: payload.email,
+                    picture: payload.picture
                 };
-
-                // حفظ البيانات بشكل آمن
-                try {
-                    localStorage.setItem('user', JSON.stringify(currentUser));
-                } catch (storageError) {
-                    console.warn('تعذر حفظ البيانات في التخزين المحلي:', storageError);
-                }
-
+                localStorage.setItem('user', JSON.stringify(currentUser));
                 displayUser(currentUser);
                 showMainContent();
             } catch (error) {
-                console.error('خطأ في معالجة بيانات تسجيل الدخول:', error);
-                showError('حدث خطأ أثناء معالجة بيانات تسجيل الدخول');
+                console.error('خطأ في تسجيل الدخول:', error);
             }
         }
 
-        // ✅ فك تشفير JWT مع معالجة الأخطاء
         function decodeJwtResponse(token) {
-            try {
-                const base64Url = token.split('.')[1];
-                if (!base64Url) throw new Error('رمز غير صالح');
-                
-                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                const jsonPayload = decodeURIComponent(
-                    atob(base64)
-                        .split('')
-                        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-                        .join('')
-                );
-                
-                return JSON.parse(jsonPayload);
-            } catch (error) {
-                console.error('خطأ في فك تشفير الرمز:', error);
-                throw new Error('فشل فك تشفير بيانات المصادقة');
-            }
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => 
+                '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+            ).join(''));
+            return JSON.parse(jsonPayload);
         }
 
         function displayUser(user) {
-            const userImage = document.getElementById('userImage');
-            const userName = document.getElementById('userName');
-            const userEmail = document.getElementById('userEmail');
-
-            if (userImage && user.picture) {
-                userImage.src = user.picture;
-                userImage.onerror = () => {
-                    userImage.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50"><circle cx="25" cy="25" r="25" fill="%23ff6b35"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="white" font-size="20">👤</text></svg>';
-                };
-            }
-            if (userName) userName.textContent = user.name || 'مستخدم';
-            if (userEmail) userEmail.textContent = user.email || '';
+            document.getElementById('userImage').src = user.picture;
+            document.getElementById('userName').textContent = user.name;
+            document.getElementById('userEmail').textContent = user.email;
         }
 
         function buildStories() {
             const storyList = document.getElementById('storyList');
             const storiesContainer = document.getElementById('storiesContainer');
 
-            if (!storyList || !storiesContainer) return;
-
             stories.forEach((story, index) => {
-                // إنشاء عنصر القائمة
                 const li = document.createElement('li');
-                li.dataset.story = index;
                 li.textContent = story.title;
-                li.setAttribute('role', 'button');
-                li.setAttribute('tabindex', '0');
                 if (index === 0) li.classList.add('active');
-                
-                li.addEventListener('click', () => {
-                    selectStory(index);
-                    if (window.innerWidth <= 768) closeSidebar();
-                });
-
-                // دعم لوحة المفاتيح
-                li.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        selectStory(index);
-                        if (window.innerWidth <= 768) closeSidebar();
-                    }
-                });
-
+                li.onclick = () => selectStory(index);
                 storyList.appendChild(li);
 
-                // إنشاء محتوى القصة
                 const storyDiv = document.createElement('div');
                 storyDiv.className = 'story' + (index === 0 ? ' active' : '');
                 storyDiv.id = `story-${index}`;
                 storyDiv.innerHTML = `
                     <h2 class="story-title">${story.title}</h2>
                     <div class="story-controls">
-                        <button class="story-btn" id="playBtn-${index}" onclick="readStory(${index})">🔊 قراءة القصة</button>
-                        <button class="story-btn" id="stopBtn-${index}" onclick="stopReading()">⏹️ توقف</button>
+                        <button class="story-btn" onclick="readStory(${index})">🔊 قراءة القصة</button>
+                        <button class="story-btn" onclick="stopReading()">⏹️ توقف</button>
                     </div>
-                    <div class="voice-status inactive" id="status-${index}">🎃 جاهز للقراءة</div>
-                    <div class="story-text">${story.text.split('. ').filter(p => p.trim()).map(p => `<p>${p}.</p>`).join('')}</div>
+                    <div class="voice-status" id="status-${index}">🎃 جاهز للقراءة</div>
+                    <div class="story-text"><p>${story.text}</p></div>
                     <div class="story-navigation">
-                        <button class="nav-btn" onclick="previousStory()" ${index === 0 ? 'disabled' : ''}>⬅️ القصة السابقة</button>
-                        <button class="nav-btn" onclick="nextStory()" ${index === stories.length - 1 ? 'disabled' : ''}>القصة التالية ➡️</button>
+                        <button class="nav-btn" onclick="previousStory()" ${index === 0 ? 'disabled' : ''}>⬅️ السابقة</button>
+                        <button class="nav-btn" onclick="nextStory()" ${index === stories.length - 1 ? 'disabled' : ''}>التالية ➡️</button>
                     </div>
                 `;
                 storiesContainer.appendChild(storyDiv);
             });
-            
-            loadVoices();
         }
 
         function selectStory(index) {
-            if (index < 0 || index >= stories.length) return;
-
             document.querySelectorAll('.story').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.story-list li').forEach(l => l.classList.remove('active'));
-            
-            const storyEl = document.getElementById(`story-${index}`);
-            const listItem = document.querySelector(`[data-story="${index}"]`);
-            
-            if (storyEl) storyEl.classList.add('active');
-            if (listItem) listItem.classList.add('active');
-            
+            document.getElementById(`story-${index}`).classList.add('active');
+            document.querySelectorAll('.story-list li')[index].classList.add('active');
             currentStory = index;
             updateProgressBar();
-            saveProgress();
-            stopReading();
-            
-            const contentArea = document.querySelector('.content-area');
-            if (contentArea) contentArea.scrollTop = 0;
         }
 
         function nextStory() {
@@ -1252,364 +667,56 @@
             if (currentStory > 0) selectStory(currentStory - 1);
         }
 
-        function loadVoices() {
-            if ('speechSynthesis' in window) {
-                voices = speechSynthesis.getVoices();
-                speechSynthesis.onvoiceschanged = () => {
-                    voices = speechSynthesis.getVoices();
-                };
-            }
-        }
-
         function readStory(index) {
-            if (index < 0 || index >= stories.length) return;
-
-            stopReading();
-            
-            const story = stories[index];
-            const statusEl = document.getElementById(`status-${index}`);
-            const playBtn = document.getElementById(`playBtn-${index}`);
-            
-            if (!statusEl || !playBtn) return;
-
             if (!('speechSynthesis' in window)) {
-                statusEl.textContent = '❌ المتصفح لا يدعم القراءة الصوتية';
-                statusEl.classList.add('inactive');
+                alert('المتصفح لا يدعم القراءة الصوتية');
                 return;
             }
-            
-            isReading = true;
-            playBtn.disabled = true;
-            statusEl.textContent = '⏳ جاري التحضير...';
-            statusEl.classList.remove('inactive');
-            statusEl.classList.add('active');
-            
-            try {
-                utterance = new SpeechSynthesisUtterance(story.text);
-                
-                // محاولة إيجاد صوت عربي
-                const arabicVoice = voices.find(v => v.lang && v.lang.startsWith('ar'));
-                if (arabicVoice) utterance.voice = arabicVoice;
-                
-                utterance.lang = 'ar-SA';
-                utterance.rate = parseFloat(document.getElementById('voiceSpeed')?.value || '1');
-                utterance.volume = parseFloat(document.getElementById('voiceVolume')?.value || '1');
-                utterance.pitch = parseFloat(document.getElementById('voicePitch')?.value || '1');
-                
-                utterance.onstart = () => {
-                    isReading = true;
-                    if (statusEl) statusEl.textContent = '👻 جاري القراءة...';
-                };
-                
-                utterance.onend = () => {
-                    if (isReading) {
-                        isReading = false;
-                        if (statusEl) {
-                            statusEl.textContent = '✅ انتهت القراءة';
-                            statusEl.classList.add('inactive');
-                            statusEl.classList.remove('active');
-                        }
-                        if (playBtn) playBtn.disabled = false;
-                    }
-                };
-                
-                utterance.onerror = (event) => {
-                    console.error('خطأ في القراءة الصوتية:', event);
-                    if (statusEl) {
-                        statusEl.textContent = '❌ خطأ في القراءة';
-                        statusEl.classList.add('inactive');
-                        statusEl.classList.remove('active');
-                    }
-                    if (playBtn) playBtn.disabled = false;
-                    isReading = false;
-                };
-                
-                speechSynthesis.cancel();
-                speechSynthesis.speak(utterance);
-            } catch (error) {
-                console.error('فشل تشغيل القراءة الصوتية:', error);
-                if (statusEl) statusEl.textContent = '❌ فشل التشغيل';
-                if (playBtn) playBtn.disabled = false;
-                isReading = false;
-            }
+            stopReading();
+            utterance = new SpeechSynthesisUtterance(stories[index].text);
+            utterance.lang = 'ar-SA';
+            utterance.rate = 1;
+            speechSynthesis.speak(utterance);
+            document.getElementById(`status-${index}`).textContent = '👻 جاري القراءة...';
         }
 
         function stopReading() {
-            if (isReading || (speechSynthesis && speechSynthesis.speaking)) {
-                try {
-                    speechSynthesis.cancel();
-                } catch (error) {
-                    console.error('خطأ في إيقاف القراءة:', error);
-                }
-                
-                isReading = false;
-                
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
                 document.querySelectorAll('.voice-status').forEach(s => {
-                    s.textContent = '⏹️ تم الإيقاف';
-                    s.classList.add('inactive');
-                    s.classList.remove('active');
-                });
-                
-                document.querySelectorAll('[id^="playBtn-"]').forEach(btn => {
-                    btn.disabled = false;
+                    s.textContent = '🎃 جاهز للقراءة';
                 });
             }
         }
 
         function updateProgressBar() {
-            const progressBar = document.getElementById('progressBar');
-            if (progressBar && stories.length > 0) {
-                progressBar.style.width = ((currentStory + 1) / stories.length) * 100 + '%';
-            }
-        }
-
-        function saveProgress() {
-            if (currentUser) {
-                try {
-                    localStorage.setItem('lastStory', currentStory.toString());
-                } catch (error) {
-                    console.warn('تعذر حفظ التقدم:', error);
-                }
-            }
+            document.getElementById('progressBar').style.width = 
+                ((currentStory + 1) / stories.length) * 100 + '%';
         }
 
         function showMainContent() {
-            const loginScreen = document.getElementById('loginScreen');
-            const header = document.getElementById('header');
-            const mainLayout = document.getElementById('mainLayout');
-            const settings = document.getElementById('settings');
-
-            if (loginScreen) loginScreen.classList.add('hidden');
-            if (header) header.style.display = 'grid';
-            if (mainLayout) mainLayout.style.display = 'grid';
-            if (settings) settings.style.display = 'block';
-            
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('header').style.display = 'grid';
+            document.getElementById('mainLayout').style.display = 'grid';
             buildStories();
-            restoreSettings();
-            
-            // تحميل الإعلانات
-            try {
-                if (window.adsbygoogle) {
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                }
-            } catch (e) {
-                console.warn('لم يتم تحميل الإعلانات:', e);
-            }
         }
 
         function logout() {
-            if (confirm('هل أنت متأكد أنك تريد تسجيل الخروج؟')) {
-                try {
-                    localStorage.removeItem('user');
-                    localStorage.removeItem('lastStory');
-                } catch (error) {
-                    console.warn('خطأ في حذف البيانات:', error);
-                }
-                
-                currentUser = null;
-                stopReading();
+            if (confirm('هل أنت متأكد؟')) {
+                localStorage.removeItem('user');
                 location.reload();
             }
         }
 
-        function restoreSettings() {
-            const defaultSettings = {
-                fontSize: '19',
-                brightness: '100',
-                voiceSpeed: '1',
-                voiceVolume: '1',
-                voicePitch: '1',
-                lastStory: '0'
-            };
-
-            let settings = {};
-            try {
-                settings = {
-                    fontSize: localStorage.getItem('fontSize') || defaultSettings.fontSize,
-                    brightness: localStorage.getItem('brightness') || defaultSettings.brightness,
-                    voiceSpeed: localStorage.getItem('voiceSpeed') || defaultSettings.voiceSpeed,
-                    voiceVolume: localStorage.getItem('voiceVolume') || defaultSettings.voiceVolume,
-                    voicePitch: localStorage.getItem('voicePitch') || defaultSettings.voicePitch,
-                    lastStory: localStorage.getItem('lastStory') || defaultSettings.lastStory
-                };
-            } catch (error) {
-                console.warn('خطأ في قراءة الإعدادات:', error);
-                settings = defaultSettings;
-            }
-
-            // تطبيق الإعدادات
-            const fontSizeEl = document.getElementById('fontSize');
-            const fontSizeValueEl = document.getElementById('fontSizeValue');
-            if (fontSizeEl && fontSizeValueEl) {
-                fontSizeEl.value = settings.fontSize;
-                fontSizeValueEl.textContent = settings.fontSize + 'px';
-                document.querySelectorAll('.story-text').forEach(text => {
-                    text.style.fontSize = settings.fontSize + 'px';
-                });
-            }
-
-            const brightnessEl = document.getElementById('brightness');
-            const brightnessValueEl = document.getElementById('brightnessValue');
-            if (brightnessEl && brightnessValueEl) {
-                brightnessEl.value = settings.brightness;
-                brightnessValueEl.textContent = settings.brightness + '%';
-                document.body.style.filter = `brightness(${settings.brightness}%)`;
-            }
-
-            const voiceSpeedEl = document.getElementById('voiceSpeed');
-            const speedValueEl = document.getElementById('speedValue');
-            if (voiceSpeedEl && speedValueEl) {
-                voiceSpeedEl.value = settings.voiceSpeed;
-                speedValueEl.textContent = settings.voiceSpeed + 'x';
-            }
-
-            const voiceVolumeEl = document.getElementById('voiceVolume');
-            const volumeValueEl = document.getElementById('volumeValue');
-            if (voiceVolumeEl && volumeValueEl) {
-                voiceVolumeEl.value = settings.voiceVolume;
-                volumeValueEl.textContent = Math.round(parseFloat(settings.voiceVolume) * 100) + '%';
-            }
-
-            const voicePitchEl = document.getElementById('voicePitch');
-            const pitchValueEl = document.getElementById('pitchValue');
-            if (voicePitchEl && pitchValueEl) {
-                voicePitchEl.value = settings.voicePitch;
-                pitchValueEl.textContent = settings.voicePitch + 'x';
-            }
-
-            // استعادة آخر قصة
-            const lastStory = parseInt(settings.lastStory);
-            if (!isNaN(lastStory) && lastStory >= 0 && lastStory < stories.length) {
-                selectStory(lastStory);
-            }
-        }
-
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebarOverlay');
-            if (sidebar) sidebar.classList.toggle('active');
-            if (overlay) overlay.classList.toggle('active');
-        }
-
-        function closeSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebarOverlay');
-            if (sidebar) sidebar.classList.remove('active');
-            if (overlay) overlay.classList.remove('active');
-        }
-
-        // ✅ تهيئة التطبيق عند تحميل DOM
-        document.addEventListener('DOMContentLoaded', () => {
-            const settingsToggle = document.getElementById('settingsToggle');
-            const settingsPanel = document.getElementById('settingsPanel');
-            const settingsContainer = document.getElementById('settings');
-            
-            if (settingsToggle && settingsPanel) {
-                settingsToggle.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    settingsPanel.classList.toggle('active');
-                });
-            }
-            
-            if (settingsContainer && settingsPanel) {
-                settingsContainer.addEventListener('mouseleave', () => {
-                    settingsPanel.classList.remove('active');
-                });
-            }
-            
-            const menuToggle = document.getElementById('menuToggle');
-            if (menuToggle) {
-                menuToggle.addEventListener('click', toggleSidebar);
-            }
-
-            const sidebarOverlay = document.getElementById('sidebarOverlay');
-            if (sidebarOverlay) {
-                sidebarOverlay.addEventListener('click', closeSidebar);
-            }
-
-            // إعداد مستمعي الإعدادات
-            ['fontSize', 'brightness', 'voiceSpeed', 'voiceVolume', 'voicePitch'].forEach(id => {
-                const element = document.getElementById(id);
-                if (!element) return;
-
-                element.addEventListener('input', (e) => {
-                    const value = e.target.value;
-                    const valueDisplay = id + 'Value';
-                    const valueEl = document.getElementById(valueDisplay);
-                    
-                    if (id === 'fontSize') {
-                        if (valueEl) valueEl.textContent = value + 'px';
-                        document.querySelectorAll('.story-text').forEach(t => {
-                            t.style.fontSize = value + 'px';
-                        });
-                    } else if (id === 'brightness') {
-                        if (valueEl) valueEl.textContent = value + '%';
-                        document.body.style.filter = `brightness(${value}%)`;
-                    } else if (id === 'voiceVolume') {
-                        if (valueEl) valueEl.textContent = Math.round(parseFloat(value) * 100) + '%';
-                    } else {
-                        if (valueEl) valueEl.textContent = value + 'x';
-                    }
-                    
-                    try {
-                        localStorage.setItem(id, value);
-                    } catch (error) {
-                        console.warn('تعذر حفظ الإعداد:', error);
-                    }
-                });
-            });
-
-            // اختصارات لوحة المفاتيح
-            document.addEventListener('keydown', (e) => {
-                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-
-                if (e.key === 'ArrowRight') {
-                    e.preventDefault();
-                    nextStory();
-                } else if (e.key === 'ArrowLeft') {
-                    e.preventDefault();
-                    previousStory();
-                } else if (e.key === ' ') {
-                    e.preventDefault();
-                    if (isReading) {
-                        stopReading();
-                    } else {
-                        readStory(currentStory);
-                    }
-                } else if (e.key === 'Escape') {
-                    stopReading();
-                    closeSidebar();
-                    const settingsPanel = document.getElementById('settingsPanel');
-                    if (settingsPanel) settingsPanel.classList.remove('active');
-                }
-            });
-        });
-
-        // ✅ استعادة الجلسة عند التحميل
         window.addEventListener('load', () => {
-            try {
-                const savedUser = localStorage.getItem('user');
-                if (savedUser) {
-                    const parsedUser = JSON.parse(savedUser);
-                    if (parsedUser && parsedUser.id && parsedUser.email) {
-                        currentUser = parsedUser;
-                        displayUser(currentUser);
-                        showMainContent();
-                    }
-                }
-            } catch (error) {
-                console.error('خطأ في استعادة الجلسة:', error);
-                localStorage.removeItem('user');
+            const savedUser = localStorage.getItem('user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                displayUser(currentUser);
+                showMainContent();
             }
         });
 
-        // ✅ تنظيف عند مغادرة الصفحة
-        window.addEventListener('beforeunload', () => {
-            stopReading();
-        });
-
-        // تصدير الوظائف للنطاق العام
         window.handleCredentialResponse = handleCredentialResponse;
         window.initiateGoogleSignIn = initiateGoogleSignIn;
         window.logout = logout;
