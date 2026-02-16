@@ -13,8 +13,86 @@
     
     <!-- ✅ Google Sign-In -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script>
+// كود التعرف على الجهاز
+class DeviceDetector {
+    constructor() {
+        this.userAgent = navigator.userAgent.toLowerCase();
+    }
+
+    detectOS() {
+        const ua = this.userAgent;
+        if (ua.indexOf('windows') !== -1) return 'windows';
+        if (ua.indexOf('android') !== -1) return 'android';
+        if (ua.indexOf('iphone') !== -1 || ua.indexOf('ipad') !== -1) return 'ios';
+        if (ua.indexOf('mac') !== -1) return 'mac';
+        if (ua.indexOf('linux') !== -1) return 'linux';
+        return 'default';
+    }
+
+    detectDeviceType() {
+        const ua = this.userAgent;
+        if (ua.indexOf('tablet') !== -1 || ua.indexOf('ipad') !== -1) return 'tablet';
+        if (ua.indexOf('mobile') !== -1 || ua.indexOf('android') !== -1) return 'mobile';
+        return 'desktop';
+    }
+}
+
+// تطبيق التصميم
+window.addEventListener('DOMContentLoaded', () => {
+    const detector = new DeviceDetector();
+    const os = detector.detectOS();
+    const device = detector.detectDeviceType();
     
+    document.body.classList.add(`os-${os}`);
+    document.body.classList.add(`device-${device}`);
+    
+    console.log('✅ جهاز:', os, '- نوع:', device);
+});
+</script>
     <style>
+/* تصميم Windows */
+body.os-windows {
+    --primary-color: #0078d4 !important;
+    --secondary-color: #0053a6 !important;
+}
+
+/* تصميم Android */
+body.os-android {
+    --primary-color: #3ddc84 !important;
+    --secondary-color: #0f9d58 !important;
+}
+
+/* تصميم iOS */
+body.os-ios {
+    --primary-color: #007aff !important;
+    --secondary-color: #0051d5 !important;
+}
+
+body.os-ios .login-container,
+body.os-ios .story-btn {
+    border-radius: 25px !important;
+}
+
+/* تصميم Mac */
+body.os-mac {
+    background: linear-gradient(135deg, #000 0%, #434343 100%) !important;
+}
+
+/* تصميم Linux */
+body.os-linux {
+    --primary-color: #ff6b35 !important;
+    --secondary-color: #f7931e !important;
+}
+
+/* تحسينات الموبايل */
+body.device-mobile .story-text {
+    font-size: 16px !important;
+}
+
+body.device-mobile .story-title {
+    font-size: 24px !important;
+}
         * {
             margin: 0;
             padding: 0;
