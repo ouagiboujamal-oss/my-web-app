@@ -10,18 +10,8 @@
      crossorigin="anonymous"></script>
     
     <!-- Google Sign-In -->
-<div id="g_id_onload"
-     data-client_id="295699802302-t4l7rov5vo93g20fuphhbh4sj21dbgu1.apps.googleusercontent.com"
-     data-callback="handleCredentialResponse">
-</div>
-<div class="g_id_signin" data-type="standard"></div>
-
-<script>
-  function handleCredentialResponse(response) {
-    alert("تم تسجيل الدخول بنجاح!");
-    console.log("الرمز المستلم: " + response.credential);
-  }
-</script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
     <style>
         * {
             margin: 0;
@@ -1039,7 +1029,7 @@
 
         // Google Sign-In
         function initiateGoogleSignIn() {
-            alert('⚠️ تنبيه مهم:\n\nيرجى استبدال YOUR_GOOGLE_CLIENT_ID_HERE بمعرف عميل Google الخاص بك في الكود لتفعيل تسجيل الدخول.\n\nيمكنك الحصول على معرف العميل من:\nhttps://console.cloud.google.com/');
+            alert('⚠️ تنبيه مهم:\n\nيرجى استبدال 295699802302-t4l7rov5vo93g20fuphhbh4sj21dbgu1.apps.googleusercontent.com بمعرف عميل Google الخاص بك في الكود لتفعيل تسجيل الدخول.\n\nيمكنك الحصول على معرف العميل من:\nhttps://console.cloud.google.com/');
         }
 
         function handleCredentialResponse(response) {
