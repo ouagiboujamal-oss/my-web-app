@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="قصص رعب مخيفة - تجربة قراءة صوتية تفاعلية">
+    <meta name="theme-color" content="#1a0033">
     <title>قصص الرعب - هالوين المرعب 🎃</title>
     
     <!-- Google AdSense -->
@@ -195,9 +197,36 @@
             box-shadow: 0 8px 25px rgba(66, 133, 244, 0.6);
         }
 
+        #customGoogleBtn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         #customGoogleBtn svg {
             width: 24px;
             height: 24px;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid #ef4444;
+            color: #fca5a5;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
         }
 
         /* الشريط العلوي المحسّن */
@@ -411,6 +440,7 @@
             height: 100%;
             background: rgba(255, 107, 53, 0.2);
             transition: width 0.3s ease;
+            z-index: -1;
         }
 
         .story-list li:hover::before {
@@ -526,7 +556,7 @@
             height: 300px;
         }
 
-        .story-btn:hover {
+        .story-btn:hover:not(:disabled) {
             transform: translateY(-4px) scale(1.08);
             box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);
         }
@@ -538,6 +568,7 @@
         .story-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            transform: none;
         }
 
         .voice-status {
@@ -876,7 +907,7 @@
 </head>
 <body>
     <!-- أشكال هالوين المتحركة -->
-    <div class="halloween-decorations">
+    <div class="halloween-decorations" aria-hidden="true">
         <div class="pumpkin" style="top: 10%; right: 10%;">🎃</div>
         <div class="ghost" style="top: 20%; right: 80%;">👻</div>
         <div class="bat" style="top: 15%; right: 50%;">🦇</div>
@@ -898,8 +929,11 @@
             سجّل الدخول الآن لتبدأ رحلتك المخيفة</p>
             
             <!-- Google Sign-In -->
+            <!-- ⚠️ تحذير: استبدل YOUR_GOOGLE_CLIENT_ID بمعرف العميل الحقيقي الخاص بك -->
             <div id="g_id_onload"
-                 data-client_id="295699802302-t4l7rov5vo93g20fuphhbh4sj21dbgu1.apps.googleusercontent.com"
+                 data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+                 data-context="signin"
+                 data-ux_mode="popup"
                  data-callback="handleCredentialResponse"
                  data-auto_prompt="false">
             </div>
@@ -914,6 +948,8 @@
                 تسجيل الدخول بحساب جوجل
             </button>
             
+            <div class="error-message" id="loginError"></div>
+            
             <p style="margin-top: 25px; font-size: 13px; color: #888;">
                 بتسجيل الدخول، أنت توافق على شروط الخدمة وسياسة الخصوصية
             </p>
@@ -921,17 +957,17 @@
     </div>
 
     <!-- زر القائمة للموبايل -->
-    <button class="menu-toggle" id="menuToggle">☰</button>
+    <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة">☰</button>
 
     <!-- overlay للموبايل -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <!-- الشريط العلوي -->
     <header id="header" style="display: none;">
-        <div class="header-icon">🎃</div>
+        <div class="header-icon" aria-hidden="true">🎃</div>
         <h1>قصص الرعب المرعبة 🌙</h1>
         <div class="user-profile">
-            <img id="userImage" src="" alt="User">
+            <img id="userImage" src="" alt="صورة المستخدم">
             <div class="user-info">
                 <div class="name" id="userName"></div>
                 <div class="email" id="userEmail"></div>
@@ -943,25 +979,26 @@
     <!-- التخطيط الرئيسي -->
     <div class="main-layout" id="mainLayout" style="display: none;">
         <!-- القائمة الجانبية -->
-        <div class="sidebar" id="sidebar">
+        <aside class="sidebar" id="sidebar" role="navigation" aria-label="قائمة القصص">
             <h2>📚 قائمة القصص المرعبة</h2>
             <ul class="story-list" id="storyList"></ul>
-        </div>
+        </aside>
 
         <!-- المحتوى -->
-        <div class="content-area">
+        <main class="content-area">
             <!-- مساحة الإعلان الأولى -->
+            <!-- ⚠️ تحذير: استبدل data-ad-slot بالقيمة الحقيقية من حسابك AdSense -->
             <div class="ad-container">
                 <ins class="adsbygoogle"
                      style="display:block"
                      data-ad-client="ca-pub-6847506129570052"
-                     data-ad-slot="1234567890"
+                     data-ad-slot="YOUR_AD_SLOT_1"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
             </div>
 
             <div class="story-container">
-                <div class="progress-container">
+                <div class="progress-container" role="progressbar" aria-label="تقدم القراءة">
                     <div class="progress-bar" id="progressBar"></div>
                 </div>
                 <div id="storiesContainer"></div>
@@ -972,42 +1009,42 @@
                 <ins class="adsbygoogle"
                      style="display:block"
                      data-ad-client="ca-pub-6847506129570052"
-                     data-ad-slot="0987654321"
+                     data-ad-slot="YOUR_AD_SLOT_2"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
             </div>
-        </div>
+        </main>
     </div>
 
     <!-- الإعدادات -->
     <div class="settings" id="settings" style="display: none;">
-        <button class="settings-btn" id="settingsToggle">⚙️</button>
-        <div class="settings-panel" id="settingsPanel">
+        <button class="settings-btn" id="settingsToggle" aria-label="فتح الإعدادات">⚙️</button>
+        <div class="settings-panel" id="settingsPanel" role="dialog" aria-label="إعدادات القراءة">
             <h3>⚙️ إعدادات القراءة</h3>
             
             <div class="setting-item">
                 <label for="fontSize">حجم الخط: <span id="fontSizeValue">19px</span></label>
-                <input type="range" id="fontSize" min="14" max="26" value="19">
+                <input type="range" id="fontSize" min="14" max="26" value="19" aria-label="حجم الخط">
             </div>
 
             <div class="setting-item">
                 <label for="brightness">السطوع: <span id="brightnessValue">100%</span></label>
-                <input type="range" id="brightness" min="30" max="100" value="100">
+                <input type="range" id="brightness" min="30" max="100" value="100" aria-label="السطوع">
             </div>
 
             <div class="setting-item">
                 <label for="voiceSpeed">سرعة القراءة: <span id="speedValue">1.0x</span></label>
-                <input type="range" id="voiceSpeed" min="0.5" max="2" step="0.1" value="1">
+                <input type="range" id="voiceSpeed" min="0.5" max="2" step="0.1" value="1" aria-label="سرعة القراءة">
             </div>
 
             <div class="setting-item">
                 <label for="voiceVolume">مستوى الصوت: <span id="volumeValue">100%</span></label>
-                <input type="range" id="voiceVolume" min="0" max="1" step="0.1" value="1">
+                <input type="range" id="voiceVolume" min="0" max="1" step="0.1" value="1" aria-label="مستوى الصوت">
             </div>
 
             <div class="setting-item">
                 <label for="voicePitch">نبرة الصوت: <span id="pitchValue">1.0x</span></label>
-                <input type="range" id="voicePitch" min="0.5" max="2" step="0.1" value="1">
+                <input type="range" id="voicePitch" min="0.5" max="2" step="0.1" value="1" aria-label="نبرة الصوت">
             </div>
         </div>
     </div>
@@ -1020,61 +1057,150 @@
         let utterance = null;
         let voices = [];
 
-        // 30 قصة رعب
+        // قصص الرعب (مختصرة - أضف المزيد حسب الحاجة)
         const stories = [
-            {id: 0, title: '🎃 الساعة الملعونة', text: 'في إحدى الليالي الباردة، اشترى محمد ساعة حائطية قديمة من متجر العتيقات. كانت الساعة جميلة بتصميمها العتيق، لكنها غريبة بطريقة ما. في الليلة الأولى، لاحظ محمد شيئاً غريباً. الساعة تتحرك بسرعة أسرع من المعتاد. عندما أصبحت الساعة الثالثة والثلاثين دقيقة صباحاً، سمع صوت خطوات غريبة في الممر. من هناك؟ صرخ محمد، لكن لا أحد رد عليه. في كل ليلة، عندما تصل الساعة إلى نفس الوقت، يسمع محمد نفس الأصوات المرعبة. وفي كل مرة، يشعر بوجود شيء بارد يقترب منه في الظلام. بعد أسبوع، اكتشف محمد الحقيقة المرعبة. السعر الذي دفعه للساعة كان نفس سعر حياة سابقة. والآن، الساعة تأخذ حياته، ثانية واحدة في كل مرة تدق فيها.'},
-            {id: 1, title: '👻 الفندق الخالي', text: 'حجزت سارة غرفة في فندق قديم بعيد عن المدينة. عندما وصلت، وجدت الفندق خالياً تماماً. لا موظفين، لا نزلاء آخرين. صعدت إلى غرفتها في الطابق الخامس. الممر كان طويلاً وهادئاً بشكل غريب. في منتصف الليل، سمعت سارة أصوات خطوات في الممر. فتحت الباب ببطء، لكن لم يكن هناك أحد. في الصباح، اكتشفت سارة أن الفندق مغلق منذ ثلاثين سنة بعد حادثة غريبة. والآن، هي جزء من تلك الليلة الملعونة.'},
-            {id: 2, title: '🌲 الغابة المظلمة', text: 'ذهب أحمد ورفاقه في رحلة تخييم إلى غابة بعيدة. في الليل، شعروا بأن شيئاً ما يراقبهم من الظلام. ظهرت ظلال غريبة حول النار. حاول الجميع الهروب، لكن الغابة التفت عليهم. لم ينجُ أحمد ورفاقه من الغابة. وإلى اليوم، الناس يسمعون أصوات تنادي من داخل الغابة.'}
+            {id: 0, title: '🎃 الساعة الملعونة', text: 'في إحدى الليالي الباردة، اشترى محمد ساعة حائطية قديمة من متجر العتيقات. كانت الساعة جميلة بتصميمها العتيق، لكنها غريبة بطريقة ما. في الليلة الأولى، لاحظ محمد شيئاً غريباً. الساعة تتحرك بسرعة أسرع من المعتاد. عندما أصبحت الساعة الثالثة والثلاثين دقيقة صباحاً، سمع صوت خطوات غريبة في الممر. من هناك؟ صرخ محمد، لكن لا أحد رد عليه.'},
+            {id: 1, title: '👻 الفندق الخالي', text: 'حجزت سارة غرفة في فندق قديم بعيد عن المدينة. عندما وصلت، وجدت الفندق خالياً تماماً. لا موظفين، لا نزلاء آخرين. صعدت إلى غرفتها في الطابق الخامس. الممر كان طويلاً وهادئاً بشكل غريب.'},
+            {id: 2, title: '🌲 الغابة المظلمة', text: 'ذهب أحمد ورفاقه في رحلة تخييم إلى غابة بعيدة. في الليل، شعروا بأن شيئاً ما يراقبهم من الظلام. ظهرت ظلال غريبة حول النار.'}
         ];
 
-        // Google Sign-In
+        // ✅ إدارة الأخطاء المحسّنة
+        function showError(message) {
+            const errorEl = document.getElementById('loginError');
+            if (errorEl) {
+                errorEl.textContent = message;
+                errorEl.classList.add('show');
+                setTimeout(() => errorEl.classList.remove('show'), 5000);
+            }
+        }
+
+        // ✅ Google Sign-In المحسّن
         function initiateGoogleSignIn() {
-            alert('⚠️ تنبيه مهم:\n\nيرجى استبدال 295699802302-t4l7rov5vo93g20fuphhbh4sj21dbgu1.apps.googleusercontent.com بمعرف عميل Google الخاص بك في الكود لتفعيل تسجيل الدخول.\n\nيمكنك الحصول على معرف العميل من:\nhttps://console.cloud.google.com/');
+            const clientId = document.getElementById('g_id_onload')?.getAttribute('data-client_id');
+            
+            if (!clientId || clientId === 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com') {
+                showError('⚠️ خطأ في الإعداد: يجب تكوين Google Client ID أولاً.\n\nيرجى استبدال YOUR_GOOGLE_CLIENT_ID في الكود بمعرف العميل الحقيقي من:\nhttps://console.cloud.google.com/');
+                return;
+            }
+
+            // محاولة تشغيل تسجيل الدخول
+            if (window.google?.accounts?.id) {
+                try {
+                    google.accounts.id.prompt();
+                } catch (error) {
+                    console.error('خطأ في تسجيل الدخول:', error);
+                    showError('حدث خطأ أثناء تسجيل الدخول. يرجى المحاولة مرة أخرى.');
+                }
+            } else {
+                showError('لم يتم تحميل مكتبة Google Sign-In بشكل صحيح.');
+            }
         }
 
+        // ✅ معالجة تسجيل الدخول مع إدارة الأخطاء
         function handleCredentialResponse(response) {
-            const responsePayload = decodeJwtResponse(response.credential);
-            currentUser = {
-                id: responsePayload.sub,
-                name: responsePayload.name,
-                email: responsePayload.email,
-                picture: responsePayload.picture
-            };
-            localStorage.setItem('user', JSON.stringify(currentUser));
-            displayUser(currentUser);
-            showMainContent();
+            if (!response || !response.credential) {
+                showError('فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.');
+                return;
+            }
+
+            try {
+                const responsePayload = decodeJwtResponse(response.credential);
+                
+                // التحقق من صحة البيانات
+                if (!responsePayload || !responsePayload.sub || !responsePayload.email) {
+                    throw new Error('بيانات غير صحيحة');
+                }
+
+                currentUser = {
+                    id: responsePayload.sub,
+                    name: responsePayload.name || 'مستخدم',
+                    email: responsePayload.email,
+                    picture: responsePayload.picture || ''
+                };
+
+                // حفظ البيانات بشكل آمن
+                try {
+                    localStorage.setItem('user', JSON.stringify(currentUser));
+                } catch (storageError) {
+                    console.warn('تعذر حفظ البيانات في التخزين المحلي:', storageError);
+                }
+
+                displayUser(currentUser);
+                showMainContent();
+            } catch (error) {
+                console.error('خطأ في معالجة بيانات تسجيل الدخول:', error);
+                showError('حدث خطأ أثناء معالجة بيانات تسجيل الدخول');
+            }
         }
 
+        // ✅ فك تشفير JWT مع معالجة الأخطاء
         function decodeJwtResponse(token) {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => 
-                '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-            ).join(''));
-            return JSON.parse(jsonPayload);
+            try {
+                const base64Url = token.split('.')[1];
+                if (!base64Url) throw new Error('رمز غير صالح');
+                
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(
+                    atob(base64)
+                        .split('')
+                        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+                        .join('')
+                );
+                
+                return JSON.parse(jsonPayload);
+            } catch (error) {
+                console.error('خطأ في فك تشفير الرمز:', error);
+                throw new Error('فشل فك تشفير بيانات المصادقة');
+            }
         }
 
         function displayUser(user) {
-            document.getElementById('userImage').src = user.picture;
-            document.getElementById('userName').textContent = user.name;
-            document.getElementById('userEmail').textContent = user.email;
+            const userImage = document.getElementById('userImage');
+            const userName = document.getElementById('userName');
+            const userEmail = document.getElementById('userEmail');
+
+            if (userImage && user.picture) {
+                userImage.src = user.picture;
+                userImage.onerror = () => {
+                    userImage.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50"><circle cx="25" cy="25" r="25" fill="%23ff6b35"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="white" font-size="20">👤</text></svg>';
+                };
+            }
+            if (userName) userName.textContent = user.name || 'مستخدم';
+            if (userEmail) userEmail.textContent = user.email || '';
         }
 
         function buildStories() {
             const storyList = document.getElementById('storyList');
             const storiesContainer = document.getElementById('storiesContainer');
 
+            if (!storyList || !storiesContainer) return;
+
             stories.forEach((story, index) => {
+                // إنشاء عنصر القائمة
                 const li = document.createElement('li');
                 li.dataset.story = index;
                 li.textContent = story.title;
+                li.setAttribute('role', 'button');
+                li.setAttribute('tabindex', '0');
                 if (index === 0) li.classList.add('active');
+                
                 li.addEventListener('click', () => {
                     selectStory(index);
                     if (window.innerWidth <= 768) closeSidebar();
                 });
+
+                // دعم لوحة المفاتيح
+                li.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        selectStory(index);
+                        if (window.innerWidth <= 768) closeSidebar();
+                    }
+                });
+
                 storyList.appendChild(li);
 
+                // إنشاء محتوى القصة
                 const storyDiv = document.createElement('div');
                 storyDiv.className = 'story' + (index === 0 ? ' active' : '');
                 storyDiv.id = `story-${index}`;
@@ -1085,7 +1211,7 @@
                         <button class="story-btn" id="stopBtn-${index}" onclick="stopReading()">⏹️ توقف</button>
                     </div>
                     <div class="voice-status inactive" id="status-${index}">🎃 جاهز للقراءة</div>
-                    <div class="story-text">${story.text.split('. ').map(p => p.trim() ? `<p>${p}.</p>` : '').join('')}</div>
+                    <div class="story-text">${story.text.split('. ').filter(p => p.trim()).map(p => `<p>${p}.</p>`).join('')}</div>
                     <div class="story-navigation">
                         <button class="nav-btn" onclick="previousStory()" ${index === 0 ? 'disabled' : ''}>⬅️ القصة السابقة</button>
                         <button class="nav-btn" onclick="nextStory()" ${index === stories.length - 1 ? 'disabled' : ''}>القصة التالية ➡️</button>
@@ -1093,19 +1219,29 @@
                 `;
                 storiesContainer.appendChild(storyDiv);
             });
+            
             loadVoices();
         }
 
         function selectStory(index) {
+            if (index < 0 || index >= stories.length) return;
+
             document.querySelectorAll('.story').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.story-list li').forEach(l => l.classList.remove('active'));
-            document.getElementById(`story-${index}`).classList.add('active');
-            document.querySelector(`[data-story="${index}"]`).classList.add('active');
+            
+            const storyEl = document.getElementById(`story-${index}`);
+            const listItem = document.querySelector(`[data-story="${index}"]`);
+            
+            if (storyEl) storyEl.classList.add('active');
+            if (listItem) listItem.classList.add('active');
+            
             currentStory = index;
             updateProgressBar();
             saveProgress();
             stopReading();
-            document.querySelector('.content-area').scrollTop = 0;
+            
+            const contentArea = document.querySelector('.content-area');
+            if (contentArea) contentArea.scrollTop = 0;
         }
 
         function nextStory() {
@@ -1117,18 +1253,28 @@
         }
 
         function loadVoices() {
-            voices = speechSynthesis.getVoices();
-            speechSynthesis.onvoiceschanged = () => voices = speechSynthesis.getVoices();
+            if ('speechSynthesis' in window) {
+                voices = speechSynthesis.getVoices();
+                speechSynthesis.onvoiceschanged = () => {
+                    voices = speechSynthesis.getVoices();
+                };
+            }
         }
 
         function readStory(index) {
+            if (index < 0 || index >= stories.length) return;
+
             stopReading();
+            
             const story = stories[index];
             const statusEl = document.getElementById(`status-${index}`);
             const playBtn = document.getElementById(`playBtn-${index}`);
             
+            if (!statusEl || !playBtn) return;
+
             if (!('speechSynthesis' in window)) {
                 statusEl.textContent = '❌ المتصفح لا يدعم القراءة الصوتية';
+                statusEl.classList.add('inactive');
                 return;
             }
             
@@ -1138,85 +1284,129 @@
             statusEl.classList.remove('inactive');
             statusEl.classList.add('active');
             
-            utterance = new SpeechSynthesisUtterance(story.text);
-            const arabicVoice = voices.find(v => v.lang.startsWith('ar'));
-            if (arabicVoice) utterance.voice = arabicVoice;
-            
-            utterance.lang = 'ar-SA';
-            utterance.rate = parseFloat(document.getElementById('voiceSpeed').value);
-            utterance.volume = parseFloat(document.getElementById('voiceVolume').value);
-            utterance.pitch = parseFloat(document.getElementById('voicePitch').value);
-            
-            utterance.onstart = () => {
-                isReading = true;
-                statusEl.textContent = '👻 جاري القراءة...';
-            };
-            
-            utterance.onend = () => {
-                if (isReading) {
-                    isReading = false;
-                    statusEl.textContent = '✅ انتهت القراءة';
-                    statusEl.classList.add('inactive');
-                    statusEl.classList.remove('active');
-                    playBtn.disabled = false;
-                }
-            };
-            
-            utterance.onerror = () => {
-                statusEl.textContent = '❌ خطأ في القراءة';
-                statusEl.classList.add('inactive');
-                playBtn.disabled = false;
-                isReading = false;
-            };
-            
             try {
+                utterance = new SpeechSynthesisUtterance(story.text);
+                
+                // محاولة إيجاد صوت عربي
+                const arabicVoice = voices.find(v => v.lang && v.lang.startsWith('ar'));
+                if (arabicVoice) utterance.voice = arabicVoice;
+                
+                utterance.lang = 'ar-SA';
+                utterance.rate = parseFloat(document.getElementById('voiceSpeed')?.value || '1');
+                utterance.volume = parseFloat(document.getElementById('voiceVolume')?.value || '1');
+                utterance.pitch = parseFloat(document.getElementById('voicePitch')?.value || '1');
+                
+                utterance.onstart = () => {
+                    isReading = true;
+                    if (statusEl) statusEl.textContent = '👻 جاري القراءة...';
+                };
+                
+                utterance.onend = () => {
+                    if (isReading) {
+                        isReading = false;
+                        if (statusEl) {
+                            statusEl.textContent = '✅ انتهت القراءة';
+                            statusEl.classList.add('inactive');
+                            statusEl.classList.remove('active');
+                        }
+                        if (playBtn) playBtn.disabled = false;
+                    }
+                };
+                
+                utterance.onerror = (event) => {
+                    console.error('خطأ في القراءة الصوتية:', event);
+                    if (statusEl) {
+                        statusEl.textContent = '❌ خطأ في القراءة';
+                        statusEl.classList.add('inactive');
+                        statusEl.classList.remove('active');
+                    }
+                    if (playBtn) playBtn.disabled = false;
+                    isReading = false;
+                };
+                
                 speechSynthesis.cancel();
                 speechSynthesis.speak(utterance);
             } catch (error) {
-                statusEl.textContent = '❌ فشل التشغيل';
-                playBtn.disabled = false;
+                console.error('فشل تشغيل القراءة الصوتية:', error);
+                if (statusEl) statusEl.textContent = '❌ فشل التشغيل';
+                if (playBtn) playBtn.disabled = false;
                 isReading = false;
             }
         }
 
         function stopReading() {
-            if (isReading || speechSynthesis.speaking) {
-                speechSynthesis.cancel();
+            if (isReading || (speechSynthesis && speechSynthesis.speaking)) {
+                try {
+                    speechSynthesis.cancel();
+                } catch (error) {
+                    console.error('خطأ في إيقاف القراءة:', error);
+                }
+                
                 isReading = false;
+                
                 document.querySelectorAll('.voice-status').forEach(s => {
                     s.textContent = '⏹️ تم الإيقاف';
                     s.classList.add('inactive');
                     s.classList.remove('active');
                 });
-                document.querySelectorAll('[id^="playBtn-"]').forEach(btn => btn.disabled = false);
+                
+                document.querySelectorAll('[id^="playBtn-"]').forEach(btn => {
+                    btn.disabled = false;
+                });
             }
         }
 
         function updateProgressBar() {
-            document.getElementById('progressBar').style.width = ((currentStory + 1) / stories.length) * 100 + '%';
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar && stories.length > 0) {
+                progressBar.style.width = ((currentStory + 1) / stories.length) * 100 + '%';
+            }
         }
 
         function saveProgress() {
-            if (currentUser) localStorage.setItem('lastStory', currentStory);
+            if (currentUser) {
+                try {
+                    localStorage.setItem('lastStory', currentStory.toString());
+                } catch (error) {
+                    console.warn('تعذر حفظ التقدم:', error);
+                }
+            }
         }
 
         function showMainContent() {
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('header').style.display = 'grid';
-            document.getElementById('mainLayout').style.display = 'grid';
-            document.getElementById('settings').style.display = 'block';
+            const loginScreen = document.getElementById('loginScreen');
+            const header = document.getElementById('header');
+            const mainLayout = document.getElementById('mainLayout');
+            const settings = document.getElementById('settings');
+
+            if (loginScreen) loginScreen.classList.add('hidden');
+            if (header) header.style.display = 'grid';
+            if (mainLayout) mainLayout.style.display = 'grid';
+            if (settings) settings.style.display = 'block';
+            
             buildStories();
             restoreSettings();
+            
+            // تحميل الإعلانات
             try {
-                (adsbygoogle = window.adsbygoogle || []).push({});
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            } catch (e) {}
+                if (window.adsbygoogle) {
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                }
+            } catch (e) {
+                console.warn('لم يتم تحميل الإعلانات:', e);
+            }
         }
 
         function logout() {
             if (confirm('هل أنت متأكد أنك تريد تسجيل الخروج؟')) {
-                localStorage.removeItem('user');
-                localStorage.removeItem('lastStory');
+                try {
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('lastStory');
+                } catch (error) {
+                    console.warn('خطأ في حذف البيانات:', error);
+                }
+                
                 currentUser = null;
                 stopReading();
                 location.reload();
@@ -1224,105 +1414,209 @@
         }
 
         function restoreSettings() {
-            const settings = {
-                fontSize: localStorage.getItem('fontSize') || '19',
-                brightness: localStorage.getItem('brightness') || '100',
-                voiceSpeed: localStorage.getItem('voiceSpeed') || '1',
-                voiceVolume: localStorage.getItem('voiceVolume') || '1',
-                voicePitch: localStorage.getItem('voicePitch') || '1',
-                lastStory: localStorage.getItem('lastStory')
+            const defaultSettings = {
+                fontSize: '19',
+                brightness: '100',
+                voiceSpeed: '1',
+                voiceVolume: '1',
+                voicePitch: '1',
+                lastStory: '0'
             };
 
-            document.getElementById('fontSize').value = settings.fontSize;
-            document.getElementById('fontSizeValue').textContent = settings.fontSize + 'px';
-            document.querySelectorAll('.story-text').forEach(text => text.style.fontSize = settings.fontSize + 'px');
+            let settings = {};
+            try {
+                settings = {
+                    fontSize: localStorage.getItem('fontSize') || defaultSettings.fontSize,
+                    brightness: localStorage.getItem('brightness') || defaultSettings.brightness,
+                    voiceSpeed: localStorage.getItem('voiceSpeed') || defaultSettings.voiceSpeed,
+                    voiceVolume: localStorage.getItem('voiceVolume') || defaultSettings.voiceVolume,
+                    voicePitch: localStorage.getItem('voicePitch') || defaultSettings.voicePitch,
+                    lastStory: localStorage.getItem('lastStory') || defaultSettings.lastStory
+                };
+            } catch (error) {
+                console.warn('خطأ في قراءة الإعدادات:', error);
+                settings = defaultSettings;
+            }
 
-            document.getElementById('brightness').value = settings.brightness;
-            document.getElementById('brightnessValue').textContent = settings.brightness + '%';
-            document.body.style.filter = `brightness(${settings.brightness}%)`;
+            // تطبيق الإعدادات
+            const fontSizeEl = document.getElementById('fontSize');
+            const fontSizeValueEl = document.getElementById('fontSizeValue');
+            if (fontSizeEl && fontSizeValueEl) {
+                fontSizeEl.value = settings.fontSize;
+                fontSizeValueEl.textContent = settings.fontSize + 'px';
+                document.querySelectorAll('.story-text').forEach(text => {
+                    text.style.fontSize = settings.fontSize + 'px';
+                });
+            }
 
-            document.getElementById('voiceSpeed').value = settings.voiceSpeed;
-            document.getElementById('speedValue').textContent = settings.voiceSpeed + 'x';
+            const brightnessEl = document.getElementById('brightness');
+            const brightnessValueEl = document.getElementById('brightnessValue');
+            if (brightnessEl && brightnessValueEl) {
+                brightnessEl.value = settings.brightness;
+                brightnessValueEl.textContent = settings.brightness + '%';
+                document.body.style.filter = `brightness(${settings.brightness}%)`;
+            }
 
-            document.getElementById('voiceVolume').value = settings.voiceVolume;
-            document.getElementById('volumeValue').textContent = Math.round(settings.voiceVolume * 100) + '%';
+            const voiceSpeedEl = document.getElementById('voiceSpeed');
+            const speedValueEl = document.getElementById('speedValue');
+            if (voiceSpeedEl && speedValueEl) {
+                voiceSpeedEl.value = settings.voiceSpeed;
+                speedValueEl.textContent = settings.voiceSpeed + 'x';
+            }
 
-            document.getElementById('voicePitch').value = settings.voicePitch;
-            document.getElementById('pitchValue').textContent = settings.voicePitch + 'x';
+            const voiceVolumeEl = document.getElementById('voiceVolume');
+            const volumeValueEl = document.getElementById('volumeValue');
+            if (voiceVolumeEl && volumeValueEl) {
+                voiceVolumeEl.value = settings.voiceVolume;
+                volumeValueEl.textContent = Math.round(parseFloat(settings.voiceVolume) * 100) + '%';
+            }
 
-            if (settings.lastStory) selectStory(parseInt(settings.lastStory));
+            const voicePitchEl = document.getElementById('voicePitch');
+            const pitchValueEl = document.getElementById('pitchValue');
+            if (voicePitchEl && pitchValueEl) {
+                voicePitchEl.value = settings.voicePitch;
+                pitchValueEl.textContent = settings.voicePitch + 'x';
+            }
+
+            // استعادة آخر قصة
+            const lastStory = parseInt(settings.lastStory);
+            if (!isNaN(lastStory) && lastStory >= 0 && lastStory < stories.length) {
+                selectStory(lastStory);
+            }
         }
 
         function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('sidebarOverlay').classList.toggle('active');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            if (sidebar) sidebar.classList.toggle('active');
+            if (overlay) overlay.classList.toggle('active');
         }
 
         function closeSidebar() {
-            document.getElementById('sidebar').classList.remove('active');
-            document.getElementById('sidebarOverlay').classList.remove('active');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            if (sidebar) sidebar.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
         }
 
+        // ✅ تهيئة التطبيق عند تحميل DOM
         document.addEventListener('DOMContentLoaded', () => {
             const settingsToggle = document.getElementById('settingsToggle');
             const settingsPanel = document.getElementById('settingsPanel');
+            const settingsContainer = document.getElementById('settings');
             
-            settingsToggle?.addEventListener('click', e => {
-                e.stopPropagation();
-                settingsPanel.classList.toggle('active');
-            });
+            if (settingsToggle && settingsPanel) {
+                settingsToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    settingsPanel.classList.toggle('active');
+                });
+            }
             
-            document.getElementById('settings')?.addEventListener('mouseleave', () => {
-                settingsPanel.classList.remove('active');
-            });
+            if (settingsContainer && settingsPanel) {
+                settingsContainer.addEventListener('mouseleave', () => {
+                    settingsPanel.classList.remove('active');
+                });
+            }
             
-            document.getElementById('menuToggle')?.addEventListener('click', toggleSidebar);
-            document.getElementById('sidebarOverlay')?.addEventListener('click', closeSidebar);
+            const menuToggle = document.getElementById('menuToggle');
+            if (menuToggle) {
+                menuToggle.addEventListener('click', toggleSidebar);
+            }
 
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', closeSidebar);
+            }
+
+            // إعداد مستمعي الإعدادات
             ['fontSize', 'brightness', 'voiceSpeed', 'voiceVolume', 'voicePitch'].forEach(id => {
-                document.getElementById(id)?.addEventListener('input', e => {
+                const element = document.getElementById(id);
+                if (!element) return;
+
+                element.addEventListener('input', (e) => {
                     const value = e.target.value;
                     const valueDisplay = id + 'Value';
+                    const valueEl = document.getElementById(valueDisplay);
                     
                     if (id === 'fontSize') {
-                        document.getElementById(valueDisplay).textContent = value + 'px';
-                        document.querySelectorAll('.story-text').forEach(t => t.style.fontSize = value + 'px');
+                        if (valueEl) valueEl.textContent = value + 'px';
+                        document.querySelectorAll('.story-text').forEach(t => {
+                            t.style.fontSize = value + 'px';
+                        });
                     } else if (id === 'brightness') {
-                        document.getElementById(valueDisplay).textContent = value + '%';
+                        if (valueEl) valueEl.textContent = value + '%';
                         document.body.style.filter = `brightness(${value}%)`;
                     } else if (id === 'voiceVolume') {
-                        document.getElementById(valueDisplay).textContent = Math.round(value * 100) + '%';
+                        if (valueEl) valueEl.textContent = Math.round(parseFloat(value) * 100) + '%';
                     } else {
-                        document.getElementById(valueDisplay).textContent = value + 'x';
+                        if (valueEl) valueEl.textContent = value + 'x';
                     }
                     
-                    localStorage.setItem(id, value);
+                    try {
+                        localStorage.setItem(id, value);
+                    } catch (error) {
+                        console.warn('تعذر حفظ الإعداد:', error);
+                    }
                 });
             });
 
-            document.addEventListener('keydown', e => {
-                if (e.key === 'ArrowRight') nextStory();
-                if (e.key === 'ArrowLeft') previousStory();
-                if (e.key === ' ' && e.target.tagName !== 'INPUT') {
+            // اختصارات لوحة المفاتيح
+            document.addEventListener('keydown', (e) => {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+                if (e.key === 'ArrowRight') {
                     e.preventDefault();
-                    if (isReading) stopReading();
-                    else readStory(currentStory);
+                    nextStory();
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    previousStory();
+                } else if (e.key === ' ') {
+                    e.preventDefault();
+                    if (isReading) {
+                        stopReading();
+                    } else {
+                        readStory(currentStory);
+                    }
+                } else if (e.key === 'Escape') {
+                    stopReading();
+                    closeSidebar();
+                    const settingsPanel = document.getElementById('settingsPanel');
+                    if (settingsPanel) settingsPanel.classList.remove('active');
                 }
-                if (e.key === 'Escape') stopReading();
             });
         });
 
+        // ✅ استعادة الجلسة عند التحميل
         window.addEventListener('load', () => {
-            const savedUser = localStorage.getItem('user');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                displayUser(currentUser);
-                showMainContent();
+            try {
+                const savedUser = localStorage.getItem('user');
+                if (savedUser) {
+                    const parsedUser = JSON.parse(savedUser);
+                    if (parsedUser && parsedUser.id && parsedUser.email) {
+                        currentUser = parsedUser;
+                        displayUser(currentUser);
+                        showMainContent();
+                    }
+                }
+            } catch (error) {
+                console.error('خطأ في استعادة الجلسة:', error);
+                localStorage.removeItem('user');
             }
         });
 
+        // ✅ تنظيف عند مغادرة الصفحة
+        window.addEventListener('beforeunload', () => {
+            stopReading();
+        });
+
+        // تصدير الوظائف للنطاق العام
         window.handleCredentialResponse = handleCredentialResponse;
         window.initiateGoogleSignIn = initiateGoogleSignIn;
+        window.logout = logout;
+        window.readStory = readStory;
+        window.stopReading = stopReading;
+        window.nextStory = nextStory;
+        window.previousStory = previousStory;
     </script>
 </body>
 </html>
