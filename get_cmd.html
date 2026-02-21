@@ -3,160 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معرض المنتجات - 10 معروضات</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    
+    <title>مساعدي الذكي - GitHub Edition</title>
     <style>
-        :root {
-            --primary-color: #6366f1;
-            --bg-color: #f1f5f9;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-        }
-
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-
-        header h1 { margin: 0; color: var(--primary-color); font-size: 1.8rem; }
-
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-        }
-
-        /* تعديل الشبكة لتستوعب 4 أعمدة على الأقل */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-        }
-
-        .product-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #e2e8f0;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .image-wrapper {
-            width: 100%;
-            height: 160px; /* تقليل ارتفاع الصورة */
-            overflow: hidden;
-        }
-
-        .product-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .content {
-            padding: 15px;
-            flex-grow: 1;
-            text-align: right;
-        }
-
-        .price-tag {
-            color: #16a34a;
-            font-weight: bold;
-            font-size: 1rem;
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .product-title {
-            font-size: 1.1rem;
-            margin: 0 0 8px 0;
-            color: var(--text-main);
-        }
-
-        .use-description {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.4;
-            border-top: 1px solid #f1f5f9;
-            padding-top: 10px;
-        }
-
-        .use-description strong {
-            color: var(--primary-color);
-            display: block;
-            margin-bottom: 3px;
-        }
-
-        /* استجابة للهواتف */
-        @media (max-width: 500px) {
-            .product-grid { grid-template-columns: 1fr 1fr; } /* منتجين في الصف للهواتف */
-        }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .chat-container { width: 100%; max-width: 500px; height: 90vh; background: white; border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.1); display: flex; flex-direction: column; overflow: hidden; }
+        .header { background: #10a37f; color: white; padding: 20px; text-align: center; font-size: 1.2rem; font-weight: bold; }
+        #chat-box { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .message { padding: 12px 18px; border-radius: 15px; max-width: 80%; word-wrap: break-word; line-height: 1.5; }
+        .user-msg { background: #10a37f; color: white; align-self: flex-start; border-bottom-right-radius: 2px; }
+        .bot-msg { background: #f7f7f8; color: #333; align-self: flex-end; border: 1px solid #e5e5e5; border-bottom-left-radius: 2px; }
+        .input-area { padding: 20px; border-top: 1px solid #eee; display: flex; gap: 10px; }
+        input { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
+        button { background: #10a37f; color: white; border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        button:disabled { background: #ccc; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>منصة عرض المنتجات المميزة</h1>
-    </header>
-
-    <div class="container">
-        <div class="product-grid" id="mainGrid"></div>
+<div class="chat-container">
+    <div class="header">مساعد الذكاء الاصطناعي</div>
+    <div id="chat-box">
+        <div class="message bot-msg">أهلاً بك! الموقع الآن يعمل من السيرفر بنجاح. كيف يمكنني مساعدتك؟</div>
     </div>
-<div id="g_id_onload"
-     data-client_id="295699802302-t4l7rov5vo93g20fuphhbh4sj21dbgu1.apps.googleusercontent.com"
-     data-callback="handleCredentialResponse">
+    <div class="input-area">
+        <input type="text" id="user-input" placeholder="اكتب سؤالك هنا..." onkeypress="if(event.key === 'Enter') sendMessage()">
+        <button id="send-btn" onclick="sendMessage()">إرسال</button>
+    </div>
 </div>
-    <script>
-        const products = [
-            { name: "كاميرا فوتوغرافية", price: "4,500 درهم", use: "لالتقاط صور عالية الدقة وتوثيق الرحلات.", img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400" },
-            { name: "ساعة رياضية", price: "1,200 درهم", use: "لتتبع النشاط البدني ومراقبة الصحة اليومية.", img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400" },
-            { name: "لوحة مفاتيح", price: "350 درهم", use: "لتوفير راحة تامة أثناء العمل الطويل على الحاسوب.", img: "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=400" },
-            { name: "سماعات رأس", price: "800 درهم", use: "للانغماس في الموسيقى وعزل الضجيج الخارجي.", img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" },
-            { name: "حقيبة ظهر", price: "250 درهم", use: "لحماية أجهزة المحمول وحمل الأمتعة الشخصية بسهولة.", img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400" },
-            { name: "مصباح مكتب", price: "150 درهم", use: "لتوفير إضاءة مثالية للقراءة والدراسة ليلاً.", img: "https://images.unsplash.com/photo-1534073828943-f801091bb18c?w=400" },
-            { name: "هاتف ذكي", price: "6,000 درهم", use: "للتواصل الذكي وتصفح الإنترنت واستخدام التطبيقات.", img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400" },
-            { name: "ماكينة قهوة", price: "1,100 درهم", use: "لتحضير قهوة الصباح بجودة المقاهي في منزلك.", img: "https://images.unsplash.com/photo-1530035415911-95194de4eb43?w=400" },
-            { name: "جهاز لوحي", price: "3,200 درهم", use: "للرسم الرقمي، مشاهدة الأفلام، وإنجاز المهام.", img: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400" },
-            { name: "كرسي مريح", price: "950 درهم", use: "للحفاظ على وضعية ظهر صحية أثناء الجلوس للعمل.", img: "https://images.unsplash.com/photo-1592078615290-033ee584e267?w=400" }
-        ];
 
-        function displayProducts() {
-            const grid = document.getElementById('mainGrid');
-            products.forEach(item => {
-                grid.innerHTML += `
-                    <div class="product-card">
-                        <div class="image-wrapper"><img src="${item.img}" alt="${item.name}"></div>
-                        <div class="content">
-                            <span class="price-tag">${item.price}</span>
-                            <h2 class="product-title">${item.name}</h2>
-                            <div class="use-description">
-                                <strong>فيما يستخدم؟</strong> ${item.use}
-                            </div>
-                        </div>
-                    </div>`;
+<script>
+    // مفتاح OpenRouter الخاص بك
+    const API_KEY = "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";
+
+    async function sendMessage() {
+        const inputField = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const chatBox = document.getElementById('chat-box');
+        const message = inputField.value.trim();
+
+        if (!message) return;
+
+        // تعطيل الزر وإضافة رسالة المستخدم
+        inputField.value = '';
+        sendBtn.disabled = true;
+        chatBox.innerHTML += `<div class="message user-msg">${message}</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        try {
+            const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${API_KEY}`,
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": window.location.origin, // سيأخذ رابط موقعك على GitHub تلقائياً
+                    "X-Title": "My GitHub AI Bot"
+                },
+                body: JSON.stringify({
+                    "model": "meta-llama/llama-3-8b-instruct:free",
+                    "messages": [{ "role": "user", "content": message }]
+                })
             });
+
+            const data = await response.json();
+            
+            if (data.choices && data.choices[0].message) {
+                const botReply = data.choices[0].message.content;
+                chatBox.innerHTML += `<div class="message bot-msg">${botReply}</div>`;
+            } else {
+                throw new Error("رد غير صالح");
+            }
+
+        } catch (error) {
+            console.error("Error:", error);
+            chatBox.innerHTML += `<div class="message bot-msg" style="color: red;">عذراً، حدث خطأ أثناء الاتصال بالخادم.</div>`;
+        } finally {
+            sendBtn.disabled = false;
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
-        window.onload = displayProducts;
-    </script>
+    }
+</script>
+
 </body>
 </html>
